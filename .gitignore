@@ -224,3 +224,28 @@ cms/.next/dev/cachenode_modules
 .next
 .vercel
 .env
+# dependencies
+node_modules
+
+# nextjs
+.next
+out
+
+# env
+.env
+.env.local
+
+# vercel
+.vercel
+
+# macOS
+.DS_Store
+._*
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# optional large assets
+reference_files/extracted_images
