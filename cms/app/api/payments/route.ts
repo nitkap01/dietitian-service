@@ -3,14 +3,14 @@ import { initDB } from '@/lib/db';
 
 export async function GET() {
   try {
-    const db = initDB();
-    const payments = db.prepare(`
+    const sql = await initDB();
+    const payments = await sql`
       SELECT pay.*, c.name as client_name, p.name as package_name
       FROM payments pay
       JOIN clients c ON pay.client_id = c.id
       LEFT JOIN packages p ON pay.package_id = p.id
       ORDER BY pay.created_at DESC
-    `).all();
+    `;
     return NextResponse.json(payments);
   } catch (error) {
     console.error('GET payments error:', error);
@@ -20,7 +20,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const db = initDB();
+    const sql = await initDB();
     const body = await request.json();
     const { client_id, package_id, amount, status, notes, due_date } = body;
 
@@ -28,28 +28,30 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const paid_at = status === 'paid' ? new Date().toISOString() : null;
+    const paid_at = status === 'paid' ? new Date() : null;
 
-    const result = db.prepare(`
+    const [newPayment] = await sql`
       INSERT INTO payments (client_id, package_id, amount, status, notes, paid_at, due_date)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `).run(client_id, package_id || null, amount, status || 'pending', notes || null, paid_at, due_date || null);
+      VALUES (${client_id}, ${package_id || null}, ${amount}, ${status || 'pending'}, ${notes || null}, ${paid_at}, ${due_date || null})
+      RETURNING id
+    `;
 
     if (status === 'paid') {
-      db.prepare(`UPDATE clients SET status = 'active', updated_at = datetime('now') WHERE id = ?`).run(client_id);
-      const clientName = (db.prepare('SELECT name FROM clients WHERE id = ?').get(client_id) as { name: string })?.name;
-      db.prepare(`
-        INSERT INTO activity_log (type, description, client_name) VALUES (?, ?, ?)
-      `).run('payment_received', `Payment of ₹${amount} received`, clientName || 'Unknown');
+      await sql`UPDATE clients SET status = 'active', updated_at = NOW() WHERE id = ${client_id}`;
+      const [clientRow] = await sql`SELECT name FROM clients WHERE id = ${client_id}`;
+      await sql`
+        INSERT INTO activity_log (type, description, client_name)
+        VALUES ('payment_received', ${`Payment of ₹${amount} received`}, ${clientRow?.name || 'Unknown'})
+      `;
     }
 
-    const payment = db.prepare(`
+    const [payment] = await sql`
       SELECT pay.*, c.name as client_name, p.name as package_name
       FROM payments pay
       JOIN clients c ON pay.client_id = c.id
       LEFT JOIN packages p ON pay.package_id = p.id
-      WHERE pay.id = ?
-    `).get(result.lastInsertRowid);
+      WHERE pay.id = ${newPayment.id}
+    `;
 
     return NextResponse.json(payment, { status: 201 });
   } catch (error) {
@@ -60,24 +62,23 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const db = initDB();
+    const sql = await initDB();
     const body = await request.json();
     const { id, status } = body;
 
-    const paid_at = status === 'paid' ? new Date().toISOString() : null;
+    const paid_at = status === 'paid' ? new Date() : null;
 
-    db.prepare(`
-      UPDATE payments SET status = ?, paid_at = ? WHERE id = ?
-    `).run(status, paid_at, id);
+    await sql`UPDATE payments SET status = ${status}, paid_at = ${paid_at} WHERE id = ${id}`;
 
     if (status === 'paid') {
-      const payment = db.prepare('SELECT * FROM payments WHERE id = ?').get(id) as { client_id: number; amount: number } | undefined;
+      const [payment] = await sql`SELECT client_id, amount FROM payments WHERE id = ${id}`;
       if (payment) {
-        db.prepare(`UPDATE clients SET status = 'active', updated_at = datetime('now') WHERE id = ?`).run(payment.client_id);
-        const clientName = (db.prepare('SELECT name FROM clients WHERE id = ?').get(payment.client_id) as { name: string })?.name;
-        db.prepare(`
-          INSERT INTO activity_log (type, description, client_name) VALUES (?, ?, ?)
-        `).run('payment_received', `Payment of ₹${payment.amount} marked as paid`, clientName || 'Unknown');
+        await sql`UPDATE clients SET status = 'active', updated_at = NOW() WHERE id = ${payment.client_id}`;
+        const [clientRow] = await sql`SELECT name FROM clients WHERE id = ${payment.client_id}`;
+        await sql`
+          INSERT INTO activity_log (type, description, client_name)
+          VALUES ('payment_received', ${`Payment of ₹${payment.amount} marked as paid`}, ${clientRow?.name || 'Unknown'})
+        `;
       }
     }
 

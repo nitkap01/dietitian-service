@@ -3,13 +3,13 @@ import { initDB } from '@/lib/db';
 
 export async function GET() {
   try {
-    const db = initDB();
-    const packages = db.prepare(`
+    const sql = await initDB();
+    const packages = await sql`
       SELECT p.*,
-        (SELECT COUNT(*) FROM client_packages cp WHERE cp.package_id = p.id AND cp.is_active = 1) as active_clients
+        (SELECT COUNT(*) FROM client_packages cp WHERE cp.package_id = p.id AND cp.is_active = 1)::int as active_clients
       FROM packages p
       ORDER BY p.created_at DESC
-    `).all();
+    `;
     return NextResponse.json(packages);
   } catch (error) {
     console.error('GET packages error:', error);
@@ -19,7 +19,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const db = initDB();
+    const sql = await initDB();
     const body = await request.json();
     const { name, description, category, price, duration_months } = body;
 
@@ -27,12 +27,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const result = db.prepare(`
+    const [pkg] = await sql`
       INSERT INTO packages (name, description, category, price, duration_months)
-      VALUES (?, ?, ?, ?, ?)
-    `).run(name, description || null, category, price, duration_months || 1);
-
-    const pkg = db.prepare('SELECT * FROM packages WHERE id = ?').get(result.lastInsertRowid);
+      VALUES (${name}, ${description || null}, ${category}, ${price}, ${duration_months || 1})
+      RETURNING *
+    `;
     return NextResponse.json(pkg, { status: 201 });
   } catch (error) {
     console.error('POST packages error:', error);
