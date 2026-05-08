@@ -219,3 +219,8 @@ __marimo__/
 /home/nitin/personal/repos/dietitian-service/reference_files/_Ritika Bahl.pdfnode_modules/
 reference_files/_Ritika Bahl.pdf
 node_modules/
+
+cms/.next/dev/cachenode_modules
+.next
+.vercel
+.env
