@@ -1,0 +1,85 @@
+@import 'tailwindcss';
+
+:root {
+  --sidebar-width: 256px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Light theme body */
+body {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+/* Dark theme body */
+.dark body {
+  background-color: #0f172a;
+  color: #f1f5f9;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Recharts tooltip */
+.recharts-tooltip-wrapper {
+  outline: none;
+}
+
+/* Light theme recharts overrides */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: #e2e8f0;
+}
+
+.dark .recharts-cartesian-grid-horizontal line,
+.dark .recharts-cartesian-grid-vertical line {
+  stroke: #334155;
+}
+
+/* Smooth theme transition */
+*, *::before, *::after {
+  transition-property: background-color, border-color;
+  transition-duration: 150ms;
+  transition-timing-function: ease;
+}
+
+/* But don't slow down animations */
+.animate-spin {
+  transition: none;
+}
