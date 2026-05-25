@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { Table } from '@/components/ui/Table';
 import { StatusBadge, GoalBadge } from '@/components/clients/StatusBadge';
 import { Client } from '../../server/types';
+import type { HealthGoal, ClientStatus } from '../../server/types';
 import { UserPlus, Search } from 'lucide-react';
 
 export default function ClientsPage() {
@@ -97,7 +98,7 @@ export default function ClientsPage() {
               {
                 key: 'health_goal',
                 header: 'Goal',
-                render: (row) => <GoalBadge goal={row.health_goal as import('@/lib/types').HealthGoal} />,
+                render: (row) => <GoalBadge goal={row.health_goal as HealthGoal} />,
               },
               {
                 key: 'package_name',
@@ -111,7 +112,7 @@ export default function ClientsPage() {
               {
                 key: 'status',
                 header: 'Status',
-                render: (row) => <StatusBadge status={row.status as import('@/lib/types').ClientStatus} />,
+                render: (row) => <StatusBadge status={row.status as ClientStatus} />,
               },
               {
                 key: 'created_at',
