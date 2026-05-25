@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { initDB } from '../../../../../lib/db';
+import { initDB } from '../../../../server/db';
 
 type Ctx = { params: Promise<{ id: string }> };
 

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { resetDB } from '../../../lib/db';
+import { resetDB } from '../../server/db';
 
 export async function POST() {
   try {
