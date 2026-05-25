@@ -4,7 +4,7 @@ import { Phone, Mail, ExternalLink } from "lucide-react";
 const links = {
   Services: [
     { label: "Diabetes Reversal", href: "#specialisations" },
-    { label: "PCOS Management", href: "#specialisations" },
+    { label: "PMOS Management", href: "#specialisations" },
     { label: "Weight Management", href: "#specialisations" },
     { label: "Thyroid Nutrition", href: "#specialisations" },
     { label: "Sports Nutrition", href: "#specialisations" },
@@ -25,23 +25,19 @@ export default function Footer() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div className="lg:col-span-2 flex flex-col gap-5">
-            <div className="flex items-center gap-3">
-              <div className="relative w-14 h-14 rounded-full overflow-hidden bg-white/10 border border-white/20 p-1">
+            <div className="flex items-center">
+              <div className="relative h-14 w-44 bg-white/5 rounded-xl p-1">
                 <Image
                   src="/images/logo.png"
-                  alt="Hale N Hearty Diet Clinic"
+                  alt="Hale N Hearty Diet Clinic — Dt. Ritika Bahl"
                   fill
-                  className="object-contain p-1"
+                  className="object-contain object-left"
                 />
-              </div>
-              <div>
-                <p className="text-white font-bold text-base leading-tight">Hale N Hearty</p>
-                <p className="text-xs text-purple-400 font-semibold tracking-wider">DIET CLINIC</p>
               </div>
             </div>
             <p className="text-sm leading-relaxed max-w-sm">
               Expert nutrition care by Dt. Ritika Bahl — NDEP Certified Diabetes Educator &amp;
-              Specialist in PCOS, Weight Management, and Therapeutic Nutrition. Serving 5000+
+              Specialist in PMOS, Weight Management, and Therapeutic Nutrition. Serving 5000+
               clients across 15+ countries.
             </p>
             <div className="flex flex-col gap-2 text-sm">

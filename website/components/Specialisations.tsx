@@ -26,14 +26,14 @@ const specialisations = [
   },
   {
     icon: Activity,
-    title: "PCOS Management",
+    title: "PMOS Management",
     subtitle: "Polycystic Ovary Syndrome",
     description:
-      "Hormone-balancing nutrition plans designed to reduce inflammation, regulate menstrual cycles, manage weight, and improve fertility outcomes in women with PCOS.",
+      "Hormone-balancing nutrition plans designed to reduce inflammation, regulate menstrual cycles, manage weight, and improve fertility outcomes in women with PMOS.",
     color: "#C2185B",
     bg: "#FCE4EC",
     tags: ["Hormone Balance", "Anti-Inflammatory", "Cycle Regulation"],
-    highlight: "Diet is the most powerful tool to manage PCOS naturally",
+    highlight: "Diet is the most powerful tool to manage PMOS naturally",
   },
   {
     icon: Scale,
@@ -67,6 +67,17 @@ const specialisations = [
     bg: "#F3E5F5",
     tags: ["Prenatal Nutrition", "Gestational Diabetes", "Breastfeeding"],
     highlight: "Nutrition in pregnancy shapes lifelong health",
+  },
+  {
+    icon: Leaf,
+    title: "Gut Health",
+    subtitle: "Digestive Wellness",
+    description:
+      "Evidence-based nutrition therapy for gut microbiome restoration, IBS management, bloating, acid reflux, and leaky gut — guided by Harvard-certified gut health expertise.",
+    color: "#2D6B4F",
+    bg: "#E8F5E9",
+    tags: ["Gut Microbiome", "IBS Relief", "Digestive Wellness"],
+    highlight: "Harvard Certified Gut Health Expert",
   },
   {
     icon: Dumbbell,

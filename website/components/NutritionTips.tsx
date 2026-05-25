@@ -37,7 +37,7 @@ const principles = [
     bg: "#E1F5FE",
     title: "Healthy Fats — Quality Over Quantity",
     description:
-      "Use olive oil, avocado, nuts, and seeds as your primary fat sources. Omega-3 rich foods (salmon, walnuts, flaxseeds) actively fight inflammation linked to diabetes and PCOS.",
+      "Use olive oil, avocado, nuts, and seeds as your primary fat sources. Omega-3 rich foods (salmon, walnuts, flaxseeds) actively fight inflammation linked to diabetes and PMOS.",
     tags: ["Anti-Inflammatory", "Heart Health"],
   },
   {
@@ -56,7 +56,7 @@ const principles = [
     title: "Anti-Inflammatory Eating",
     description:
       "An anti-inflammatory diet cuts the risk of Type 2 Diabetes in half. Key spices include turmeric, ginger, and cinnamon. Dark chocolate (70%+) and green tea also help.",
-    tags: ["PCOS", "Diabetes Reversal"],
+    tags: ["PMOS", "Diabetes Reversal"],
   },
 ];
 

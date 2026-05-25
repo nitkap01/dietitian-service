@@ -17,10 +17,10 @@ const testimonials = [
   {
     name: "Ananya Mehta",
     location: "Mumbai, India",
-    condition: "PCOS Management",
+    condition: "PMOS Management",
     rating: 5,
     text:
-      "After years of struggling with irregular periods and weight gain from PCOS, Dt. Ritika's plan finally worked. My cycle is regular for the first time in 4 years, and I've lost 11 kg sustainably!",
+      "After years of struggling with irregular periods and weight gain from PMOS, Dt. Ritika's plan finally worked. My cycle is regular for the first time in 4 years, and I've lost 11 kg sustainably!",
     initials: "AM",
     color: "#C2185B",
   },

@@ -34,19 +34,15 @@ export default function Navbar() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-3 group">
-            <div className="relative w-14 h-14 rounded-full overflow-hidden bg-white shadow-md border-2 border-purple-100">
+          <a href="#" className="flex items-center group">
+            <div className="relative h-14 w-44">
               <Image
                 src="/images/logo.png"
-                alt="Hale N Hearty Diet Clinic Logo"
+                alt="Hale N Hearty Diet Clinic — Dt. Ritika Bahl"
                 fill
-                className="object-contain p-1"
+                className="object-contain object-left"
                 priority
               />
-            </div>
-            <div className="hidden sm:block">
-              <p className="text-sm font-800 text-[#5C3A9E] leading-tight font-bold">Hale N Hearty</p>
-              <p className="text-xs text-[#2D6B4F] font-semibold tracking-wide">DIET CLINIC</p>
             </div>
           </a>
 

@@ -23,7 +23,7 @@ const faqs = [
   },
   {
     q: "How long before I start seeing results?",
-    a: "Most clients notice improved energy and reduced bloating within the first 1–2 weeks. Significant weight changes typically begin by week 3–4. For conditions like diabetes or PCOS, measurable health marker improvements (blood sugar, hormone levels) are usually seen within 6–8 weeks of consistent adherence.",
+    a: "Most clients notice improved energy and reduced bloating within the first 1–2 weeks. Significant weight changes typically begin by week 3–4. For conditions like diabetes or PMOS, measurable health marker improvements (blood sugar, hormone levels) are usually seen within 6–8 weeks of consistent adherence.",
   },
   {
     q: "Do you offer support between consultations?",
@@ -35,7 +35,7 @@ const faqs = [
   },
   {
     q: "Do I need to share my medical reports?",
-    a: "It's highly recommended. Blood reports (lipid profile, HbA1c, thyroid panel, hormonal reports for PCOS, etc.) give me crucial insights to design the most effective and safe plan for you. If you don't have recent reports, I can guide you on which tests to get done.",
+    a: "It's highly recommended. Blood reports (lipid profile, HbA1c, thyroid panel, hormonal reports for PMOS, etc.) give me crucial insights to design the most effective and safe plan for you. If you don't have recent reports, I can guide you on which tests to get done.",
   },
 ];
 

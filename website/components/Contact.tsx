@@ -33,7 +33,7 @@ const contactMethods = [
 
 const conditions = [
   "Diabetes / Pre-Diabetes",
-  "PCOS / Hormonal Issues",
+  "PMOS / Hormonal Issues",
   "Weight Loss",
   "Thyroid",
   "Pregnancy / Lactation",
@@ -133,12 +133,8 @@ export default function Contact() {
               <h3 className="font-bold text-gray-900 mb-3">Consultation Availability</h3>
               <div className="flex flex-col gap-2 text-sm text-gray-600">
                 <div className="flex justify-between">
-                  <span>Monday – Friday</span>
-                  <span className="font-semibold">9:00 AM – 7:00 PM IST</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Saturday</span>
-                  <span className="font-semibold">10:00 AM – 5:00 PM IST</span>
+                  <span>Monday – Saturday</span>
+                  <span className="font-semibold">11:00 AM – 7:00 PM IST</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Sunday</span>

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Award, BookOpen, Heart, Globe } from "lucide-react";
+import { Award, BookOpen, Heart, Globe, Leaf } from "lucide-react";
 
 const credentials = [
   {
@@ -23,6 +23,11 @@ const credentials = [
     icon: Globe,
     title: "Certified Sports Nutritionist",
     description: "Performance nutrition for athletes, fitness enthusiasts, and active individuals.",
+  },
+  {
+    icon: Leaf,
+    title: "Harvard Certified Gut Health Expert",
+    description: "Advanced certification in gut microbiome science, digestive wellness, and the gut-brain axis from Harvard's continuing education program.",
   },
 ];
 
@@ -66,13 +71,13 @@ export default function About() {
               success — no crash diets, no starvation, no gimmicks.
             </p>
             <p className="text-gray-600 text-lg leading-relaxed mb-8">
-              Specialising in <strong>Type 2 Diabetes reversal</strong>, <strong>PCOS management</strong>,
+              Specialising in <strong>Type 2 Diabetes reversal</strong>, <strong>PMOS management</strong>,
               therapeutic diets for thyroid, pregnancy, lactation, and sports performance, she
               treats every client as an individual with unique needs.
             </p>
 
             <div className="flex flex-wrap gap-3">
-              {["Diabetes Reversal", "PCOS", "Weight Management", "Thyroid", "Pregnancy", "Sports Nutrition", "Bariatric"].map(
+              {["Diabetes Reversal", "PMOS", "Weight Management", "Gut Health", "Thyroid", "Pregnancy", "Sports Nutrition", "Bariatric"].map(
                 (tag) => (
                   <span
                     key={tag}

@@ -14,7 +14,7 @@ const highlights = [
   "Personalised diet plans – no one-size-fits-all",
   "Evidence-based, sustainable approach",
   "100% online – consult from anywhere",
-  "Specialised in Diabetes & PCOS reversal",
+  "Specialised in Diabetes & PMOS reversal",
 ];
 
 export default function Hero() {
@@ -53,7 +53,7 @@ export default function Hero() {
               style={{ background: "rgba(92,58,158,0.1)", color: "#5C3A9E" }}
             >
               <Star size={14} fill="#5C3A9E" />
-              India&apos;s Trusted Nutrition Expert
+              A Healthy Living Begins with a Plan
             </motion.div>
 
             <h1 className="text-5xl lg:text-6xl font-black leading-[1.1] text-gray-900">
@@ -62,7 +62,7 @@ export default function Hero() {
             </h1>
 
             <p className="text-lg text-gray-600 leading-relaxed max-w-lg">
-              Clinically proven, personalised nutrition plans to reverse Diabetes, manage PCOS,
+              Clinically proven, personalised nutrition plans to reverse Diabetes, manage PMOS,
               and achieve sustainable weight loss — guided by{" "}
               <strong className="text-[#5C3A9E]">Dt. Ritika Bahl</strong>, one of India&apos;s
               most trusted dietitians with 5000+ transformations globally.
