@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Modal } from '@/components/ui/Modal';
 import { PaymentForm } from '@/components/payments/PaymentForm';
-import { Payment } from '@/lib/types';
+import { Payment } from '../../server/types';
 import { Plus, CheckCircle, IndianRupee } from 'lucide-react';
 
 export default function PaymentsPage() {

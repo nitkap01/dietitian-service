@@ -1,7 +1,7 @@
 'use client';
 
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
-import { HealthMetric } from '@/lib/types';
+import { HealthMetric } from '../../app/server/types';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 

@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
-import { Package } from '@/lib/types';
+import { Package } from '../../server/types';
 import { Plus, Package as PackageIcon, IndianRupee, Users, Clock } from 'lucide-react';
 
 const CATEGORY_OPTIONS = [

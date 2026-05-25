@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-import { WhatsAppMessage } from '@/lib/types';
+import { WhatsAppMessage } from '../../server/types';
 import { MessageCircle, Send, ChevronRight, Phone } from 'lucide-react';
 
 interface ClientSummary {

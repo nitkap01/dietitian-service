@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Button } from '@/components/ui/Button';
-import { Client, Package } from '@/lib/types';
+import { Client, Package } from '../../app/server/types';
 
 interface PaymentFormProps {
   onSuccess: () => void;

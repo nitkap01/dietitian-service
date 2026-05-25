@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Modal } from '@/components/ui/Modal';
 import { Select } from '@/components/ui/Select';
 import { Input } from '@/components/ui/Input';
-import { Notification, Client } from '@/lib/types';
+import { Notification, Client } from '../../server/types';
 import { Plus, Bell, MessageCircle, CreditCard, ToggleLeft, ToggleRight, Smartphone } from 'lucide-react';
 
 const TYPE_OPTIONS = [

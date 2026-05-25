@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/Badge';
-import { ClientStatus, HealthGoal } from '@/lib/types';
+import { ClientStatus, HealthGoal } from '../../app/server/types';
 
 export function StatusBadge({ status }: { status: ClientStatus }) {
   return (

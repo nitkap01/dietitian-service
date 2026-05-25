@@ -1,4 +1,4 @@
-import { ActivityItem } from '@/lib/types';
+import { ActivityItem } from '../../app/server/types';
 import { Users, CreditCard, FileText, Activity, UserX } from 'lucide-react';
 
 const iconMap = {

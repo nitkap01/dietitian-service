@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Table } from '@/components/ui/Table';
 import { StatusBadge, GoalBadge } from '@/components/clients/StatusBadge';
-import { Client } from '@/lib/types';
+import { Client } from '../../server/types';
 import { UserPlus, Search } from 'lucide-react';
 
 export default function ClientsPage() {

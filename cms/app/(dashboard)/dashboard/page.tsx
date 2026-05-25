@@ -5,7 +5,7 @@ import { StatsCard } from '@/components/dashboard/StatsCard';
 import { RecentActivity } from '@/components/dashboard/RecentActivity';
 import { Card } from '@/components/ui/Card';
 import { Users, UserCheck, UserX, IndianRupee, Clock, TrendingUp } from 'lucide-react';
-import { DashboardStats, ActivityItem } from '@/lib/types';
+import { DashboardStats, ActivityItem } from '../../server/types';
 import Link from 'next/link';
 
 export default function DashboardPage() {

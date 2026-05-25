@@ -9,7 +9,7 @@ import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { WeightChart } from '@/components/charts/WeightChart';
 import { StatusBadge, GoalBadge } from '@/components/clients/StatusBadge';
-import { Client, HealthMetric, DietPlan, DietPlanVersion, Payment, MealItem, WhatsAppMessage } from '@/lib/types';
+import { Client, HealthMetric, DietPlan, DietPlanVersion, Payment, MealItem, WhatsAppMessage } from '../../../server/types';
 import {
   ChevronLeft, Mail, Phone, User, Package, CreditCard, Activity, FileText, Plus,
   AlertTriangle, Sparkles, Loader2, X, Send, ChevronRight, MessageCircle, Utensils,

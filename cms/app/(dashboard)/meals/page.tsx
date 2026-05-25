@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
 import { Modal } from '@/components/ui/Modal';
-import { MealItem } from '@/lib/types';
+import { MealItem } from '../../server/types';
 import { Plus, Utensils, Trash2, Edit2, Search, Filter } from 'lucide-react';
 
 const CATEGORIES = ['all', 'breakfast', 'lunch', 'snacks', 'dinner', 'any'] as const;
