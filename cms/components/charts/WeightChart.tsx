@@ -2,8 +2,6 @@
 
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
 import { HealthMetric } from '../../app/server/types';
-import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
 
 interface WeightChartProps {
   metrics: HealthMetric[];
@@ -33,10 +31,6 @@ function CustomTooltip({ active, payload, label }: TooltipProps) {
 }
 
 export function WeightChart({ metrics }: WeightChartProps) {
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-
   if (metrics.length === 0) {
     return (
       <div className="flex items-center justify-center h-48 text-slate-500 dark:text-slate-400 text-sm">
@@ -51,9 +45,8 @@ export function WeightChart({ metrics }: WeightChartProps) {
     source: m.source,
   }));
 
-  const isDark = mounted && resolvedTheme === 'dark';
-  const gridColor = isDark ? '#334155' : '#e2e8f0';
-  const textColor = isDark ? '#94a3b8' : '#64748b';
+  const gridColor = '#EDE7F6';
+  const textColor = '#9CA3AF';
 
   const weights = metrics.map((m) => m.weight_kg);
   const minW = Math.min(...weights) - 1;

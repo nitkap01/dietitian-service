@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Geist } from 'next/font/google';
-import { ThemeProvider } from 'next-themes';
 import './globals.css';
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-geist-sans' });
@@ -10,18 +9,17 @@ export const metadata: Metadata = {
   description: 'Content Management System for Dietitian Business',
 };
 
+// Light-only app (matches the marketing website). No theme library, so nothing
+// can ever apply a dark class — the app is always light.
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={geist.variable} suppressHydrationWarning>
+    <html lang="en" className={`${geist.variable} light`} style={{ colorScheme: 'light' }}>
       <body style={{ fontFamily: 'var(--font-geist-sans), system-ui, sans-serif' }}>
-        {/* Light-only, matching the marketing website (no dark mode). */}
-        <ThemeProvider attribute="class" forcedTheme="light">
-          {children}
-        </ThemeProvider>
+        {children}
       </body>
     </html>
   );
