@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+/* Tailwind v4 defaults `dark:` to the prefers-color-scheme media query (the OS
+   setting). This app is light-only, so bind `dark:` to a `.dark` class that is
+   never added — every `dark:` utility becomes inert and the app is always light. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Brand palette (matches the marketing website: purple primary, green accent).
    Enables bg-brand-*, text-brand-*, border-brand-*, ring-brand-* utilities. */
 @theme {
