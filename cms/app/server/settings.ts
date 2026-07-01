@@ -81,10 +81,13 @@ export interface AiConfig {
 
 export async function getAiConfig(sql: postgres.Sql): Promise<AiConfig> {
   const s = await getAllSettings(sql);
+  const provider = s.ai_provider || 'claude';
+  // Env fallback (used only when no key is saved in Settings) matches the provider.
+  const envFallback = provider === 'openai' ? process.env.OPENAI_API_KEY : process.env.ANTHROPIC_API_KEY;
   return {
-    provider: s.ai_provider || 'claude',
+    provider,
     model: s.ai_model || DEFAULT_SETTINGS.ai_model,
-    apiKey: s.ai_api_key || process.env.ANTHROPIC_API_KEY || '',
+    apiKey: s.ai_api_key || envFallback || '',
     paymentDetectionEnabled: s.payment_detection_enabled !== '0',
     weightCaptureEnabled: s.weight_capture_enabled !== '0',
   };
