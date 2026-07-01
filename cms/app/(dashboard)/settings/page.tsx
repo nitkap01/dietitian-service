@@ -24,7 +24,7 @@ interface SettingsState {
 function Toggle({ on, onClick }: { on: boolean; onClick: () => void }) {
   return (
     <button type="button" onClick={onClick}
-      className={`w-10 h-6 rounded-full flex items-center transition-colors ${on ? 'bg-emerald-500 justify-end' : 'bg-slate-300 dark:bg-slate-600 justify-start'} px-1`}>
+      className={`w-10 h-6 rounded-full flex items-center transition-colors ${on ? 'bg-brand-500 justify-end' : 'bg-slate-300 dark:bg-slate-600 justify-start'} px-1`}>
       <div className="w-4 h-4 bg-white rounded-full shadow" />
     </button>
   );
@@ -83,14 +83,14 @@ export default function SettingsPage() {
     } finally { setReseedLoading(false); }
   }
 
-  if (!s) return <div className="flex items-center justify-center h-64"><div className="animate-spin w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full" /></div>;
+  if (!s) return <div className="flex items-center justify-center h-64"><div className="animate-spin w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full" /></div>;
 
   return (
     <div className="max-w-2xl space-y-6">
       {/* AI payment detection */}
       <Card>
         <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-1 flex items-center gap-2">
-          <Sparkles size={16} className="text-emerald-500" /> AI &amp; Automation
+          <Sparkles size={16} className="text-brand-500" /> AI &amp; Automation
         </h2>
         <p className="text-xs text-slate-500 mb-5">Scans WhatsApp chats to auto-detect payments and capture weights. Without a key it uses a free heuristic fallback.</p>
         <div className="space-y-4">
@@ -120,7 +120,7 @@ export default function SettingsPage() {
 
       {/* Business info */}
       <Card>
-        <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-5 flex items-center gap-2"><User size={16} className="text-emerald-500" /> Business Information</h2>
+        <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-5 flex items-center gap-2"><User size={16} className="text-brand-500" /> Business Information</h2>
         <div className="grid grid-cols-2 gap-4">
           <Input label="Business Name" value={s.business_name} onChange={(e) => set('business_name', e.target.value)} />
           <Input label="Dietitian Name" value={s.dietitian_name} onChange={(e) => set('dietitian_name', e.target.value)} />
@@ -131,7 +131,7 @@ export default function SettingsPage() {
 
       {/* WhatsApp */}
       <Card>
-        <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-5 flex items-center gap-2"><MessageCircle size={16} className="text-emerald-500" /> WhatsApp</h2>
+        <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-5 flex items-center gap-2"><MessageCircle size={16} className="text-brand-500" /> WhatsApp</h2>
         <Select label="Provider" value={s.whatsapp_provider} onChange={(e) => set('whatsapp_provider', e.target.value)}
           options={[{ value: 'simulator', label: 'Simulator (local testing, free)' }, { value: 'meta', label: 'Meta Cloud API (wire later)' }, { value: 'twilio', label: 'Twilio (wire later)' }]} />
         <p className="text-xs text-slate-500 mt-2">Simulator records outbound messages in-app so you can test the full flow for free. Real providers need a webhook + credentials.</p>
@@ -139,12 +139,12 @@ export default function SettingsPage() {
 
       <div className="flex items-center gap-3">
         <Button onClick={save} loading={saving}>Save Settings</Button>
-        {savedMsg && <span className="text-xs text-emerald-600 dark:text-emerald-400">{savedMsg}</span>}
+        {savedMsg && <span className="text-xs text-brand-600 dark:text-brand-400">{savedMsg}</span>}
       </div>
 
       {/* Appearance */}
       <Card>
-        <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-5 flex items-center gap-2"><Palette size={16} className="text-emerald-500" /> Appearance</h2>
+        <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-5 flex items-center gap-2"><Palette size={16} className="text-brand-500" /> Appearance</h2>
         <div className="flex items-center justify-between">
           <div><p className="text-sm font-medium text-slate-700 dark:text-slate-300">Theme</p><p className="text-xs text-slate-500">Admin panel light/dark mode</p></div>
           <ThemeToggle />
@@ -153,11 +153,11 @@ export default function SettingsPage() {
 
       {/* Database */}
       <Card>
-        <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-5 flex items-center gap-2"><Database size={16} className="text-emerald-500" /> Database</h2>
+        <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-5 flex items-center gap-2"><Database size={16} className="text-brand-500" /> Database</h2>
         <p className="text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Reset &amp; Re-seed Database</p>
         <p className="text-xs text-slate-500 mb-3">Clears all data and inserts fresh demo data (keeps your saved AI key). For demo/testing only.</p>
         <Button variant="danger" onClick={reseedDB} loading={reseedLoading} size="sm">Re-seed Sample Data</Button>
-        {reseedMsg && <p className={`text-xs mt-2 ${reseedMsg.includes('success') ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500'}`}>{reseedMsg}</p>}
+        {reseedMsg && <p className={`text-xs mt-2 ${reseedMsg.includes('success') ? 'text-brand-600 dark:text-brand-400' : 'text-red-500'}`}>{reseedMsg}</p>}
       </Card>
     </div>
   );

@@ -142,7 +142,7 @@ export default function MealsPage() {
             placeholder="Search meal items..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full pl-9 pr-4 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
         </div>
         <div className="flex items-center gap-1.5 flex-wrap">
@@ -153,7 +153,7 @@ export default function MealsPage() {
               onClick={() => setFilterCategory(cat)}
               className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
                 filterCategory === cat
-                  ? 'bg-emerald-500 text-white'
+                  ? 'bg-brand-500 text-white'
                   : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'
               }`}
             >
@@ -165,7 +165,7 @@ export default function MealsPage() {
 
       {loading ? (
         <div className="flex items-center justify-center h-32">
-          <div className="animate-spin w-6 h-6 border-4 border-emerald-500 border-t-transparent rounded-full" />
+          <div className="animate-spin w-6 h-6 border-4 border-brand-500 border-t-transparent rounded-full" />
         </div>
       ) : (
         <div className="space-y-6">
@@ -183,7 +183,7 @@ export default function MealsPage() {
                     let tags: string[] = [];
                     try { tags = item.health_tags ? JSON.parse(item.health_tags) : []; } catch { /* ignore */ }
                     return (
-                      <Card key={item.id} className="hover:border-emerald-300 dark:hover:border-emerald-700 transition-colors">
+                      <Card key={item.id} className="hover:border-brand-300 dark:hover:border-brand-700 transition-colors">
                         <div className="flex items-start justify-between gap-2">
                           <div className="flex-1 min-w-0">
                             <p className="font-medium text-sm text-slate-900 dark:text-white truncate">{item.name}</p>
@@ -203,7 +203,7 @@ export default function MealsPage() {
 
                         {item.calories_per_serving && (
                           <div className="flex gap-3 mt-2 text-xs">
-                            <span className="font-semibold text-emerald-600 dark:text-emerald-400">{item.calories_per_serving} kcal</span>
+                            <span className="font-semibold text-brand-600 dark:text-brand-400">{item.calories_per_serving} kcal</span>
                             {item.protein && <span className="text-slate-500">P:{item.protein}</span>}
                             {item.carbs && <span className="text-slate-500">C:{item.carbs}</span>}
                             {item.fat && <span className="text-slate-500">F:{item.fat}</span>}
@@ -213,7 +213,7 @@ export default function MealsPage() {
                         {tags.length > 0 && (
                           <div className="flex flex-wrap gap-1 mt-2">
                             {tags.map((tag) => (
-                              <span key={tag} className="text-xs px-1.5 py-0.5 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 rounded">
+                              <span key={tag} className="text-xs px-1.5 py-0.5 bg-brand-50 dark:bg-brand-900/20 text-brand-700 dark:text-brand-400 rounded">
                                 {tag.replace('_', ' ')}
                               </span>
                             ))}
@@ -250,7 +250,7 @@ export default function MealsPage() {
               <select
                 value={form.category}
                 onChange={(e) => setForm({ ...form, category: e.target.value as MealItem['category'] })}
-                className="w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
               >
                 {CATEGORIES.slice(1).map((c) => (
                   <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>
@@ -308,8 +308,8 @@ export default function MealsPage() {
                   onClick={() => toggleTag(tag)}
                   className={`px-2.5 py-1 text-xs rounded-full border transition-colors ${
                     form.health_tags.includes(tag)
-                      ? 'bg-emerald-500 border-emerald-500 text-white'
-                      : 'border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-400 hover:border-emerald-400'
+                      ? 'bg-brand-500 border-brand-500 text-white'
+                      : 'border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-400 hover:border-brand-400'
                   }`}
                 >
                   {tag.replace('_', ' ')}

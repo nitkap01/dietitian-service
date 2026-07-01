@@ -182,10 +182,10 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
   }
 
   if (loading) {
-    return <div className="flex items-center justify-center h-64"><div className="animate-spin w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full" /></div>;
+    return <div className="flex items-center justify-center h-64"><div className="animate-spin w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full" /></div>;
   }
   if (!client) {
-    return <div className="text-center py-12"><p className="text-slate-500">Client not found</p><Link href="/clients" className="text-emerald-600 text-sm mt-2 inline-block">Back to clients</Link></div>;
+    return <div className="text-center py-12"><p className="text-slate-500">Client not found</p><Link href="/clients" className="text-brand-600 text-sm mt-2 inline-block">Back to clients</Link></div>;
   }
 
   const totalPaid = payments.filter((p) => p.status === 'paid').reduce((s, p) => s + p.amount, 0);
@@ -214,7 +214,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
   return (
     <div className="space-y-5 max-w-5xl">
       {toast && (
-        <div className="fixed top-20 right-6 z-50 px-4 py-2.5 rounded-lg bg-emerald-600 text-white text-sm shadow-lg">{toast}</div>
+        <div className="fixed top-20 right-6 z-50 px-4 py-2.5 rounded-lg bg-brand-600 text-white text-sm shadow-lg">{toast}</div>
       )}
 
       <div className="flex items-center justify-between">
@@ -237,7 +237,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
       <Card>
         <div className="flex items-start justify-between flex-wrap gap-4">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-full bg-emerald-600 flex items-center justify-center text-white text-xl font-bold shrink-0">{client.name.charAt(0)}</div>
+            <div className="w-14 h-14 rounded-full bg-brand-600 flex items-center justify-center text-white text-xl font-bold shrink-0">{client.name.charAt(0)}</div>
             <div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-white">{client.name}</h2>
               <div className="flex items-center gap-3 mt-1 flex-wrap">
@@ -250,7 +250,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
             </div>
           </div>
           <div className="grid grid-cols-3 gap-4 sm:gap-6 text-center">
-            <div><p className="text-xs text-slate-500">Paid</p><p className="text-base sm:text-lg font-bold text-emerald-600 dark:text-emerald-400">₹{totalPaid.toLocaleString('en-IN')}</p></div>
+            <div><p className="text-xs text-slate-500">Paid</p><p className="text-base sm:text-lg font-bold text-brand-600 dark:text-brand-400">₹{totalPaid.toLocaleString('en-IN')}</p></div>
             <div><p className="text-xs text-slate-500">Pending</p><p className="text-base sm:text-lg font-bold text-yellow-600 dark:text-yellow-400">₹{pendingAmount.toLocaleString('en-IN')}</p></div>
             <div><p className="text-xs text-slate-500">Readings</p><p className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">{metrics.length}</p></div>
           </div>
@@ -261,7 +261,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
       <div className="flex gap-0.5 border-b border-slate-200 dark:border-slate-700 overflow-x-auto">
         {tabs.map((tab) => (
           <button key={tab.key} onClick={() => setActiveTab(tab.key)}
-            className={`px-3 sm:px-4 py-2.5 text-sm font-medium transition-colors border-b-2 -mb-px whitespace-nowrap ${activeTab === tab.key ? 'border-emerald-500 text-emerald-600 dark:text-emerald-400' : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'}`}>
+            className={`px-3 sm:px-4 py-2.5 text-sm font-medium transition-colors border-b-2 -mb-px whitespace-nowrap ${activeTab === tab.key ? 'border-brand-500 text-brand-600 dark:text-brand-400' : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'}`}>
             {tab.label}
           </button>
         ))}
@@ -271,7 +271,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
       {activeTab === 'overview' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           <Card>
-            <h3 className="text-sm font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><User size={16} className="text-emerald-500" /> Contact Information</h3>
+            <h3 className="text-sm font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><User size={16} className="text-brand-500" /> Contact Information</h3>
             <div className="space-y-3 text-sm">
               <div className="flex items-center gap-3"><Mail size={14} className="text-slate-400" /><span className="text-slate-600 dark:text-slate-400">{client.email}</span></div>
               <div className="flex items-center gap-3"><Phone size={14} className="text-slate-400" /><span className="text-slate-600 dark:text-slate-400">{client.phone}</span></div>
@@ -283,17 +283,17 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
 
           {/* Portal access */}
           <Card>
-            <h3 className="text-sm font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><KeyRound size={16} className="text-emerald-500" /> Portal Access</h3>
+            <h3 className="text-sm font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><KeyRound size={16} className="text-brand-500" /> Portal Access</h3>
             <p className="text-xs text-slate-500 mb-3">
               {client.has_credentials
                 ? `Login is set up (username: ${client.phone}). Only you can reset the password.`
                 : 'No login yet. Generate a secure password and share it on WhatsApp.'}
             </p>
             {creds ? (
-              <div className="rounded-lg border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/20 p-3 space-y-1 text-sm">
+              <div className="rounded-lg border border-brand-200 dark:border-brand-800 bg-brand-50 dark:bg-brand-900/20 p-3 space-y-1 text-sm">
                 <p><span className="text-slate-500">Username:</span> <span className="font-mono">{creds.username}</span></p>
                 <p><span className="text-slate-500">Password:</span> <span className="font-mono">{creds.password}</span></p>
-                <p className="text-xs text-emerald-700 dark:text-emerald-400">{creds.sent ? '✓ Sent on WhatsApp.' : 'Generated (not sent).'} Shown once.</p>
+                <p className="text-xs text-brand-700 dark:text-brand-400">{creds.sent ? '✓ Sent on WhatsApp.' : 'Generated (not sent).'} Shown once.</p>
               </div>
             ) : null}
             <div className="flex flex-wrap gap-2 mt-3">
@@ -304,11 +304,11 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
 
           {/* Active plan + assign */}
           <Card>
-            <h3 className="text-sm font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><PackageIcon size={16} className="text-emerald-500" /> Plan</h3>
+            <h3 className="text-sm font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2"><PackageIcon size={16} className="text-brand-500" /> Plan</h3>
             {client.package_name ? (
               <div className="mb-4">
                 <p className="font-medium text-slate-900 dark:text-white">{client.package_name}</p>
-                <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">₹{client.package_price?.toLocaleString('en-IN')}</p>
+                <p className="text-2xl font-bold text-brand-600 dark:text-brand-400 mt-1">₹{client.package_price?.toLocaleString('en-IN')}</p>
                 <div className="mt-2 space-y-0.5 text-xs text-slate-500">
                   <p>Start: {client.package_start ? new Date(client.package_start).toLocaleDateString('en-IN') : '—'} · End: {client.package_end ? new Date(client.package_end).toLocaleDateString('en-IN') : 'Ongoing'}</p>
                   {activePkg?.request_weights ? <p className="text-blue-500">Weight requests: {activePkg.weight_frequency}</p> : null}
@@ -328,7 +328,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
           {/* Weight trend */}
           <Card>
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2"><Activity size={16} className="text-emerald-500" /> Weight Trend</h3>
+              <h3 className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2"><Activity size={16} className="text-brand-500" /> Weight Trend</h3>
               <Button size="sm" variant="outline" onClick={() => setShowWeightModal(true)}><Plus size={14} /> Add</Button>
             </div>
             <WeightChart metrics={metrics} />
@@ -344,8 +344,8 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
             <div className="flex items-center gap-2">
               {canGraph && (
                 <div className="inline-flex rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
-                  <button onClick={() => setMetricsView('table')} className={`px-3 py-1.5 text-xs flex items-center gap-1 ${metricsView === 'table' ? 'bg-emerald-500 text-white' : 'text-slate-500'}`}><TableIcon size={13} /> Table</button>
-                  <button onClick={() => setMetricsView('graph')} className={`px-3 py-1.5 text-xs flex items-center gap-1 ${metricsView === 'graph' ? 'bg-emerald-500 text-white' : 'text-slate-500'}`}><LineChart size={13} /> Graph</button>
+                  <button onClick={() => setMetricsView('table')} className={`px-3 py-1.5 text-xs flex items-center gap-1 ${metricsView === 'table' ? 'bg-brand-500 text-white' : 'text-slate-500'}`}><TableIcon size={13} /> Table</button>
+                  <button onClick={() => setMetricsView('graph')} className={`px-3 py-1.5 text-xs flex items-center gap-1 ${metricsView === 'graph' ? 'bg-brand-500 text-white' : 'text-slate-500'}`}><LineChart size={13} /> Graph</button>
                 </div>
               )}
               {activePkg?.request_weights ? <Button size="sm" variant="outline" onClick={requestWeight} loading={weightReq}><Scale size={13} /> Request</Button> : null}
@@ -395,7 +395,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
               <div className="flex items-start justify-between gap-3 flex-wrap">
                 <div>
                   <h4 className="font-semibold text-slate-900 dark:text-white flex items-center gap-2">
-                    <FileText size={16} className="text-emerald-500" /> {plan.title}
+                    <FileText size={16} className="text-brand-500" /> {plan.title}
                     {plan.status === 'published' ? <Badge variant="green" size="sm">Published</Badge> : <Badge variant="yellow" size="sm">Draft</Badge>}
                   </h4>
                   <p className="text-xs text-slate-500 mt-1">{plan.version_count} version(s) · Created {new Date(plan.created_at).toLocaleDateString('en-IN')}</p>
@@ -418,7 +418,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
       {activeTab === 'payments' && (
         <Card>
           <div className="flex items-center justify-between mb-5">
-            <p className="text-sm text-slate-500">Total paid: <strong className="text-emerald-600 dark:text-emerald-400">₹{totalPaid.toLocaleString('en-IN')}</strong></p>
+            <p className="text-sm text-slate-500">Total paid: <strong className="text-brand-600 dark:text-brand-400">₹{totalPaid.toLocaleString('en-IN')}</strong></p>
             <Link href="/payments"><Button size="sm" variant="outline"><CreditCard size={14} /> Record Payment</Button></Link>
           </div>
           <div className="space-y-2">
@@ -451,30 +451,30 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
       {showDietBuilder && (
         <div className="fixed inset-0 z-50 bg-white dark:bg-slate-900 flex flex-col">
           <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-slate-200 dark:border-slate-700">
-            <div className="flex items-center gap-3"><Utensils size={20} className="text-emerald-500" /><h2 className="text-lg font-semibold text-slate-900 dark:text-white">Build Diet Plan</h2></div>
+            <div className="flex items-center gap-3"><Utensils size={20} className="text-brand-500" /><h2 className="text-lg font-semibold text-slate-900 dark:text-white">Build Diet Plan</h2></div>
             <button onClick={() => setShowDietBuilder(false)} className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500"><X size={20} /></button>
           </div>
 
           <div className="px-4 sm:px-6 py-3 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 space-y-2">
             <input type="text" placeholder="Plan title, e.g. Week 1 Weight Loss Plan" value={dietBuilder.title}
               onChange={(e) => setDietBuilder({ ...dietBuilder, title: e.target.value })}
-              className="w-full sm:max-w-md px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              className="w-full sm:max-w-md px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500" />
             <textarea placeholder="Record the patient's issues first (symptoms, complaints, medical notes)..." value={dietBuilder.issues}
               onChange={(e) => setDietBuilder({ ...dietBuilder, issues: e.target.value })} rows={2}
-              className="w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none" />
+              className="w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none" />
           </div>
 
           <div className="flex-1 overflow-hidden flex flex-col lg:flex-row">
             <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5">
               <div className="flex items-center justify-between">
                 <p className="text-sm font-semibold text-slate-900 dark:text-white">Meal Plan</p>
-                <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400">{totalCalories()} kcal total</span>
+                <span className="text-sm font-bold text-brand-600 dark:text-brand-400">{totalCalories()} kcal total</span>
               </div>
               {MEAL_TYPES.map((slot) => (
                 <div key={slot} className="rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden">
-                  <div className={`flex items-center justify-between px-4 py-2.5 cursor-pointer ${slot === recFilter ? 'bg-emerald-50 dark:bg-emerald-900/20 border-b border-emerald-200 dark:border-emerald-800' : 'bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700'}`} onClick={() => setRecFilter(slot)}>
+                  <div className={`flex items-center justify-between px-4 py-2.5 cursor-pointer ${slot === recFilter ? 'bg-brand-50 dark:bg-brand-900/20 border-b border-brand-200 dark:border-brand-800' : 'bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700'}`} onClick={() => setRecFilter(slot)}>
                     <span className="text-sm font-semibold text-slate-900 dark:text-white">{MEAL_ICONS[slot]} {slot.charAt(0).toUpperCase() + slot.slice(1)}</span>
-                    <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">{slotCalories(slot)} kcal</span>
+                    <span className="text-xs text-brand-600 dark:text-brand-400 font-medium">{slotCalories(slot)} kcal</span>
                   </div>
                   <div className="p-3 space-y-1.5">
                     {dietBuilder[slot].length === 0 && <p className="text-xs text-slate-400 italic py-1">No items yet. Click a recommendation to add →</p>}
@@ -494,12 +494,12 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
                 <p className="text-sm font-semibold text-slate-900 dark:text-white mb-2">Recommendations</p>
                 <div className="flex gap-1 mb-2 flex-wrap">
                   {MEAL_TYPES.map((t) => (
-                    <button key={t} onClick={() => setRecFilter(t)} className={`px-2.5 py-1 text-xs rounded-lg transition-colors ${recFilter === t ? 'bg-emerald-500 text-white' : 'bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-600'}`}>{MEAL_ICONS[t]}</button>
+                    <button key={t} onClick={() => setRecFilter(t)} className={`px-2.5 py-1 text-xs rounded-lg transition-colors ${recFilter === t ? 'bg-brand-500 text-white' : 'bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-600'}`}>{MEAL_ICONS[t]}</button>
                   ))}
                 </div>
                 <input type="text" placeholder="Search meals..." value={libSearch} onChange={(e) => setLibSearch(e.target.value)}
-                  className="w-full px-3 py-1.5 text-xs border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500" />
-                {client.health_goal !== 'other' && <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-1.5">★ Showing items good for {client.health_goal.replace('_', ' ')}</p>}
+                  className="w-full px-3 py-1.5 text-xs border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-500" />
+                {client.health_goal !== 'other' && <p className="text-xs text-brand-600 dark:text-brand-400 mt-1.5">★ Showing items good for {client.health_goal.replace('_', ' ')}</p>}
               </div>
               <div className="flex-1 overflow-y-auto p-3 space-y-2">
                 {recItems.length === 0 && <p className="text-xs text-slate-400 text-center py-6">All items added, or no matches.</p>}
@@ -509,10 +509,10 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
                   const isRecommended = tags.includes(client.health_goal);
                   return (
                     <button key={item.id} onClick={() => addMealToSlot(recFilter, item)}
-                      className={`w-full text-left px-3 py-2.5 rounded-lg border transition-all hover:shadow-sm group ${isRecommended ? 'border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/10 hover:border-emerald-400' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600'}`}>
-                      <div className="flex items-center justify-between"><span className="text-sm font-medium text-slate-900 dark:text-white">{item.name}</span><span className="text-xs text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 font-medium">+ Add</span></div>
-                      <div className="flex gap-2 mt-0.5 text-xs text-slate-500">{item.calories_per_serving && <span className="text-emerald-600 dark:text-emerald-400 font-medium">{item.calories_per_serving} kcal</span>}{item.serving_size && <span>{item.serving_size}</span>}</div>
-                      {isRecommended && <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-0.5">★ Good for {client.health_goal.replace('_', ' ')}</p>}
+                      className={`w-full text-left px-3 py-2.5 rounded-lg border transition-all hover:shadow-sm group ${isRecommended ? 'border-brand-200 dark:border-brand-800 bg-brand-50 dark:bg-brand-900/10 hover:border-brand-400' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600'}`}>
+                      <div className="flex items-center justify-between"><span className="text-sm font-medium text-slate-900 dark:text-white">{item.name}</span><span className="text-xs text-slate-400 group-hover:text-brand-600 dark:group-hover:text-brand-400 font-medium">+ Add</span></div>
+                      <div className="flex gap-2 mt-0.5 text-xs text-slate-500">{item.calories_per_serving && <span className="text-brand-600 dark:text-brand-400 font-medium">{item.calories_per_serving} kcal</span>}{item.serving_size && <span>{item.serving_size}</span>}</div>
+                      {isRecommended && <p className="text-xs text-brand-600 dark:text-brand-400 mt-0.5">★ Good for {client.health_goal.replace('_', ' ')}</p>}
                     </button>
                   );
                 })}
@@ -546,12 +546,12 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
                     <div className="space-y-2">
                       {(['breakfast', 'lunch', 'snacks', 'dinner'] as const).map((meal) => ocr![meal] && (
                         <div key={meal} className="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-3">
-                          <div className="flex items-center justify-between mb-1"><p className="text-xs font-semibold text-slate-700 dark:text-slate-300 capitalize">{MEAL_ICONS[meal]} {meal}</p><p className="text-xs text-emerald-600 dark:text-emerald-400">{ocr![meal].calories} kcal</p></div>
+                          <div className="flex items-center justify-between mb-1"><p className="text-xs font-semibold text-slate-700 dark:text-slate-300 capitalize">{MEAL_ICONS[meal]} {meal}</p><p className="text-xs text-brand-600 dark:text-brand-400">{ocr![meal].calories} kcal</p></div>
                           <p className="text-xs text-slate-600 dark:text-slate-400">{ocr![meal].items?.join(', ')}</p>
                           <div className="flex gap-3 mt-1 text-xs text-slate-500"><span>P: {ocr![meal].protein}</span><span>C: {ocr![meal].carbs}</span><span>F: {ocr![meal].fat}</span></div>
                         </div>
                       ))}
-                      {'totalCalories' in ocr && <div className="flex items-center justify-between px-3 py-2 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg"><span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">Total Daily Calories</span><span className="text-sm font-bold text-emerald-700 dark:text-emerald-400">{(ocr as Record<string, unknown>).totalCalories as number} kcal</span></div>}
+                      {'totalCalories' in ocr && <div className="flex items-center justify-between px-3 py-2 bg-brand-50 dark:bg-brand-900/20 rounded-lg"><span className="text-xs font-semibold text-brand-700 dark:text-brand-400">Total Daily Calories</span><span className="text-sm font-bold text-brand-700 dark:text-brand-400">{(ocr as Record<string, unknown>).totalCalories as number} kcal</span></div>}
                       {'notes' in ocr && <p className="text-xs text-slate-500 italic">{(ocr as Record<string, unknown>).notes as string}</p>}
                     </div>
                   )}
@@ -566,10 +566,10 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
       <Modal isOpen={showAIModal} onClose={() => { setShowAIModal(false); setAiResult(''); }} title={`AI Review — ${aiPlan?.title}`} size="lg">
         <div className="p-6">
           {aiLoading ? (
-            <div className="flex flex-col items-center gap-4 py-12"><Loader2 size={32} className="animate-spin text-emerald-500" /><p className="text-sm text-slate-500">Analyzing diet plan...</p></div>
+            <div className="flex flex-col items-center gap-4 py-12"><Loader2 size={32} className="animate-spin text-brand-500" /><p className="text-sm text-slate-500">Analyzing diet plan...</p></div>
           ) : (
             <div className="space-y-4">
-              <div className="flex items-center gap-2 mb-4"><Sparkles size={16} className="text-emerald-500" /><span className="text-sm font-semibold text-emerald-700 dark:text-emerald-400">AI-Powered Nutritional Analysis</span></div>
+              <div className="flex items-center gap-2 mb-4"><Sparkles size={16} className="text-brand-500" /><span className="text-sm font-semibold text-brand-700 dark:text-brand-400">AI-Powered Nutritional Analysis</span></div>
               <div className="prose prose-sm max-w-none text-slate-700 dark:text-slate-300 space-y-3">
                 {aiResult.split('\n').map((line, i) => {
                   if (line.startsWith('**') && line.endsWith('**')) return <p key={i} className="font-bold text-slate-900 dark:text-white mt-4">{line.replace(/\*\*/g, '')}</p>;

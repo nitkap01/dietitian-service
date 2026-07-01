@@ -9,7 +9,7 @@ interface StatsCardProps {
   trend?: { value: number; positive: boolean };
 }
 
-export function StatsCard({ title, value, subtitle, icon: Icon, iconColor = 'text-emerald-500', trend }: StatsCardProps) {
+export function StatsCard({ title, value, subtitle, icon: Icon, iconColor = 'text-brand-500', trend }: StatsCardProps) {
   return (
     <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-5 shadow-sm">
       <div className="flex items-start justify-between">
@@ -18,7 +18,7 @@ export function StatsCard({ title, value, subtitle, icon: Icon, iconColor = 'tex
           <p className="text-2xl font-bold text-slate-900 dark:text-white mt-1">{value}</p>
           {subtitle && <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{subtitle}</p>}
           {trend && (
-            <p className={`text-xs mt-1 font-medium ${trend.positive ? 'text-emerald-500' : 'text-red-500'}`}>
+            <p className={`text-xs mt-1 font-medium ${trend.positive ? 'text-brand-500' : 'text-red-500'}`}>
               {trend.positive ? '▲' : '▼'} {Math.abs(trend.value)}% from last month
             </p>
           )}

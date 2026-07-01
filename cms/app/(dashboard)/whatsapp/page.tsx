@@ -111,23 +111,23 @@ export default function WhatsAppPage() {
             <div className="relative">
               <Search size={14} className="absolute left-2.5 top-2.5 text-slate-400" />
               <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search clients..."
-                className="w-full pl-8 pr-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                className="w-full pl-8 pr-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500" />
             </div>
           </div>
           <ul className="overflow-y-auto flex-1">
             {filtered.map((c) => (
               <li key={c.id}>
                 <button onClick={() => selectClient(c)}
-                  className={`w-full text-left px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors border-b border-slate-100 dark:border-slate-700/50 ${selected?.id === c.id ? 'bg-emerald-50 dark:bg-emerald-900/20' : ''}`}>
+                  className={`w-full text-left px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors border-b border-slate-100 dark:border-slate-700/50 ${selected?.id === c.id ? 'bg-brand-50 dark:bg-brand-900/20' : ''}`}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <div className="w-9 h-9 rounded-full bg-emerald-600 flex items-center justify-center text-white text-sm font-bold shrink-0">{c.name.charAt(0)}</div>
+                      <div className="w-9 h-9 rounded-full bg-brand-600 flex items-center justify-center text-white text-sm font-bold shrink-0">{c.name.charAt(0)}</div>
                       <div className="min-w-0">
                         <p className="text-sm font-medium text-slate-900 dark:text-white truncate">{c.name}</p>
                         <p className="text-xs text-slate-400 truncate max-w-[150px]">{c.lastMessage || c.phone}</p>
                       </div>
                     </div>
-                    {c.unread > 0 && <span className="w-5 h-5 rounded-full bg-emerald-500 text-white text-xs flex items-center justify-center font-bold shrink-0">{c.unread}</span>}
+                    {c.unread > 0 && <span className="w-5 h-5 rounded-full bg-brand-500 text-white text-xs flex items-center justify-center font-bold shrink-0">{c.unread}</span>}
                   </div>
                 </button>
               </li>
@@ -144,14 +144,14 @@ export default function WhatsAppPage() {
           ) : (
             <>
               <div className="px-4 py-3 border-b border-slate-200 dark:border-slate-700 flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-sm">{selected.name.charAt(0)}</div>
+                <div className="w-9 h-9 rounded-full bg-brand-600 flex items-center justify-center text-white font-bold text-sm">{selected.name.charAt(0)}</div>
                 <div><p className="font-semibold text-sm text-slate-900 dark:text-white">{selected.name}</p><p className="text-xs text-slate-400 flex items-center gap-1"><Phone size={10} />{selected.phone}</p></div>
               </div>
 
               <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50 dark:bg-slate-900/50">
                 {messages.map((msg) => (
                   <div key={msg.id} className={`flex ${msg.direction === 'outbound' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-[80%] px-3.5 py-2.5 rounded-2xl text-sm ${msg.direction === 'outbound' ? 'bg-emerald-600 text-white rounded-br-sm' : 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-600 rounded-bl-sm'}`}>
+                    <div className={`max-w-[80%] px-3.5 py-2.5 rounded-2xl text-sm ${msg.direction === 'outbound' ? 'bg-brand-600 text-white rounded-br-sm' : 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-600 rounded-bl-sm'}`}>
                       {msg.media_path && (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={msg.media_path} alt="attachment" className="rounded-lg mb-1.5 max-h-48 object-cover" />
@@ -160,7 +160,7 @@ export default function WhatsAppPage() {
                       <div className="flex items-center gap-1.5 mt-1 flex-wrap">
                         {msg.payment_detected ? <span className="inline-flex items-center gap-0.5 text-xs bg-white/20 rounded px-1"><IndianRupee size={10} /> payment</span> : null}
                         {msg.intent === 'weight' ? <span className="inline-flex items-center gap-0.5 text-xs bg-white/20 rounded px-1"><Scale size={10} /> weight {msg.parsed_weight}kg</span> : null}
-                        <span className={`text-xs ${msg.direction === 'outbound' ? 'text-emerald-200' : 'text-slate-400'}`}>
+                        <span className={`text-xs ${msg.direction === 'outbound' ? 'text-brand-200' : 'text-slate-400'}`}>
                           {new Date(msg.received_at).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
@@ -171,7 +171,7 @@ export default function WhatsAppPage() {
               </div>
 
               {detection && (
-                <div className="mx-3 mb-1 px-3 py-2 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-xs flex items-center gap-2">
+                <div className="mx-3 mb-1 px-3 py-2 rounded-lg bg-brand-50 dark:bg-brand-900/30 border border-brand-200 dark:border-brand-800 text-brand-700 dark:text-brand-300 text-xs flex items-center gap-2">
                   <CheckCircle size={14} /> {detection}
                 </div>
               )}
@@ -192,10 +192,10 @@ export default function WhatsAppPage() {
                   <textarea value={draft} onChange={(e) => setDraft(e.target.value)}
                     onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); post('inbound'); } }}
                     placeholder="Type a client message, e.g. 'payment done' or '75 kg'..." rows={2}
-                    className="flex-1 px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white resize-none focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                    className="flex-1 px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white resize-none focus:outline-none focus:ring-2 focus:ring-brand-500" />
                   <div className="flex flex-col gap-1.5">
                     <button onClick={() => post('inbound')} disabled={sending || (!draft.trim() && !attach)}
-                      className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white rounded-xl text-xs font-medium transition-colors flex items-center gap-1 whitespace-nowrap">
+                      className="px-3 py-1.5 bg-brand-600 hover:bg-brand-700 disabled:opacity-50 text-white rounded-xl text-xs font-medium transition-colors flex items-center gap-1 whitespace-nowrap">
                       <Send size={12} /> As client
                     </button>
                     <button onClick={() => post('outbound')} disabled={sending || (!draft.trim() && !attach)}

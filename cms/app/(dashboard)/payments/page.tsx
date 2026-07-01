@@ -40,7 +40,7 @@ export default function PaymentsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full" />
+        <div className="animate-spin w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full" />
       </div>
     );
   }
@@ -51,12 +51,12 @@ export default function PaymentsPage() {
       <div className="grid grid-cols-3 gap-4">
         <Card padding="sm">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400">
+            <div className="p-2 rounded-lg bg-brand-100 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400">
               <IndianRupee size={16} />
             </div>
             <div>
               <p className="text-xs text-slate-500">Total Collected</p>
-              <p className="text-lg font-bold text-emerald-600 dark:text-emerald-400">₹{totalRevenue.toLocaleString('en-IN')}</p>
+              <p className="text-lg font-bold text-brand-600 dark:text-brand-400">₹{totalRevenue.toLocaleString('en-IN')}</p>
             </div>
           </div>
         </Card>
@@ -93,7 +93,7 @@ export default function PaymentsPage() {
                 onClick={() => setFilter(f)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors capitalize ${
                   filter === f
-                    ? 'bg-emerald-600 text-white'
+                    ? 'bg-brand-600 text-white'
                     : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-600'
                 }`}
               >
@@ -113,7 +113,7 @@ export default function PaymentsPage() {
           {filtered.map((p) => (
             <div key={p.id} className="flex items-center justify-between px-5 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-700/20 transition-colors">
               <div className="flex items-center gap-4">
-                <div className={`w-2 h-2 rounded-full ${p.status === 'paid' ? 'bg-emerald-500' : p.status === 'unpaid' ? 'bg-red-500' : 'bg-yellow-500'}`} />
+                <div className={`w-2 h-2 rounded-full ${p.status === 'paid' ? 'bg-brand-500' : p.status === 'unpaid' ? 'bg-red-500' : 'bg-yellow-500'}`} />
                 <div>
                   <p className="text-sm font-semibold text-slate-900 dark:text-white">₹{p.amount.toLocaleString('en-IN')}</p>
                   <p className="text-xs text-slate-500">{p.client_name} {p.package_name ? `• ${p.package_name}` : ''}</p>

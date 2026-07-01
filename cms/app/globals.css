@@ -1,5 +1,20 @@
 @import 'tailwindcss';
 
+/* Brand palette (matches the marketing website: purple primary, green accent).
+   Enables bg-brand-*, text-brand-*, border-brand-*, ring-brand-* utilities. */
+@theme {
+  --color-brand-50: #F5F0FB;
+  --color-brand-100: #EDE7F6;
+  --color-brand-200: #D9CBEE;
+  --color-brand-300: #BCA6E0;
+  --color-brand-400: #9470CB;
+  --color-brand-500: #6E45B5;
+  --color-brand-600: #5C3A9E;
+  --color-brand-700: #3D2070;
+  --color-brand-800: #2F1859;
+  --color-brand-900: #241246;
+}
+
 :root {
   --sidebar-width: 256px;
 }
@@ -17,10 +32,10 @@ body {
   padding: 0;
 }
 
-/* Light theme body */
+/* Light theme body — cream, matching the website */
 body {
-  background-color: #f8fafc;
-  color: #0f172a;
+  background-color: #FDFCF7;
+  color: #1A1A2E;
 }
 
 /* Dark theme body */

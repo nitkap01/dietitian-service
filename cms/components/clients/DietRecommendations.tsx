@@ -92,7 +92,7 @@ export function DietRecommendations({ clientId, clientName, healthGoal, onSaved 
       <Modal isOpen={showList} onClose={() => setShowList(false)} title="Suggested plans from similar clients" size="lg">
         <div className="p-6">
           {loading ? (
-            <div className="flex flex-col items-center gap-3 py-10"><Loader2 size={28} className="animate-spin text-emerald-500" /><p className="text-sm text-slate-500">Finding similar clients...</p></div>
+            <div className="flex flex-col items-center gap-3 py-10"><Loader2 size={28} className="animate-spin text-brand-500" /><p className="text-sm text-slate-500">Finding similar clients...</p></div>
           ) : recos.length === 0 ? (
             <p className="text-sm text-slate-500 text-center py-8">No similar past clients with a diet yet. Build one from scratch.</p>
           ) : (
@@ -108,7 +108,7 @@ export function DietRecommendations({ clientId, clientName, healthGoal, onSaved 
                       </div>
                       <p className="text-xs text-slate-500 mt-1 flex items-center gap-1"><User size={11} /> {r.source.name} · {r.source.age} yrs · {r.source.gender}</p>
                       <p className="text-xs text-slate-500 mt-1">{r.reason}</p>
-                      {r.ocr?.totalCalories ? <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-1">{r.ocr.totalCalories} kcal/day</p> : null}
+                      {r.ocr?.totalCalories ? <p className="text-xs text-brand-600 dark:text-brand-400 mt-1">{r.ocr.totalCalories} kcal/day</p> : null}
                     </div>
                     <Button size="sm" onClick={() => useReco(r)}>Use &amp; review <ArrowRight size={13} /></Button>
                   </div>
@@ -125,26 +125,26 @@ export function DietRecommendations({ clientId, clientName, healthGoal, onSaved 
           <div className="p-6 space-y-4">
             <p className="text-xs text-slate-500">Edit anything before saving. It saves as a draft — publish it when ready.</p>
             <input value={review.title} onChange={(e) => setReview({ ...review, title: e.target.value })} placeholder="Plan title"
-              className="w-full px-3 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              className="w-full px-3 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500" />
             <textarea value={review.issues} onChange={(e) => setReview({ ...review, issues: e.target.value })} placeholder="Patient's issues / notes" rows={2}
-              className="w-full px-3 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none" />
+              className="w-full px-3 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none" />
 
             {MEALS.map((slot) => (
               <div key={slot} className="rounded-xl border border-slate-200 dark:border-slate-700 p-3">
                 <p className="text-sm font-semibold text-slate-900 dark:text-white mb-2">{MEAL_ICONS[slot]} {slot.charAt(0).toUpperCase() + slot.slice(1)}</p>
                 <textarea value={review[slot].items} onChange={(e) => setMeal(slot, 'items', e.target.value)} placeholder="Items (comma separated)" rows={2}
-                  className="w-full px-3 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none mb-2" />
+                  className="w-full px-3 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none mb-2" />
                 <div className="grid grid-cols-4 gap-2">
-                  <input value={review[slot].calories} onChange={(e) => setMeal(slot, 'calories', e.target.value)} placeholder="kcal" className="px-2 py-1.5 text-xs border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500" />
-                  <input value={review[slot].protein} onChange={(e) => setMeal(slot, 'protein', e.target.value)} placeholder="protein" className="px-2 py-1.5 text-xs border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500" />
-                  <input value={review[slot].carbs} onChange={(e) => setMeal(slot, 'carbs', e.target.value)} placeholder="carbs" className="px-2 py-1.5 text-xs border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500" />
-                  <input value={review[slot].fat} onChange={(e) => setMeal(slot, 'fat', e.target.value)} placeholder="fat" className="px-2 py-1.5 text-xs border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500" />
+                  <input value={review[slot].calories} onChange={(e) => setMeal(slot, 'calories', e.target.value)} placeholder="kcal" className="px-2 py-1.5 text-xs border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-500" />
+                  <input value={review[slot].protein} onChange={(e) => setMeal(slot, 'protein', e.target.value)} placeholder="protein" className="px-2 py-1.5 text-xs border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-500" />
+                  <input value={review[slot].carbs} onChange={(e) => setMeal(slot, 'carbs', e.target.value)} placeholder="carbs" className="px-2 py-1.5 text-xs border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-500" />
+                  <input value={review[slot].fat} onChange={(e) => setMeal(slot, 'fat', e.target.value)} placeholder="fat" className="px-2 py-1.5 text-xs border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-500" />
                 </div>
               </div>
             ))}
 
             <textarea value={review.notes} onChange={(e) => setReview({ ...review, notes: e.target.value })} placeholder="Overall notes" rows={2}
-              className="w-full px-3 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none" />
+              className="w-full px-3 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none" />
 
             <div className="flex gap-3">
               <Button onClick={saveReview} loading={saving}>Save as Draft</Button>

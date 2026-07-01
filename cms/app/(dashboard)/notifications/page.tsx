@@ -95,7 +95,7 @@ export default function NotificationsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full" />
+        <div className="animate-spin w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full" />
       </div>
     );
   }
@@ -119,7 +119,7 @@ export default function NotificationsPage() {
           return (
             <Card key={n.id} padding="sm">
               <div className="flex items-start gap-4">
-                <div className={`p-2 rounded-lg ${isActive ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' : 'bg-slate-100 dark:bg-slate-700 text-slate-400'}`}>
+                <div className={`p-2 rounded-lg ${isActive ? 'bg-brand-100 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400' : 'bg-slate-100 dark:bg-slate-700 text-slate-400'}`}>
                   <Icon size={16} />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -148,7 +148,7 @@ export default function NotificationsPage() {
                   )}
                   <button
                     onClick={() => toggleNotification(n.id, n.is_active)}
-                    className={`p-1 rounded transition-colors ${isActive ? 'text-emerald-500 hover:text-emerald-700' : 'text-slate-400 hover:text-slate-600'}`}
+                    className={`p-1 rounded transition-colors ${isActive ? 'text-brand-500 hover:text-brand-700' : 'text-slate-400 hover:text-slate-600'}`}
                     title={isActive ? 'Pause' : 'Resume'}
                   >
                     {isActive ? <ToggleRight size={22} /> : <ToggleLeft size={22} />}
@@ -213,7 +213,7 @@ export default function NotificationsPage() {
               onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
               placeholder="Message to send..."
               rows={3}
-              className="px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
+              className="px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
             />
           </div>
           <div className="flex gap-3 pt-2">
@@ -230,7 +230,7 @@ export default function NotificationsPage() {
             <div className="bg-[#0d1117] rounded-2xl p-4">
               {/* WhatsApp-like header */}
               <div className="flex items-center gap-3 mb-4 pb-3 border-b border-slate-700">
-                <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold">
+                <div className="w-10 h-10 rounded-full bg-brand-600 flex items-center justify-center text-white font-bold">
                   {showWhatsAppModal.client_name?.charAt(0)}
                 </div>
                 <div>
@@ -240,10 +240,10 @@ export default function NotificationsPage() {
               </div>
               {/* Chat bubble */}
               <div className="flex justify-end">
-                <div className="max-w-xs bg-emerald-700 text-white text-sm rounded-2xl rounded-tr-sm px-4 py-3 shadow-sm">
+                <div className="max-w-xs bg-brand-700 text-white text-sm rounded-2xl rounded-tr-sm px-4 py-3 shadow-sm">
                   <p>{showWhatsAppModal.message || 'No message configured'}</p>
                   <div className="flex justify-end mt-1">
-                    <span className="text-xs text-emerald-300">{new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })} ✓✓</span>
+                    <span className="text-xs text-brand-300">{new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })} ✓✓</span>
                   </div>
                 </div>
               </div>

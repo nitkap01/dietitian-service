@@ -17,17 +17,17 @@ export default function DashboardPage() {
     fetch('/api/dashboard')
       .then((r) => r.json())
       .then((data) => {
-        setStats(data.stats);
-        setActivities(data.activity);
-        setLoading(false);
+        setStats(data?.stats ?? null);
+        setActivities(Array.isArray(data?.activity) ? data.activity : []);
       })
-      .catch(console.error);
+      .catch(() => setActivities([]))
+      .finally(() => setLoading(false));
   }, []);
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full" />
+        <div className="animate-spin w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full" />
       </div>
     );
   }
@@ -47,7 +47,7 @@ export default function DashboardPage() {
           value={stats?.active_clients ?? 0}
           subtitle="clients on program"
           icon={UserCheck}
-          iconColor="text-emerald-500"
+          iconColor="text-brand-500"
         />
         <StatsCard
           title="Inactive"
@@ -61,7 +61,7 @@ export default function DashboardPage() {
           value={`₹${((stats?.total_revenue ?? 0) / 1000).toFixed(0)}k`}
           subtitle="payments received"
           icon={IndianRupee}
-          iconColor="text-emerald-500"
+          iconColor="text-brand-500"
         />
         <StatsCard
           title="Pending"
@@ -95,7 +95,7 @@ export default function DashboardPage() {
           <div className="space-y-2">
             <Link
               href="/clients/new"
-              className="flex items-center gap-3 px-4 py-3 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 transition-colors text-sm font-medium"
+              className="flex items-center gap-3 px-4 py-3 rounded-lg bg-brand-50 dark:bg-brand-900/20 hover:bg-brand-100 dark:hover:bg-brand-900/30 text-brand-700 dark:text-brand-400 transition-colors text-sm font-medium"
             >
               <Users size={16} />
               Add New Client
@@ -128,7 +128,7 @@ export default function DashboardPage() {
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-slate-600 dark:text-slate-400">Collected</span>
-                <span className="font-semibold text-emerald-600 dark:text-emerald-400">₹{stats?.total_revenue?.toLocaleString('en-IN')}</span>
+                <span className="font-semibold text-brand-600 dark:text-brand-400">₹{stats?.total_revenue?.toLocaleString('en-IN')}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-slate-600 dark:text-slate-400">Pending</span>

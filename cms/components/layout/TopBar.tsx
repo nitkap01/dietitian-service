@@ -46,10 +46,10 @@ export function TopBar({ onMobileMenuOpen }: TopBarProps) {
       <div className="flex items-center gap-1">
         <button className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors relative">
           <Bell size={18} />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-emerald-500 rounded-full" />
+          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-brand-500 rounded-full" />
         </button>
         <ThemeToggle />
-        <div className="ml-1 w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center text-white text-sm font-semibold">
+        <div className="ml-1 w-8 h-8 rounded-full bg-brand-600 flex items-center justify-center text-white text-sm font-semibold">
           D
         </div>
         <button

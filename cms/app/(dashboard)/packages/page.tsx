@@ -112,7 +112,7 @@ export default function PlansPage() {
   }
 
   if (loading) {
-    return <div className="flex items-center justify-center h-64"><div className="animate-spin w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full" /></div>;
+    return <div className="flex items-center justify-center h-64"><div className="animate-spin w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full" /></div>;
   }
 
   return (
@@ -128,7 +128,7 @@ export default function PlansPage() {
           return (
             <Card key={pkg.id} className="flex flex-col">
               <div className="flex items-start justify-between mb-3">
-                <div className="p-2 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400"><PackageIcon size={18} /></div>
+                <div className="p-2 rounded-lg bg-brand-100 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400"><PackageIcon size={18} /></div>
                 <Badge variant={categoryColors[pkg.category] || 'gray'}>{CATEGORY_OPTIONS.find((o) => o.value === pkg.category)?.label || pkg.category}</Badge>
               </div>
 
@@ -139,7 +139,7 @@ export default function PlansPage() {
                 <ul className="mt-3 space-y-1">
                   {benefits.slice(0, 4).map((b, i) => (
                     <li key={i} className="flex items-start gap-1.5 text-xs text-slate-600 dark:text-slate-300">
-                      <Check size={13} className="text-emerald-500 mt-0.5 shrink-0" /> {b}
+                      <Check size={13} className="text-brand-500 mt-0.5 shrink-0" /> {b}
                     </li>
                   ))}
                 </ul>
@@ -152,7 +152,7 @@ export default function PlansPage() {
               ) : null}
 
               <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700 grid grid-cols-3 gap-3 text-center">
-                <div><IndianRupee size={14} className="mx-auto text-emerald-500 mb-1" /><p className="text-sm font-bold text-slate-900 dark:text-white">₹{pkg.price.toLocaleString('en-IN')}</p><p className="text-xs text-slate-500">total</p></div>
+                <div><IndianRupee size={14} className="mx-auto text-brand-500 mb-1" /><p className="text-sm font-bold text-slate-900 dark:text-white">₹{pkg.price.toLocaleString('en-IN')}</p><p className="text-xs text-slate-500">total</p></div>
                 <div><Clock size={14} className="mx-auto text-blue-500 mb-1" /><p className="text-sm font-bold text-slate-900 dark:text-white">{pkg.duration_months}</p><p className="text-xs text-slate-500">month(s)</p></div>
                 <div><Users size={14} className="mx-auto text-purple-500 mb-1" /><p className="text-sm font-bold text-slate-900 dark:text-white">{pkg.active_clients}</p><p className="text-xs text-slate-500">active</p></div>
               </div>
@@ -181,17 +181,17 @@ export default function PlansPage() {
           <div className="flex flex-col gap-1">
             <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Description</label>
             <textarea value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} placeholder="Describe this plan..." rows={2}
-              className="px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none" />
+              className="px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none" />
           </div>
           <div className="flex flex-col gap-1">
             <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Benefits (one per line)</label>
             <textarea value={form.benefits} onChange={(e) => setForm((f) => ({ ...f, benefits: e.target.value }))} placeholder={'Weekly check-ins\nWhatsApp support\nFull meal planning'} rows={3}
-              className="px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none" />
+              className="px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none" />
           </div>
 
           <div className="rounded-lg border border-slate-200 dark:border-slate-700 p-3">
             <label className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300 cursor-pointer">
-              <input type="checkbox" checked={form.request_weights} onChange={(e) => setForm((f) => ({ ...f, request_weights: e.target.checked }))} className="w-4 h-4 accent-emerald-600" />
+              <input type="checkbox" checked={form.request_weights} onChange={(e) => setForm((f) => ({ ...f, request_weights: e.target.checked }))} className="w-4 h-4 accent-brand-600" />
               Request Weights automatically
             </label>
             {form.request_weights && (
@@ -215,7 +215,7 @@ export default function PlansPage() {
           <Select label="Client" value={assignClient} onChange={(e) => setAssignClient(e.target.value)}
             options={[{ value: '', label: 'Select a client...' }, ...clients.map((c) => ({ value: String(c.id), label: `${c.name} · ${c.phone}` }))]} />
           <p className="text-xs text-slate-500">Assigning creates a pending payment (₹{assignFor?.price.toLocaleString('en-IN')}) and, if the plan requests weights, schedules them.</p>
-          {assignMsg && <p className={`text-xs ${assignMsg.includes('Assigned') ? 'text-emerald-600' : 'text-red-500'}`}>{assignMsg}</p>}
+          {assignMsg && <p className={`text-xs ${assignMsg.includes('Assigned') ? 'text-brand-600' : 'text-red-500'}`}>{assignMsg}</p>}
           <div className="flex gap-3">
             <Button onClick={assignPlan} disabled={!assignClient}>Assign Plan</Button>
             <Button variant="outline" onClick={() => { setAssignFor(null); setAssignMsg(''); }}>Cancel</Button>

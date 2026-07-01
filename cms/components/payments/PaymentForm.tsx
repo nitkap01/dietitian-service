@@ -117,7 +117,7 @@ export function PaymentForm({ onSuccess, onCancel }: PaymentFormProps) {
           onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
           placeholder="Payment method, transaction ID, etc."
           rows={2}
-          className="px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
+          className="px-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
         />
       </div>
       {error && <p className="text-sm text-red-500">{error}</p>}

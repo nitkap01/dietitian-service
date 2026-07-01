@@ -110,7 +110,7 @@ export function ClientForm() {
   if (created) {
     return (
       <Card>
-        <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 mb-1">
+        <div className="flex items-center gap-2 text-brand-600 dark:text-brand-400 mb-1">
           <CheckCircle size={20} />
           <h2 className="text-base font-semibold">{created.name} onboarded</h2>
         </div>
@@ -129,14 +129,14 @@ export function ClientForm() {
             </Button>
           </div>
         ) : (
-          <div className="rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-900/20 p-4 space-y-2">
-            <p className="text-sm font-semibold text-emerald-800 dark:text-emerald-300">Portal credentials</p>
+          <div className="rounded-xl border border-brand-200 dark:border-brand-800 bg-brand-50 dark:bg-brand-900/20 p-4 space-y-2">
+            <p className="text-sm font-semibold text-brand-800 dark:text-brand-300">Portal credentials</p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm">
               <div><span className="text-slate-500">Username</span><p className="font-mono font-medium text-slate-900 dark:text-white">{creds.username}</p></div>
               <div><span className="text-slate-500">Password</span><p className="font-mono font-medium text-slate-900 dark:text-white">{creds.password}</p></div>
               <div><span className="text-slate-500">Portal</span><p className="font-medium text-slate-900 dark:text-white break-all">{creds.portal_url}</p></div>
             </div>
-            <p className="text-xs text-emerald-700 dark:text-emerald-400">
+            <p className="text-xs text-brand-700 dark:text-brand-400">
               {creds.sent ? '✓ Sent to the client on WhatsApp.' : 'Not sent — copy these or use the client page to send later.'}
               {' '}This password is shown once.
             </p>
@@ -182,7 +182,7 @@ export function ClientForm() {
           <textarea value={form.notes}
             onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
             placeholder="Any relevant health history, dietary restrictions, medications..." rows={3}
-            className="px-3 py-2 text-sm rounded-lg border transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none" />
+            className="px-3 py-2 text-sm rounded-lg border transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none" />
         </div>
 
         {apiError && (

@@ -39,7 +39,7 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
       {/* Logo */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center shadow-sm">
+          <div className="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center shadow-sm">
             <Leaf size={16} className="text-white" />
           </div>
           <div>
@@ -70,11 +70,11 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
                   onClick={onMobileClose}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 ${
                     isActive
-                      ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800'
+                      ? 'bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-400 border border-brand-200 dark:border-brand-800'
                       : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800'
                   }`}
                 >
-                  <Icon size={17} className={isActive ? 'text-emerald-600 dark:text-emerald-400' : ''} />
+                  <Icon size={17} className={isActive ? 'text-brand-600 dark:text-brand-400' : ''} />
                   {label}
                 </Link>
               </li>

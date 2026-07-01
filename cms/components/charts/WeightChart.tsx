@@ -26,7 +26,7 @@ function CustomTooltip({ active, payload, label }: TooltipProps) {
   return (
     <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-3 shadow-lg text-sm">
       <p className="font-medium text-slate-900 dark:text-white">{label}</p>
-      <p className="text-emerald-600 dark:text-emerald-400 font-bold">{value} kg</p>
+      <p className="text-brand-600 dark:text-brand-400 font-bold">{value} kg</p>
       <p className="text-xs text-slate-500 capitalize">{source}</p>
     </div>
   );
@@ -64,8 +64,8 @@ export function WeightChart({ metrics }: WeightChartProps) {
     <div>
       <div className="flex items-center gap-6 mb-4 text-xs text-slate-500 dark:text-slate-400">
         <span>Start: <strong className="text-slate-700 dark:text-slate-300">{weights[0]} kg</strong></span>
-        <span>Current: <strong className="text-emerald-600 dark:text-emerald-400">{weights[weights.length - 1]} kg</strong></span>
-        <span>Change: <strong className={weights[weights.length - 1] < weights[0] ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500'}>{(weights[weights.length - 1] - weights[0]).toFixed(1)} kg</strong></span>
+        <span>Current: <strong className="text-brand-600 dark:text-brand-400">{weights[weights.length - 1]} kg</strong></span>
+        <span>Change: <strong className={weights[weights.length - 1] < weights[0] ? 'text-brand-600 dark:text-brand-400' : 'text-red-500'}>{(weights[weights.length - 1] - weights[0]).toFixed(1)} kg</strong></span>
       </div>
       <ResponsiveContainer width="100%" height={220}>
         <LineChart data={data} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
@@ -77,10 +77,10 @@ export function WeightChart({ metrics }: WeightChartProps) {
           <Line
             type="monotone"
             dataKey="weight"
-            stroke="#10b981"
+            stroke="#5C3A9E"
             strokeWidth={2.5}
-            dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}
-            activeDot={{ r: 6, fill: '#059669' }}
+            dot={{ fill: '#5C3A9E', strokeWidth: 2, r: 4 }}
+            activeDot={{ r: 6, fill: '#3D2070' }}
           />
         </LineChart>
       </ResponsiveContainer>

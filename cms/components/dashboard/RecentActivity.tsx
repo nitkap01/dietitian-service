@@ -3,7 +3,7 @@ import { Users, CreditCard, FileText, Activity, UserX } from 'lucide-react';
 
 const iconMap = {
   client_added: { icon: Users, color: 'text-blue-500 bg-blue-100 dark:bg-blue-900/30' },
-  payment_received: { icon: CreditCard, color: 'text-emerald-500 bg-emerald-100 dark:bg-emerald-900/30' },
+  payment_received: { icon: CreditCard, color: 'text-brand-500 bg-brand-100 dark:bg-brand-900/30' },
   diet_plan_updated: { icon: FileText, color: 'text-purple-500 bg-purple-100 dark:bg-purple-900/30' },
   metric_recorded: { icon: Activity, color: 'text-yellow-500 bg-yellow-100 dark:bg-yellow-900/30' },
   client_deactivated: { icon: UserX, color: 'text-red-500 bg-red-100 dark:bg-red-900/30' },
