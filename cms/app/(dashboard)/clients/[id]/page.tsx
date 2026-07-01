@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { WeightChart } from '@/components/charts/WeightChart';
 import { StatusBadge, GoalBadge } from '@/components/clients/StatusBadge';
+import { DietRecommendations } from '@/components/clients/DietRecommendations';
 import { Client, HealthMetric, DietPlan, DietPlanVersion, Payment, MealItem, Package } from '../../../server/types';
 import {
   ChevronLeft, Mail, Phone, MapPin, User, Package as PackageIcon, CreditCard, Activity, FileText, Plus,
@@ -384,7 +385,10 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
       {/* Diet plans */}
       {activeTab === 'diet' && (
         <div className="space-y-4">
-          <div className="flex justify-end"><Button size="sm" onClick={openDietBuilder}><Utensils size={14} /> Build Diet Plan</Button></div>
+          <div className="flex justify-end gap-2">
+            <DietRecommendations clientId={id} clientName={client.name} healthGoal={client.health_goal} onSaved={() => fetchAll(id)} />
+            <Button size="sm" onClick={openDietBuilder}><Utensils size={14} /> Build Diet Plan</Button>
+          </div>
           {dietPlans.length === 0 && <Card><p className="text-sm text-slate-500 text-center py-8">No diet plans yet. Record the client&apos;s issues and build one.</p></Card>}
           {dietPlans.map((plan) => (
             <Card key={plan.id}>

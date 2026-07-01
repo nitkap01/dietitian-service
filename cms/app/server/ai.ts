@@ -180,6 +180,80 @@ export async function detectPayment(input: {
   return detectHeuristic(text, hasImage);
 }
 
+// ── Diet recommendation scoring ────────────────────────────────────────────
+// Given a target client and a shortlist of candidate past clients (each with a
+// diet), asks the configured AI provider to score how well each candidate's diet
+// suits the target. Returns null when no key is configured (caller falls back to
+// the deterministic score). Reads provider/key from Settings each call — no reboot.
+
+export interface RecoTarget { age: number; gender: string; health_goal: string; notes?: string }
+export interface RecoCandidate { id: number; age: number; gender: string; health_goal: string; text: string; title: string }
+
+async function claudeComplete(apiKey: string, model: string, system: string, user: string): Promise<string> {
+  const client = new Anthropic({ apiKey });
+  const msg = await client.messages.create({
+    model: model || 'claude-opus-4-8',
+    max_tokens: 900,
+    system,
+    messages: [{ role: 'user', content: user }],
+  });
+  const out = msg.content.find((b) => b.type === 'text');
+  return out && out.type === 'text' ? out.text : '';
+}
+
+async function openaiComplete(apiKey: string, model: string, system: string, user: string): Promise<string> {
+  const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: model || 'gpt-4o-mini',
+      max_tokens: 900,
+      response_format: { type: 'json_object' },
+      messages: [{ role: 'system', content: system }, { role: 'user', content: user }],
+    }),
+  });
+  if (!res.ok) throw new Error(`OpenAI error ${res.status}`);
+  const data = await res.json();
+  return data?.choices?.[0]?.message?.content ?? '';
+}
+
+export async function scoreRecommendations(input: {
+  sql: postgres.Sql;
+  target: RecoTarget;
+  candidates: RecoCandidate[];
+}): Promise<Record<number, { score: number; reason: string }> | null> {
+  const { sql, target, candidates } = input;
+  if (candidates.length === 0) return {};
+  const cfg = await getAiConfig(sql);
+  if (!cfg.apiKey) return null;
+
+  const system =
+    'You help a dietitian reuse an existing diet plan for a new client. For each candidate ' +
+    "(a past client and their diet plan), score 0-100 how well that diet would suit the TARGET client, " +
+    'weighing the same health goal most, then similar age, same gender, and similar described problems. ' +
+    'Respond with ONLY JSON: {"results":[{"id":<candidate id>,"score":<0-100>,"reason":"<short reason>"}]}.';
+  const user = JSON.stringify({ target, candidates });
+
+  try {
+    const raw = cfg.provider === 'openai'
+      ? await openaiComplete(cfg.apiKey, cfg.model, system, user)
+      : await claudeComplete(cfg.apiKey, cfg.model, system, user);
+    const obj = extractJson(raw) as { results?: Array<{ id: number; score: number; reason: string }> } | null;
+    if (!obj || !Array.isArray(obj.results)) return null;
+    const map: Record<number, { score: number; reason: string }> = {};
+    for (const r of obj.results) {
+      const id = Number(r.id);
+      if (Number.isFinite(id)) {
+        map[id] = { score: Math.max(0, Math.min(100, Number(r.score) || 0)), reason: String(r.reason || '') };
+      }
+    }
+    return map;
+  } catch (err) {
+    console.error('[ai] scoreRecommendations failed, using deterministic score:', err);
+    return null;
+  }
+}
+
 // Weight parsing is pure regex (free + deterministic); AI not required.
 export function parseWeight(text: string): number | null {
   if (!text) return null;
