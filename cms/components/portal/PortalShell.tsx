@@ -40,7 +40,7 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
               <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #5C3A9E, #3D2070)' }}>
                 <Leaf size={16} className="text-white" />
               </div>
-              <span className="font-black text-[#1A1A2E] hidden sm:block">Hale N Hearty</span>
+              <span className="font-black text-[#1A1A2E] hidden sm:block">Ritika Bahl&apos;s Portal</span>
             </Link>
 
             <nav className="flex items-center gap-1 overflow-x-auto">

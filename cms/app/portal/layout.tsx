@@ -4,7 +4,7 @@ import { Geist } from 'next/font/google';
 const geist = Geist({ subsets: ['latin'], variable: '--font-geist-sans' });
 
 export const metadata: Metadata = {
-  title: 'My Diet Portal — Hale N Hearty',
+  title: "Dietician Ritika Bahl's Portal",
   description: 'View your diet plans, weight history and notifications.',
 };
 

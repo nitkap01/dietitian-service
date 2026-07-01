@@ -38,8 +38,8 @@ export default function DietPrintPage({ params }: { params: Promise<{ id: string
         </div>
 
         <div className="border-b pb-4 mb-6" style={{ borderColor: '#EDE7F6' }}>
-          <h1 className="text-2xl font-black text-[#1A1A2E]">Hale N Hearty Diet Clinic</h1>
-          <p className="text-sm text-gray-500">Dt. Ritika Bahl</p>
+          <h1 className="text-2xl font-black text-[#1A1A2E]">Dietician Ritika Bahl&apos;s Portal</h1>
+          <p className="text-sm text-gray-500">Personalised Diet Plan</p>
         </div>
 
         <h2 className="text-xl font-black text-[#1A1A2E] mb-1">{data.plan?.title}</h2>
@@ -48,7 +48,7 @@ export default function DietPrintPage({ params }: { params: Promise<{ id: string
 
         <DietView ocr={ocr} />
 
-        <p className="text-xs text-gray-400 mt-8 text-center">Generated from your Hale N Hearty diet portal.</p>
+        <p className="text-xs text-gray-400 mt-8 text-center">Generated from Dietician Ritika Bahl&apos;s Portal.</p>
       </div>
     </div>
   );

@@ -40,7 +40,7 @@ export default function PortalLoginPage() {
           <div className="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center mb-3" style={{ background: 'linear-gradient(135deg, #5C3A9E, #3D2070)', boxShadow: '0 6px 25px rgba(92,58,158,0.4)' }}>
             <Leaf size={26} className="text-white" />
           </div>
-          <h1 className="text-2xl font-black text-[#1A1A2E]">Hale N Hearty</h1>
+          <h1 className="text-2xl font-black text-[#1A1A2E]">Dietician Ritika Bahl&apos;s Portal</h1>
           <p className="text-sm text-gray-500 mt-1">Your personal diet portal</p>
         </div>
 

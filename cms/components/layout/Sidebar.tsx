@@ -43,8 +43,8 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
             <Leaf size={16} className="text-white" />
           </div>
           <div>
-            <p className="text-sm font-bold text-slate-900 dark:text-white leading-tight">Dietitian</p>
-            <p className="text-xs text-slate-400 leading-tight">CMS</p>
+            <p className="text-sm font-bold text-slate-900 dark:text-white leading-tight">Ritika Bahl</p>
+            <p className="text-xs text-slate-400 leading-tight">Dietician Portal</p>
           </div>
         </div>
         {onMobileClose && (
@@ -85,7 +85,7 @@ export function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
 
       {/* Footer */}
       <div className="px-5 py-4 border-t border-slate-200 dark:border-slate-800">
-        <p className="text-xs text-slate-400">v1.0.0 &middot; Dietitian CMS</p>
+        <p className="text-xs text-slate-400">Dietician Ritika Bahl&apos;s Portal</p>
       </div>
     </aside>
   );

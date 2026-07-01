@@ -10,8 +10,8 @@ export const DEFAULT_SETTINGS: Record<string, string> = {
   ai_api_key: '',
   payment_detection_enabled: '1',
   weight_capture_enabled: '1',
-  business_name: 'Hale N Hearty Diet Clinic',
-  dietitian_name: 'Dt. Ritika Bahl',
+  business_name: "Dietician Ritika Bahl's Portal",
+  dietitian_name: 'Dietician Ritika Bahl',
   whatsapp_number: '',
   whatsapp_provider: 'simulator', // 'simulator' | 'meta' | 'twilio'
   portal_url: 'http://localhost:3000/portal',

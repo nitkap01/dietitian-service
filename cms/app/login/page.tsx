@@ -45,8 +45,8 @@ export default function LoginPage() {
               <div className="w-14 h-14 bg-brand-600 rounded-2xl flex items-center justify-center shadow-lg shadow-brand-500/20 mb-4">
                 <Leaf size={28} className="text-white" />
               </div>
-              <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Dietitian CMS</h1>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Sign in to your portal</p>
+              <h1 className="text-2xl font-bold text-slate-900 dark:text-white text-center">Dietician Ritika Bahl&apos;s Portal</h1>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Sign in to manage your practice</p>
             </div>
 
             {/* Form */}
@@ -114,7 +114,7 @@ export default function LoginPage() {
         </div>
 
         <p className="text-center text-xs text-slate-400 mt-6">
-          Dietitian CMS v1.0 · Private portal
+          Dietician Ritika Bahl&apos;s Portal · Private
         </p>
       </div>
     </div>

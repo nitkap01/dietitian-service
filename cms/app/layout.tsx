@@ -5,8 +5,8 @@ import './globals.css';
 const geist = Geist({ subsets: ['latin'], variable: '--font-geist-sans' });
 
 export const metadata: Metadata = {
-  title: 'Dietitian CMS',
-  description: 'Content Management System for Dietitian Business',
+  title: "Dietician Ritika Bahl's Portal",
+  description: "Dietician Ritika Bahl's Portal — client & practice management",
 };
 
 // Light-only app (matches the marketing website). No theme library, so nothing
