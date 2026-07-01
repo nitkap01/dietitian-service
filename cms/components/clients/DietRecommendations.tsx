@@ -5,7 +5,7 @@ import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { getObject } from '@/components/http';
-import { Sparkles, Loader2, ArrowRight, User } from 'lucide-react';
+import { Sparkles, Loader2, ArrowRight, User, Utensils } from 'lucide-react';
 
 interface Meal { items?: string[]; calories?: number; protein?: string; carbs?: string; fat?: string }
 interface Ocr { breakfast?: Meal; lunch?: Meal; snacks?: Meal; dinner?: Meal; totalCalories?: number; notes?: string }
@@ -33,7 +33,7 @@ function toEditMeal(m?: Meal): EditMeal {
   return { items: (m?.items || []).join(', '), calories: String(m?.calories ?? ''), protein: m?.protein || '', carbs: m?.carbs || '', fat: m?.fat || '' };
 }
 
-export function DietRecommendations({ clientId, clientName, healthGoal, onSaved }: { clientId: string; clientName: string; healthGoal: string; onSaved: () => void }) {
+export function DietRecommendations({ clientId, clientName, healthGoal, onSaved, onBuildFromScratch, triggerLabel }: { clientId: string; clientName: string; healthGoal: string; onSaved: () => void; onBuildFromScratch: () => void; triggerLabel?: string }) {
   const [showList, setShowList] = useState(false);
   const [loading, setLoading] = useState(false);
   const [recos, setRecos] = useState<Reco[]>([]);
@@ -87,18 +87,18 @@ export function DietRecommendations({ clientId, clientName, healthGoal, onSaved 
 
   return (
     <>
-      <Button size="sm" variant="outline" onClick={open}><Sparkles size={14} /> Suggest from similar clients</Button>
+      <Button size="sm" onClick={open}><Sparkles size={14} /> {triggerLabel || 'Suggest from similar clients'}</Button>
 
       {/* Recommendations list */}
-      <Modal isOpen={showList} onClose={() => setShowList(false)} title="Suggested plans from similar clients" size="lg">
+      <Modal isOpen={showList} onClose={() => setShowList(false)} title="Create a diet plan" size="lg">
         <div className="p-6">
           {loading ? (
             <div className="flex flex-col items-center gap-3 py-10"><Loader2 size={28} className="animate-spin text-brand-500" /><p className="text-sm text-slate-500">Finding similar clients...</p></div>
           ) : recos.length === 0 ? (
-            <p className="text-sm text-slate-500 text-center py-8">No similar past clients with a diet yet. Build one from scratch.</p>
+            <p className="text-sm text-slate-500 text-center py-8">No similar past clients with a diet yet — start from scratch below.</p>
           ) : (
             <div className="space-y-3">
-              <p className="text-xs text-slate-500">Ranked by similarity (goal, age, gender, described problems){recos[0]?.scored_by === 'ai' ? ' · refined by AI' : ''}.</p>
+              <p className="text-xs text-slate-500">Similar clients found — reuse a plan, or start from scratch. Ranked by similarity (goal, age, gender, described problems){recos[0]?.scored_by === 'ai' ? ' · refined by AI' : ''}.</p>
               {recos.map((r) => (
                 <div key={r.diet_id} className="rounded-xl border border-slate-200 dark:border-slate-700 p-4">
                   <div className="flex items-start justify-between gap-3">
@@ -115,6 +115,13 @@ export function DietRecommendations({ clientId, clientName, healthGoal, onSaved 
                   </div>
                 </div>
               ))}
+            </div>
+          )}
+          {!loading && (
+            <div className="mt-5 pt-4 border-t border-slate-200 dark:border-slate-700 flex justify-end">
+              <Button variant="outline" onClick={() => { setShowList(false); onBuildFromScratch(); }}>
+                <Utensils size={14} /> Start from scratch
+              </Button>
             </div>
           )}
         </div>

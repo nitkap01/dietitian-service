@@ -387,8 +387,14 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
       {activeTab === 'diet' && (
         <div className="space-y-4">
           <div className="flex justify-end gap-2">
-            <DietRecommendations clientId={id} clientName={client.name} healthGoal={client.health_goal} onSaved={() => fetchAll(id)} />
-            <Button size="sm" onClick={openDietBuilder}><Utensils size={14} /> Build Diet Plan</Button>
+            <DietRecommendations
+              clientId={id}
+              clientName={client.name}
+              healthGoal={client.health_goal}
+              onSaved={() => fetchAll(id)}
+              onBuildFromScratch={openDietBuilder}
+              triggerLabel="Create Diet Plan"
+            />
           </div>
           {dietPlans.length === 0 && <Card><p className="text-sm text-slate-500 text-center py-8">No diet plans yet. Record the client&apos;s issues and build one.</p></Card>}
           {dietPlans.map((plan) => (
