@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { DietView, DietOcr } from '@/components/portal/DietView';
+import { getObject } from '@/components/http';
 import { Printer } from 'lucide-react';
 
 interface DietResp {
@@ -17,7 +18,7 @@ export default function DietPrintPage({ params }: { params: Promise<{ id: string
   useEffect(() => { params.then(({ id }) => setId(id)); }, [params]);
   useEffect(() => {
     if (!id) return;
-    fetch(`/api/portal/diets/${id}`).then((r) => r.json()).then(setData);
+    getObject<DietResp>(`/api/portal/diets/${id}`).then((d) => setData(d ?? {}));
   }, [id]);
 
   if (!data) return <div className="min-h-screen bg-white flex items-center justify-center text-gray-400">Loading…</div>;

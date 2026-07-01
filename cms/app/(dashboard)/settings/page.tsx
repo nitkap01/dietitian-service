@@ -5,8 +5,7 @@ import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Button } from '@/components/ui/Button';
-import { ThemeToggle } from '@/components/layout/ThemeToggle';
-import { Database, User, Sparkles, Palette, MessageCircle } from 'lucide-react';
+import { Database, User, Sparkles, MessageCircle } from 'lucide-react';
 
 interface SettingsState {
   ai_provider: string;
@@ -141,15 +140,6 @@ export default function SettingsPage() {
         <Button onClick={save} loading={saving}>Save Settings</Button>
         {savedMsg && <span className="text-xs text-brand-600 dark:text-brand-400">{savedMsg}</span>}
       </div>
-
-      {/* Appearance */}
-      <Card>
-        <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-5 flex items-center gap-2"><Palette size={16} className="text-brand-500" /> Appearance</h2>
-        <div className="flex items-center justify-between">
-          <div><p className="text-sm font-medium text-slate-700 dark:text-slate-300">Theme</p><p className="text-xs text-slate-500">Admin panel light/dark mode</p></div>
-          <ThemeToggle />
-        </div>
-      </Card>
 
       {/* Database */}
       <Card>

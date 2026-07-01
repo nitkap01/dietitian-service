@@ -8,6 +8,7 @@ import { Modal } from '@/components/ui/Modal';
 import { Select } from '@/components/ui/Select';
 import { Input } from '@/components/ui/Input';
 import { Notification, Client } from '../../server/types';
+import { getArray } from '@/components/http';
 import { Plus, Bell, MessageCircle, CreditCard, ToggleLeft, ToggleRight, Smartphone } from 'lucide-react';
 
 const TYPE_OPTIONS = [
@@ -45,11 +46,10 @@ export default function NotificationsPage() {
   });
 
   async function fetchAll() {
-    const [nRes, cRes] = await Promise.all([
-      fetch('/api/notifications'),
-      fetch('/api/clients'),
+    const [n, c] = await Promise.all([
+      getArray<Notification>('/api/notifications'),
+      getArray<Client>('/api/clients'),
     ]);
-    const [n, c] = await Promise.all([nRes.json(), cRes.json()]);
     setNotifications(n);
     setClients(c);
     setLoading(false);

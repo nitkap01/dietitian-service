@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { Card } from '@/components/ui/Card';
 import { WhatsAppMessage } from '../../server/types';
+import { getArray } from '@/components/http';
 import { MessageCircle, Send, Phone, ImagePlus, X, CheckCircle, Scale, IndianRupee, Search } from 'lucide-react';
 
 interface ClientSummary {
@@ -27,9 +28,10 @@ export default function WhatsAppPage() {
   const fileRef = useRef<HTMLInputElement>(null);
 
   const fetchClients = useCallback(async () => {
-    const [allRes, clientsRes] = await Promise.all([fetch('/api/whatsapp'), fetch('/api/clients')]);
-    const allMsgs: (WhatsAppMessage & { client_name: string })[] = await allRes.json();
-    const allClients: { id: number; name: string; phone: string }[] = await clientsRes.json();
+    const [allMsgs, allClients] = await Promise.all([
+      getArray<WhatsAppMessage & { client_name: string }>('/api/whatsapp'),
+      getArray<{ id: number; name: string; phone: string }>('/api/clients'),
+    ]);
     const summaries: ClientSummary[] = allClients.map((c) => {
       const cMsgs = allMsgs.filter((m) => m.client_id === c.id);
       const last = cMsgs[cMsgs.length - 1];
@@ -50,8 +52,7 @@ export default function WhatsAppPage() {
   useEffect(() => { fetchClients(); }, [fetchClients]);
 
   async function refreshMessages(id: number) {
-    const res = await fetch(`/api/whatsapp?client_id=${id}`);
-    setMessages(await res.json());
+    setMessages(await getArray<WhatsAppMessage>(`/api/whatsapp?client_id=${id}`));
     setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
   }
 
@@ -104,9 +105,9 @@ export default function WhatsAppPage() {
         <p className="text-sm text-slate-500 mt-0.5">Simulate client replies (text or a payment screenshot) to test auto payment-detection and weight capture. No WhatsApp account needed.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-[calc(100vh-190px)] min-h-[520px]">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:h-[calc(100vh-190px)] md:min-h-[520px]">
         {/* Client list */}
-        <Card className="overflow-hidden p-0 flex flex-col">
+        <Card className="overflow-hidden p-0 flex flex-col max-h-72 md:max-h-none">
           <div className="p-3 border-b border-slate-200 dark:border-slate-700">
             <div className="relative">
               <Search size={14} className="absolute left-2.5 top-2.5 text-slate-400" />
@@ -136,7 +137,7 @@ export default function WhatsAppPage() {
         </Card>
 
         {/* Chat area */}
-        <div className="md:col-span-2 flex flex-col rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden">
+        <div className="md:col-span-2 flex flex-col rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden h-[70vh] md:h-auto">
           {!selected ? (
             <div className="flex-1 flex items-center justify-center text-center p-8">
               <div><MessageCircle size={40} className="text-slate-300 dark:text-slate-600 mx-auto mb-3" /><p className="text-sm text-slate-500">Select a client to start</p></div>

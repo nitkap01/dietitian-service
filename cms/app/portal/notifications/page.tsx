@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { PortalShell } from '@/components/portal/PortalShell';
+import { getArray } from '@/components/http';
 import { Bell, FileText, Scale, CheckCircle } from 'lucide-react';
 
 interface Note { id: number; type: string; title: string; body?: string; is_read: number; created_at: string }
@@ -13,8 +14,8 @@ export default function PortalNotificationsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/portal/notifications').then((r) => r.json()).then((d) => { setNotes(d); setLoading(false); });
-    fetch('/api/portal/notifications', { method: 'PATCH' });
+    getArray<Note>('/api/portal/notifications').then((d) => setNotes(d)).finally(() => setLoading(false));
+    fetch('/api/portal/notifications', { method: 'PATCH' }).catch(() => {});
   }, []);
 
   if (loading) {

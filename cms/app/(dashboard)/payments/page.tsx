@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Modal } from '@/components/ui/Modal';
 import { PaymentForm } from '@/components/payments/PaymentForm';
+import { getArray } from '@/components/http';
 import { Payment } from '../../server/types';
 import { Plus, CheckCircle, IndianRupee } from 'lucide-react';
 
@@ -16,9 +17,7 @@ export default function PaymentsPage() {
   const [filter, setFilter] = useState<'all' | 'paid' | 'pending' | 'unpaid'>('all');
 
   async function fetchPayments() {
-    const res = await fetch('/api/payments');
-    const data = await res.json();
-    setPayments(data);
+    setPayments(await getArray<Payment>('/api/payments'));
     setLoading(false);
   }
 
@@ -48,7 +47,7 @@ export default function PaymentsPage() {
   return (
     <div className="space-y-5">
       {/* Summary cards */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Card padding="sm">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-brand-100 dark:bg-brand-900/30 text-brand-600 dark:text-brand-400">

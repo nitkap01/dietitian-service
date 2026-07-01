@@ -8,6 +8,7 @@ import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Package, Client } from '../../server/types';
+import { getArray } from '@/components/http';
 import { Plus, Package as PackageIcon, IndianRupee, Users, Clock, Scale, Check, Pencil, Trash2, UserPlus } from 'lucide-react';
 
 const CATEGORY_OPTIONS = [
@@ -46,9 +47,12 @@ export default function PlansPage() {
   const [assignMsg, setAssignMsg] = useState('');
 
   async function fetchAll() {
-    const [pRes, cRes] = await Promise.all([fetch('/api/packages'), fetch('/api/clients')]);
-    setPackages(await pRes.json());
-    setClients(await cRes.json());
+    const [pkgs, cls] = await Promise.all([
+      getArray<PackageWithClients>('/api/packages'),
+      getArray<Client>('/api/clients'),
+    ]);
+    setPackages(pkgs);
+    setClients(cls);
     setLoading(false);
   }
   useEffect(() => { fetchAll(); }, []);

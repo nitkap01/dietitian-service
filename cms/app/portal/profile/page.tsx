@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { PortalShell } from '@/components/portal/PortalShell';
+import { getObject } from '@/components/http';
 import { Mail, Phone, MapPin, User } from 'lucide-react';
 
 interface Me {
@@ -15,7 +16,7 @@ const GOAL_LABEL: Record<string, string> = { weight_management: 'Weight Manageme
 export default function PortalProfilePage() {
   const [me, setMe] = useState<Me | null>(null);
   const [loading, setLoading] = useState(true);
-  useEffect(() => { fetch('/api/portal/me').then((r) => r.json()).then((d) => { setMe(d); setLoading(false); }); }, []);
+  useEffect(() => { getObject<Me>('/api/portal/me').then((d) => setMe(d)).finally(() => setLoading(false)); }, []);
 
   if (loading || !me) {
     return <PortalShell><div className="flex justify-center py-16"><div className="animate-spin w-8 h-8 border-4 rounded-full" style={{ borderColor: '#EDE7F6', borderTopColor: '#5C3A9E' }} /></div></PortalShell>;

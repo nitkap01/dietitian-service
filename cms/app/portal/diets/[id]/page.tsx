@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { PortalShell } from '@/components/portal/PortalShell';
 import { DietView, DietOcr } from '@/components/portal/DietView';
+import { getObject } from '@/components/http';
 import { ChevronLeft, Download, Lock, ClipboardList } from 'lucide-react';
 
 interface DietResp {
@@ -22,7 +23,7 @@ export default function PortalDietDetail({ params }: { params: Promise<{ id: str
   useEffect(() => { params.then(({ id }) => setId(id)); }, [params]);
   useEffect(() => {
     if (!id) return;
-    fetch(`/api/portal/diets/${id}`).then((r) => r.json()).then((d) => { setData(d); setLoading(false); });
+    getObject<DietResp>(`/api/portal/diets/${id}`).then((d) => setData(d ?? {})).finally(() => setLoading(false));
   }, [id]);
 
   if (loading || !data) {

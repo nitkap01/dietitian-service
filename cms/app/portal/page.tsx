@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { PortalShell } from '@/components/portal/PortalShell';
+import { getArray, getObject } from '@/components/http';
 import { Activity, FileText, ChevronRight, Scale, Lock, CheckCircle, Bell } from 'lucide-react';
 
 interface Me {
@@ -26,9 +27,9 @@ export default function PortalHome() {
 
   useEffect(() => {
     Promise.all([
-      fetch('/api/portal/me').then((r) => r.json()),
-      fetch('/api/portal/notifications').then((r) => r.json()),
-    ]).then(([m, n]) => { setMe(m); setNotes(n.slice(0, 4)); setLoading(false); });
+      getObject<Me>('/api/portal/me'),
+      getArray<Note>('/api/portal/notifications'),
+    ]).then(([m, n]) => { setMe(m); setNotes(n.slice(0, 4)); }).finally(() => setLoading(false));
   }, []);
 
   if (loading || !me) {

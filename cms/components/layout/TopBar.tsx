@@ -1,7 +1,6 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { ThemeToggle } from './ThemeToggle';
 import { Bell, Menu, LogOut } from 'lucide-react';
 
 const titles: Record<string, string> = {
@@ -48,7 +47,6 @@ export function TopBar({ onMobileMenuOpen }: TopBarProps) {
           <Bell size={18} />
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-brand-500 rounded-full" />
         </button>
-        <ThemeToggle />
         <div className="ml-1 w-8 h-8 rounded-full bg-brand-600 flex items-center justify-center text-white text-sm font-semibold">
           D
         </div>

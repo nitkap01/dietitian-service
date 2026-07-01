@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { PortalShell } from '@/components/portal/PortalShell';
+import { getObject } from '@/components/http';
 import { FileText, Lock, ChevronRight, Clock } from 'lucide-react';
 
 interface Diet {
@@ -30,7 +31,9 @@ export default function PortalDietsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/portal/diets').then((r) => r.json()).then((d) => { setDiets(d.diets || []); setLoading(false); });
+    getObject<{ diets: Diet[] }>('/api/portal/diets')
+      .then((d) => setDiets(Array.isArray(d?.diets) ? (d!.diets as Diet[]) : []))
+      .finally(() => setLoading(false));
   }, []);
 
   if (loading) {

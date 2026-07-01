@@ -11,6 +11,7 @@ import { Select } from '@/components/ui/Select';
 import { WeightChart } from '@/components/charts/WeightChart';
 import { StatusBadge, GoalBadge } from '@/components/clients/StatusBadge';
 import { DietRecommendations } from '@/components/clients/DietRecommendations';
+import { getArray, getObject } from '@/components/http';
 import { Client, HealthMetric, DietPlan, DietPlanVersion, Payment, MealItem, Package } from '../../../server/types';
 import {
   ChevronLeft, Mail, Phone, MapPin, User, Package as PackageIcon, CreditCard, Activity, FileText, Plus,
@@ -70,16 +71,16 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
 
   const fetchAll = useCallback(async (clientId: string) => {
     const [c, m, d, p, pk] = await Promise.all([
-      fetch(`/api/clients/${clientId}`).then((r) => r.json()),
-      fetch(`/api/clients/${clientId}/metrics`).then((r) => r.json()),
-      fetch(`/api/clients/${clientId}/diet-plans`).then((r) => r.json()),
-      fetch('/api/payments').then((r) => r.json()),
-      fetch('/api/packages').then((r) => r.json()),
+      getObject<ClientDetail>(`/api/clients/${clientId}`),
+      getArray<HealthMetric>(`/api/clients/${clientId}/metrics`),
+      getArray<DietPlanWithVersions>(`/api/clients/${clientId}/diet-plans`),
+      getArray<Payment>('/api/payments'),
+      getArray<Package>('/api/packages'),
     ]);
-    setClient(c);
+    setClient(c && typeof c.id === 'number' ? c : null);
     setMetrics(m);
     setDietPlans(d);
-    setPayments(p.filter((pay: Payment) => pay.client_id === Number(clientId)));
+    setPayments(p.filter((pay) => pay.client_id === Number(clientId)));
     setPackages(pk);
     setLoading(false);
   }, []);
@@ -97,7 +98,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
   }
 
   async function openDietBuilder() {
-    const items: MealItem[] = await fetch(`/api/meals`).then((r) => r.json());
+    const items = await getArray<MealItem>('/api/meals');
     setMealLibrary(items);
     setDietBuilder({ title: '', issues: '', breakfast: [], lunch: [], snacks: [], dinner: [] });
     setShowDietBuilder(true);

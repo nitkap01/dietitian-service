@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Button } from '@/components/ui/Button';
+import { getArray } from '@/components/http';
 import { Client, Package } from '../../app/server/types';
 
 interface PaymentFormProps {
@@ -27,8 +28,8 @@ export function PaymentForm({ onSuccess, onCancel }: PaymentFormProps) {
 
   useEffect(() => {
     Promise.all([
-      fetch('/api/clients').then((r) => r.json()),
-      fetch('/api/packages').then((r) => r.json()),
+      getArray<Client>('/api/clients'),
+      getArray<Package>('/api/packages'),
     ]).then(([c, p]) => {
       setClients(c);
       setPackages(p);

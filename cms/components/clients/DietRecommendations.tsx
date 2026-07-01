@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
+import { getObject } from '@/components/http';
 import { Sparkles, Loader2, ArrowRight, User } from 'lucide-react';
 
 interface Meal { items?: string[]; calories?: number; protein?: string; carbs?: string; fat?: string }
@@ -43,8 +44,8 @@ export function DietRecommendations({ clientId, clientName, healthGoal, onSaved 
     setShowList(true);
     setLoading(true);
     try {
-      const data = await fetch(`/api/clients/${clientId}/recommendations`).then((r) => r.json());
-      setRecos(data.recommendations || []);
+      const data = await getObject<{ recommendations: Reco[] }>(`/api/clients/${clientId}/recommendations`);
+      setRecos(Array.isArray(data?.recommendations) ? (data!.recommendations as Reco[]) : []);
     } finally {
       setLoading(false);
     }

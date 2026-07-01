@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { PortalShell } from '@/components/portal/PortalShell';
+import { getArray } from '@/components/http';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import { Table as TableIcon, LineChart as LineIcon, Scale } from 'lucide-react';
 
@@ -15,7 +16,7 @@ export default function PortalWeightPage() {
   const [page, setPage] = useState(0);
 
   useEffect(() => {
-    fetch('/api/portal/weight').then((r) => r.json()).then((d) => { setMetrics(d); setLoading(false); });
+    getArray<Metric>('/api/portal/weight').then((d) => setMetrics(d)).finally(() => setLoading(false));
   }, []);
 
   if (loading) {

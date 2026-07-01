@@ -18,7 +18,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={geist.variable} suppressHydrationWarning>
       <body style={{ fontFamily: 'var(--font-geist-sans), system-ui, sans-serif' }}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+        {/* Light-only, matching the marketing website (no dark mode). */}
+        <ThemeProvider attribute="class" forcedTheme="light">
           {children}
         </ThemeProvider>
       </body>

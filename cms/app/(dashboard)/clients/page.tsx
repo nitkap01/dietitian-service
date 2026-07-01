@@ -21,8 +21,9 @@ export default function ClientsPage() {
   useEffect(() => {
     fetch('/api/clients')
       .then((r) => r.json())
-      .then((data) => { setClients(data); setLoading(false); })
-      .catch(console.error);
+      .then((data) => setClients(Array.isArray(data) ? data : []))
+      .catch(() => setClients([]))
+      .finally(() => setLoading(false));
   }, []);
 
   const filtered = clients.filter((c) => {

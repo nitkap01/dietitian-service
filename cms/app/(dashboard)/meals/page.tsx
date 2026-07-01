@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/Input';
 import { Badge } from '@/components/ui/Badge';
 import { Modal } from '@/components/ui/Modal';
 import { MealItem } from '../../server/types';
+import { getArray } from '@/components/http';
 import { Plus, Utensils, Trash2, Edit2, Search, Filter } from 'lucide-react';
 
 const CATEGORIES = ['all', 'breakfast', 'lunch', 'snacks', 'dinner', 'any'] as const;
@@ -38,9 +39,7 @@ export default function MealsPage() {
 
   const fetchItems = useCallback(async () => {
     setLoading(true);
-    const res = await fetch('/api/meals');
-    const data = await res.json();
-    setItems(data);
+    setItems(await getArray<MealItem>('/api/meals'));
     setLoading(false);
   }, []);
 
