@@ -1,5 +1,6 @@
 import postgres from 'postgres';
 import { seedDatabase } from './seed';
+import { ensureDefaultSettings } from './settings';
 
 let _sql: postgres.Sql | null = null;
 
@@ -24,6 +25,7 @@ export async function initDB(): Promise<postgres.Sql> {
     _initPromise = (async () => {
       const sql = getDB();
       await createTables(sql);
+      await ensureDefaultSettings(sql);
       const [{ count }] = await sql`SELECT COUNT(*)::int AS count FROM clients`;
       if (count === 0) await seedDatabase(sql);
       return sql;
@@ -36,6 +38,7 @@ export async function resetDB(): Promise<void> {
   _initPromise = null;
   const sql = getDB();
   await sql.begin(async (tx) => {
+    await tx`DELETE FROM portal_notifications`;
     await tx`DELETE FROM activity_log`;
     await tx`DELETE FROM whatsapp_messages`;
     await tx`DELETE FROM notifications`;
@@ -47,6 +50,7 @@ export async function resetDB(): Promise<void> {
     await tx`DELETE FROM clients`;
     await tx`DELETE FROM packages`;
     await tx`DELETE FROM meal_items`;
+    // app_settings is intentionally preserved so a re-seed doesn't wipe the AI key.
   });
   await seedDatabase(sql);
   _initPromise = Promise.resolve(sql);
@@ -65,6 +69,10 @@ async function createTables(sql: postgres.Sql) {
       status TEXT NOT NULL DEFAULT 'active',
       inactive_reason TEXT,
       notes TEXT,
+      address TEXT,
+      password_hash TEXT,
+      password_set_at TIMESTAMPTZ,
+      portal_last_login TIMESTAMPTZ,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
@@ -76,6 +84,9 @@ async function createTables(sql: postgres.Sql) {
       category TEXT NOT NULL,
       price INTEGER NOT NULL,
       duration_months INTEGER NOT NULL DEFAULT 1,
+      benefits TEXT,
+      request_weights INTEGER NOT NULL DEFAULT 0,
+      weight_frequency TEXT,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
 
@@ -102,6 +113,9 @@ async function createTables(sql: postgres.Sql) {
       id SERIAL PRIMARY KEY,
       client_id INTEGER NOT NULL REFERENCES clients(id),
       title TEXT NOT NULL,
+      issues TEXT,
+      status TEXT NOT NULL DEFAULT 'draft',
+      published_at TIMESTAMPTZ,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
 
@@ -123,6 +137,9 @@ async function createTables(sql: postgres.Sql) {
       status TEXT NOT NULL DEFAULT 'pending',
       screenshot_path TEXT,
       notes TEXT,
+      source TEXT NOT NULL DEFAULT 'manual',
+      detected_message_id INTEGER,
+      detection_confidence NUMERIC,
       paid_at TIMESTAMPTZ,
       due_date TEXT,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
@@ -177,9 +194,51 @@ async function createTables(sql: postgres.Sql) {
       direction TEXT NOT NULL DEFAULT 'inbound',
       message TEXT NOT NULL,
       phone_number TEXT,
+      media_path TEXT,
+      media_type TEXT,
+      intent TEXT,
+      parsed_weight NUMERIC,
+      payment_detected INTEGER NOT NULL DEFAULT 0,
       is_read INTEGER NOT NULL DEFAULT 0,
       received_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
+
+    CREATE TABLE IF NOT EXISTS app_settings (
+      key TEXT PRIMARY KEY,
+      value TEXT,
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+
+    CREATE TABLE IF NOT EXISTS portal_notifications (
+      id SERIAL PRIMARY KEY,
+      client_id INTEGER NOT NULL REFERENCES clients(id),
+      type TEXT NOT NULL,
+      title TEXT NOT NULL,
+      body TEXT,
+      is_read INTEGER NOT NULL DEFAULT 0,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+
+    -- Idempotent migrations for existing databases (the schema above is
+    -- create-only, so ALTER ... ADD COLUMN IF NOT EXISTS brings older DBs up to date).
+    ALTER TABLE clients ADD COLUMN IF NOT EXISTS address TEXT;
+    ALTER TABLE clients ADD COLUMN IF NOT EXISTS password_hash TEXT;
+    ALTER TABLE clients ADD COLUMN IF NOT EXISTS password_set_at TIMESTAMPTZ;
+    ALTER TABLE clients ADD COLUMN IF NOT EXISTS portal_last_login TIMESTAMPTZ;
+    ALTER TABLE packages ADD COLUMN IF NOT EXISTS benefits TEXT;
+    ALTER TABLE packages ADD COLUMN IF NOT EXISTS request_weights INTEGER NOT NULL DEFAULT 0;
+    ALTER TABLE packages ADD COLUMN IF NOT EXISTS weight_frequency TEXT;
+    ALTER TABLE diet_plans ADD COLUMN IF NOT EXISTS issues TEXT;
+    ALTER TABLE diet_plans ADD COLUMN IF NOT EXISTS status TEXT NOT NULL DEFAULT 'draft';
+    ALTER TABLE diet_plans ADD COLUMN IF NOT EXISTS published_at TIMESTAMPTZ;
+    ALTER TABLE payments ADD COLUMN IF NOT EXISTS source TEXT NOT NULL DEFAULT 'manual';
+    ALTER TABLE payments ADD COLUMN IF NOT EXISTS detected_message_id INTEGER;
+    ALTER TABLE payments ADD COLUMN IF NOT EXISTS detection_confidence NUMERIC;
+    ALTER TABLE whatsapp_messages ADD COLUMN IF NOT EXISTS media_path TEXT;
+    ALTER TABLE whatsapp_messages ADD COLUMN IF NOT EXISTS media_type TEXT;
+    ALTER TABLE whatsapp_messages ADD COLUMN IF NOT EXISTS intent TEXT;
+    ALTER TABLE whatsapp_messages ADD COLUMN IF NOT EXISTS parsed_weight NUMERIC;
+    ALTER TABLE whatsapp_messages ADD COLUMN IF NOT EXISTS payment_detected INTEGER NOT NULL DEFAULT 0;
   `);
 }

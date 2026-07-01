@@ -35,34 +35,29 @@ export async function POST(request: NextRequest, ctx: Ctx) {
     const sql = await initDB();
     const { id } = await ctx.params;
     const body = await request.json();
-    const { title, changelog } = body;
+    const { title, issues, ocrData, changelog } = body;
 
     if (!title) {
       return NextResponse.json({ error: 'Title is required' }, { status: 400 });
     }
 
-    const mockOcrData = JSON.stringify({
-      breakfast: { items: ['Oats porridge', 'Boiled eggs (2)', 'Green tea'], calories: 350, protein: '18g', carbs: '42g', fat: '8g' },
-      lunch: { items: ['Brown rice (1 cup)', 'Dal (1 bowl)', 'Mixed vegetables', 'Salad'], calories: 480, protein: '22g', carbs: '65g', fat: '10g' },
-      snacks: { items: ['Fruits (seasonal)', 'Nuts (small handful)'], calories: 200, protein: '6g', carbs: '28g', fat: '7g' },
-      dinner: { items: ['Roti (2)', 'Vegetable curry', 'Soup'], calories: 430, protein: '20g', carbs: '48g', fat: '12g' },
-      totalCalories: 1460,
-      notes: 'Customized plan. Follow timing strictly. Drink 3L water daily.'
-    });
+    // Persist the actual built plan (previously this route dropped ocrData and
+    // wrote a hardcoded sample — that bug is fixed here).
+    const ocrJson = ocrData ? JSON.stringify(ocrData) : null;
 
     const [plan] = await sql`
-      INSERT INTO diet_plans (client_id, title) VALUES (${id}, ${title}) RETURNING id
+      INSERT INTO diet_plans (client_id, title, issues, status) VALUES (${id}, ${title}, ${issues || null}, 'draft') RETURNING id
     `;
 
     await sql`
       INSERT INTO diet_plan_versions (diet_plan_id, version_number, ocr_data, changelog)
-      VALUES (${plan.id}, 1, ${mockOcrData}, ${changelog || 'Initial version'})
+      VALUES (${plan.id}, 1, ${ocrJson}, ${changelog || 'Initial version'})
     `;
 
     const [clientRow] = await sql`SELECT name FROM clients WHERE id = ${id}`;
     await sql`
       INSERT INTO activity_log (type, description, client_name)
-      VALUES ('diet_plan_updated', ${`Diet plan created: ${title}`}, ${clientRow?.name || 'Unknown'})
+      VALUES ('diet_plan_updated', ${`Diet plan drafted: ${title}`}, ${clientRow?.name || 'Unknown'})
     `;
 
     return NextResponse.json({ success: true, id: plan.id }, { status: 201 });

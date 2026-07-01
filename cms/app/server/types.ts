@@ -4,6 +4,8 @@ export type ClientStatus = 'active' | 'inactive';
 export type PaymentStatus = 'paid' | 'unpaid' | 'pending';
 export type NotificationType = 'health_metric_request' | 'payment_reminder' | 'whatsapp';
 export type NotificationFrequency = 'weekly' | 'biweekly' | 'monthly' | 'custom';
+export type WeightFrequency = 'weekly' | 'biweekly' | 'monthly';
+export type DietPlanStatus = 'draft' | 'published';
 
 export interface Client {
   id: number;
@@ -16,6 +18,10 @@ export interface Client {
   status: ClientStatus;
   inactive_reason?: string;
   notes?: string;
+  address?: string;
+  password_set_at?: string;
+  portal_last_login?: string;
+  has_credentials?: boolean; // computed in API responses (never the hash itself)
   created_at: string;
   updated_at: string;
 }
@@ -27,7 +33,11 @@ export interface Package {
   category: HealthGoal;
   price: number;
   duration_months: number;
+  benefits?: string; // JSON array of benefit strings
+  request_weights: number; // 0/1
+  weight_frequency?: WeightFrequency;
   created_at: string;
+  active_clients?: number;
 }
 
 export interface ClientPackage {
@@ -48,7 +58,7 @@ export interface HealthMetric {
   client_id: number;
   weight_kg: number;
   recorded_at: string;
-  source: 'manual' | 'email';
+  source: 'manual' | 'email' | 'whatsapp';
   notes?: string;
 }
 
@@ -56,6 +66,9 @@ export interface DietPlan {
   id: number;
   client_id: number;
   title: string;
+  issues?: string;
+  status: DietPlanStatus;
+  published_at?: string;
   created_at: string;
 }
 
@@ -77,6 +90,9 @@ export interface Payment {
   status: PaymentStatus;
   screenshot_path?: string;
   notes?: string;
+  source?: string;
+  detected_message_id?: number;
+  detection_confidence?: number;
   paid_at?: string;
   due_date?: string;
   created_at: string;
@@ -126,10 +142,25 @@ export interface WhatsAppMessage {
   direction: 'inbound' | 'outbound';
   message: string;
   phone_number?: string;
+  media_path?: string;
+  media_type?: string;
+  intent?: string;
+  parsed_weight?: number;
+  payment_detected: number;
   is_read: number;
   received_at: string;
   created_at: string;
   client_name?: string;
+}
+
+export interface PortalNotification {
+  id: number;
+  client_id: number;
+  type: 'diet_published' | 'weight_requested' | 'payment_received' | 'general';
+  title: string;
+  body?: string;
+  is_read: number;
+  created_at: string;
 }
 
 export interface DashboardStats {

@@ -1,36 +1,45 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { verifySession } from './app/server/tokens';
 
-async function verifyToken(token: string): Promise<boolean> {
-  try {
-    const secret = process.env.SESSION_SECRET || 'fallback-secret';
-    const decoded = atob(token);
-    const lastColon = decoded.lastIndexOf(':');
-    if (lastColon === -1) return false;
-    const payload = decoded.slice(0, lastColon);
-    const sig = decoded.slice(lastColon + 1);
+// Public paths that never require a session.
+function isPublic(pathname: string): boolean {
+  return (
+    pathname === '/login' ||
+    pathname === '/portal/login' ||
+    pathname.startsWith('/api/auth') ||
+    pathname.startsWith('/api/portal/auth')
+  );
+}
 
-    const enc = new TextEncoder();
-    const key = await crypto.subtle.importKey(
-      'raw', enc.encode(secret),
-      { name: 'HMAC', hash: 'SHA-256' },
-      false, ['verify']
-    );
-    const sigBytes = Uint8Array.from(atob(sig), (c) => c.charCodeAt(0));
-    return await crypto.subtle.verify('HMAC', key, sigBytes, enc.encode(payload));
-  } catch {
-    return false;
-  }
+function isPortalArea(pathname: string): boolean {
+  return pathname === '/portal' || pathname.startsWith('/portal/') || pathname.startsWith('/api/portal');
 }
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  if (pathname === '/login' || pathname.startsWith('/api/auth')) {
+  if (isPublic(pathname)) return NextResponse.next();
+
+  // Client portal area → portal_session (client)
+  if (isPortalArea(pathname)) {
+    const token = req.cookies.get('portal_session')?.value;
+    const session = await verifySession(token);
+    if (!session || session.kind !== 'client') {
+      if (pathname.startsWith('/api/')) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
+      return NextResponse.redirect(new URL('/portal/login', req.url));
+    }
     return NextResponse.next();
   }
 
+  // Everything else → admin (cms_session)
   const token = req.cookies.get('cms_session')?.value;
-  if (!token || !(await verifyToken(token))) {
+  const session = await verifySession(token);
+  if (!session || session.kind !== 'admin') {
+    if (pathname.startsWith('/api/')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
     return NextResponse.redirect(new URL('/login', req.url));
   }
 

@@ -1,6 +1,8 @@
 import postgres from 'postgres';
 import { SEED_CONFIG } from './seed.config';
 import { INDIAN_MEALS } from './meals-data';
+import { ensureDefaultSettings } from './settings';
+import { hashPassword } from './password';
 
 const FIRST_NAMES_F = ['Priya','Ananya','Meena','Kavya','Sneha','Pooja','Divya','Ritu','Sunita','Rekha','Lata','Geetha','Nisha','Deepa','Sonal','Rucha','Swati','Pallavi','Manisha','Rohini','Jyoti','Usha','Padma','Shalini','Preeti','Bharti','Anita','Sarla','Kamla','Veena','Rashmi','Shruti','Preethi','Nandita','Aarti','Komal','Anjali','Smita','Radha','Hema','Nandini','Tanvi','Bhavna','Charulata','Deepika','Geeta','Indu','Kavitha','Lalitha','Mamta'];
 const FIRST_NAMES_M = ['Rajesh','Karthik','Suresh','Vikram','Amit','Rahul','Sanjay','Mukesh','Ravi','Arun','Naveen','Deepak','Mahesh','Venkat','Anand','Mohan','Girish','Harish','Sachin','Nikhil','Rohit','Vivek','Vishal','Kunal','Tarun','Ajay','Siddharth','Ramesh','Dinesh','Ganesh','Krishnan','Ashok','Naresh','Sunil','Vijay','Pavan','Manish','Gaurav','Pradeep','Umesh','Santosh','Jayesh','Hitesh','Kamlesh','Nilesh','Rupesh','Yashwant','Yogesh','Bhaskar','Chetan'];
@@ -62,14 +64,14 @@ export async function seedDatabase(sql: postgres.Sql) {
 
   // ── Packages ──────────────────────────────────────────────────────────────
   const pkgDefs = [
-    { name: 'Weight Management — Basic', description: 'Monthly diet plan, weekly check-ins, WhatsApp support.', category: 'weight_management', price: 5000, duration_months: 1 },
-    { name: 'Weight Management — Premium', description: '3-month program with bi-weekly calls and full meal planning.', category: 'weight_management', price: 12000, duration_months: 3 },
-    { name: 'PCOS Management', description: 'Anti-inflammatory diet, hormone-balancing foods, lifestyle coaching.', category: 'pcos', price: 4500, duration_months: 1 },
-    { name: 'PCOS — 3 Month Plan', description: 'Comprehensive 3-month hormonal balance program.', category: 'pcos', price: 11000, duration_months: 3 },
-    { name: 'Diabetes & Sugar Control', description: 'Evidence-based glycemic management with blood sugar tracking.', category: 'sugar_control', price: 4000, duration_months: 1 },
-    { name: 'Diabetes — Intensive', description: '3-month HbA1c reduction program with monthly lab review.', category: 'sugar_control', price: 10000, duration_months: 3 },
-    { name: 'General Wellness', description: 'Balanced nutrition for overall health, energy and immunity.', category: 'other', price: 3500, duration_months: 1 },
-    { name: 'Sports Nutrition', description: 'Performance and recovery nutrition for athletes.', category: 'other', price: 6000, duration_months: 1 },
+    { name: 'Weight Management — Basic', description: 'Monthly diet plan, weekly check-ins, WhatsApp support.', category: 'weight_management', price: 5000, duration_months: 1, benefits: JSON.stringify(['Personalised monthly diet', 'Weekly weight check-ins', 'WhatsApp support']), request_weights: 1, weight_frequency: 'weekly' },
+    { name: 'Weight Management — Premium', description: '3-month program with bi-weekly calls and full meal planning.', category: 'weight_management', price: 12000, duration_months: 3, benefits: JSON.stringify(['3-month structured program', 'Bi-weekly video consults', 'Full meal planning', 'Progress tracking']), request_weights: 1, weight_frequency: 'biweekly' },
+    { name: 'PCOS Management', description: 'Anti-inflammatory diet, hormone-balancing foods, lifestyle coaching.', category: 'pcos', price: 4500, duration_months: 1, benefits: JSON.stringify(['Anti-inflammatory diet', 'Hormone-balancing foods', 'Lifestyle coaching']), request_weights: 1, weight_frequency: 'weekly' },
+    { name: 'PCOS — 3 Month Plan', description: 'Comprehensive 3-month hormonal balance program.', category: 'pcos', price: 11000, duration_months: 3, benefits: JSON.stringify(['Hormonal balance protocol', 'Low-GI meal plans', 'Monthly review']), request_weights: 1, weight_frequency: 'monthly' },
+    { name: 'Diabetes & Sugar Control', description: 'Evidence-based glycemic management with blood sugar tracking.', category: 'sugar_control', price: 4000, duration_months: 1, benefits: JSON.stringify(['Glycemic-friendly meals', 'Blood sugar tracking', 'Weekly guidance']), request_weights: 1, weight_frequency: 'weekly' },
+    { name: 'Diabetes — Intensive', description: '3-month HbA1c reduction program with monthly lab review.', category: 'sugar_control', price: 10000, duration_months: 3, benefits: JSON.stringify(['HbA1c reduction plan', 'Monthly lab review', 'Medication-aware diet']), request_weights: 1, weight_frequency: 'biweekly' },
+    { name: 'General Wellness', description: 'Balanced nutrition for overall health, energy and immunity.', category: 'other', price: 3500, duration_months: 1, benefits: JSON.stringify(['Balanced everyday nutrition', 'Immunity focus', 'Energy optimisation']), request_weights: 0, weight_frequency: null },
+    { name: 'Sports Nutrition', description: 'Performance and recovery nutrition for athletes.', category: 'other', price: 6000, duration_months: 1, benefits: JSON.stringify(['Performance nutrition', 'Recovery meal timing', 'Macro planning']), request_weights: 1, weight_frequency: 'weekly' },
   ];
   const insertedPkgs = await sql`INSERT INTO packages ${sql(pkgDefs)} RETURNING id, category, price, duration_months`;
   const pkgMap: Record<string, { id: number; price: number; months: number }[]> = { weight_management: [], pcos: [], sugar_control: [], other: [] };
@@ -166,4 +168,51 @@ export async function seedDatabase(sql: postgres.Sql) {
     // Activity
     await sql`INSERT INTO activity_log (type, description, client_name, created_at) VALUES ('client_added', ${`New client onboarded for ${health_goal.replace(/_/g, ' ')} program`}, ${name}, ${joinedAt})`;
   }
+
+  await seedDemoAccounts(sql);
+  await ensureDefaultSettings(sql);
+}
+
+// Two known logins for local portal testing (both password: demo1234):
+//   9000000001 — fully unlocked (paid, 6 weight readings, a published diet)
+//   9000000002 — diet locked/blurred (published but payment pending)
+async function seedDemoAccounts(sql: postgres.Sql) {
+  const demoHash = await hashPassword('demo1234');
+
+  const [wmPlan] = await sql`SELECT id, price FROM packages WHERE category = 'weight_management' AND request_weights = 1 ORDER BY id LIMIT 1`;
+
+  const [a] = await sql`
+    INSERT INTO clients (name, email, phone, age, gender, health_goal, status, notes, address, password_hash, password_set_at)
+    VALUES ('Demo Sharma', 'demo@haleandhearty.test', '9000000001', 34, 'female', 'weight_management', 'active',
+      'Demo account — fully unlocked (paid).', '12 MG Road, Bengaluru', ${demoHash}, NOW())
+    RETURNING id
+  `;
+  if (wmPlan) {
+    await sql`INSERT INTO client_packages (client_id, package_id, start_date, end_date, is_active) VALUES (${a.id}, ${wmPlan.id}, ${dateStr(daysAgo(40))}, ${dateStr(daysAgo(-20))}, 1)`;
+    await sql`INSERT INTO payments (client_id, package_id, amount, status, source, notes, paid_at, due_date, created_at) VALUES (${a.id}, ${wmPlan.id}, ${wmPlan.price}, 'paid', 'manual', 'Demo payment', ${daysAgo(38)}, ${dateStr(daysAgo(40))}, ${daysAgo(40)})`;
+    await sql`INSERT INTO notifications (client_id, type, frequency, message, next_send_at, is_active) VALUES (${a.id}, 'health_metric_request', 'weekly', 'Weekly weight update', NOW(), 1)`;
+  }
+  const aWeights = [78.5, 77.8, 77.1, 76.4, 75.9, 75.2];
+  for (let i = 0; i < aWeights.length; i++) {
+    await sql`INSERT INTO health_metrics (client_id, weight_kg, source, recorded_at) VALUES (${a.id}, ${aWeights[i]}, ${i % 3 === 0 ? 'whatsapp' : 'manual'}, ${daysAgo((aWeights.length - i) * 7)})`;
+  }
+  const [aPlan] = await sql`INSERT INTO diet_plans (client_id, title, issues, status, published_at, created_at) VALUES (${a.id}, 'Demo — Weight Loss Week 1', 'Wants to lose 8kg; desk job; occasional acidity.', 'published', NOW(), ${daysAgo(10)}) RETURNING id`;
+  await sql`INSERT INTO diet_plan_versions (diet_plan_id, version_number, ocr_data, changelog, created_at) VALUES (${aPlan.id}, 1, ${JSON.stringify(OCR.weight_management[0])}, 'Initial plan', ${daysAgo(10)})`;
+  await sql`INSERT INTO portal_notifications (client_id, type, title, body) VALUES (${a.id}, 'diet_published', 'New diet plan: Demo — Weight Loss Week 1', 'Your dietitian published a new diet plan.')`;
+
+  const [b] = await sql`
+    INSERT INTO clients (name, email, phone, age, gender, health_goal, status, notes, address, password_hash, password_set_at)
+    VALUES ('Demo Locked', 'demo2@haleandhearty.test', '9000000002', 29, 'female', 'pcos', 'active',
+      'Demo account — diet locked (payment pending).', '5 Park Street, Kolkata', ${demoHash}, NOW())
+    RETURNING id
+  `;
+  const [pcosPlan] = await sql`SELECT id, price FROM packages WHERE category = 'pcos' ORDER BY id LIMIT 1`;
+  if (pcosPlan) {
+    await sql`INSERT INTO client_packages (client_id, package_id, start_date, end_date, is_active) VALUES (${b.id}, ${pcosPlan.id}, ${dateStr(daysAgo(5))}, ${dateStr(daysAgo(-25))}, 1)`;
+    await sql`INSERT INTO payments (client_id, package_id, amount, status, source, notes, due_date, created_at) VALUES (${b.id}, ${pcosPlan.id}, ${pcosPlan.price}, 'pending', 'manual', 'Awaiting payment', ${dateStr(daysAgo(5))}, ${daysAgo(5)})`;
+  }
+  await sql`INSERT INTO health_metrics (client_id, weight_kg, source, recorded_at) VALUES (${b.id}, 68.0, 'manual', ${daysAgo(6)})`;
+  const [bPlan] = await sql`INSERT INTO diet_plans (client_id, title, issues, status, published_at, created_at) VALUES (${b.id}, 'Demo — PCOS Plan', 'Irregular cycles; sugar cravings.', 'published', NOW(), ${daysAgo(3)}) RETURNING id`;
+  await sql`INSERT INTO diet_plan_versions (diet_plan_id, version_number, ocr_data, changelog, created_at) VALUES (${bPlan.id}, 1, ${JSON.stringify(OCR.pcos[0])}, 'Initial plan', ${daysAgo(3)})`;
+  await sql`INSERT INTO portal_notifications (client_id, type, title, body) VALUES (${b.id}, 'payment_received', 'Diet ready — payment pending', 'Your diet is ready and will unlock once payment is received.')`;
 }

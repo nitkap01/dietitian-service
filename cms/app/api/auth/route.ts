@@ -1,18 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-async function makeToken(username: string): Promise<string> {
-  const secret = process.env.SESSION_SECRET || 'fallback-secret';
-  const payload = `${username}:${Date.now()}`;
-  const enc = new TextEncoder();
-  const key = await crypto.subtle.importKey(
-    'raw', enc.encode(secret),
-    { name: 'HMAC', hash: 'SHA-256' },
-    false, ['sign']
-  );
-  const sigBuffer = await crypto.subtle.sign('HMAC', key, enc.encode(payload));
-  const sig = btoa(String.fromCharCode(...new Uint8Array(sigBuffer)));
-  return btoa(`${payload}:${sig}`);
-}
+import { createSession } from '../../server/tokens';
 
 export async function POST(req: NextRequest) {
   const { username, password } = await req.json();
@@ -24,7 +11,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
   }
 
-  const token = await makeToken(username);
+  const token = await createSession('admin', username);
   const response = NextResponse.json({ success: true });
   response.cookies.set('cms_session', token, {
     httpOnly: true,

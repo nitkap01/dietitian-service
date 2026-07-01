@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { initDB } from '../../server/db';
 
+// Normalizes weight-request config. A 1-month plan can only request weekly.
+function normalizeWeightConfig(duration: number, requestWeights: boolean, frequency: string | null) {
+  if (!requestWeights) return { request_weights: 0, weight_frequency: null as string | null };
+  const allowed = duration <= 1 ? ['weekly'] : ['weekly', 'biweekly', 'monthly'];
+  const freq = frequency && allowed.includes(frequency) ? frequency : 'weekly';
+  return { request_weights: 1, weight_frequency: freq };
+}
+
 export async function GET() {
   try {
     const sql = await initDB();
@@ -21,15 +29,19 @@ export async function POST(request: NextRequest) {
   try {
     const sql = await initDB();
     const body = await request.json();
-    const { name, description, category, price, duration_months } = body;
+    const { name, description, category, price, duration_months, benefits, request_weights, weight_frequency } = body;
 
     if (!name || !category || !price) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
+    const duration = Number(duration_months) || 1;
+    const benefitsJson = Array.isArray(benefits) ? JSON.stringify(benefits.filter(Boolean)) : benefits || null;
+    const wc = normalizeWeightConfig(duration, !!request_weights, weight_frequency || null);
 
     const [pkg] = await sql`
-      INSERT INTO packages (name, description, category, price, duration_months)
-      VALUES (${name}, ${description || null}, ${category}, ${price}, ${duration_months || 1})
+      INSERT INTO packages (name, description, category, price, duration_months, benefits, request_weights, weight_frequency)
+      VALUES (${name}, ${description || null}, ${category}, ${price}, ${duration}, ${benefitsJson},
+        ${wc.request_weights}, ${wc.weight_frequency})
       RETURNING *
     `;
     return NextResponse.json(pkg, { status: 201 });

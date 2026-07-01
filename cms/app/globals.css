@@ -83,3 +83,18 @@ body {
 .animate-spin {
   transition: none;
 }
+
+/* ── Client portal — matches the marketing website (purple/cream, light only) ── */
+.portal-root {
+  background-color: #FDFCF7;
+  color: #1A1A2E;
+  min-height: 100vh;
+}
+.portal-root ::-webkit-scrollbar-thumb {
+  background: #5C3A9E;
+}
+.blur-locked {
+  filter: blur(7px);
+  user-select: none;
+  pointer-events: none;
+}
