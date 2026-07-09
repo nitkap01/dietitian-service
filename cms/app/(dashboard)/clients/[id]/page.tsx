@@ -191,6 +191,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
 
   const totalPaid = payments.filter((p) => p.status === 'paid').reduce((s, p) => s + p.amount, 0);
   const pendingAmount = payments.filter((p) => p.status !== 'paid').reduce((s, p) => s + p.amount, 0);
+  const hasPaid = payments.some((p) => p.status === 'paid');
   const activePkg = packages.find((p) => p.id === client.package_id);
 
   const tabs = [
@@ -215,7 +216,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
   return (
     <div className="space-y-5 max-w-5xl">
       {toast && (
-        <div className="fixed top-20 right-6 z-50 px-4 py-2.5 rounded-lg bg-brand-600 text-white text-sm shadow-lg">{toast}</div>
+        <div className="fixed top-20 left-4 right-4 sm:left-auto sm:right-6 z-50 px-4 py-2.5 rounded-lg bg-brand-600 text-white text-sm shadow-lg sm:max-w-sm">{toast}</div>
       )}
 
       <div className="flex items-center justify-between">
@@ -386,6 +387,17 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
       {/* Diet plans */}
       {activeTab === 'diet' && (
         <div className="space-y-4">
+          {/* Payment gate reminder: published plans stay locked for the client until they pay. */}
+          {!hasPaid && dietPlans.some((p) => p.status === 'published') && (
+            <div className="rounded-xl border border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-900/20 p-3 flex items-start gap-3">
+              <Lock size={16} className="text-yellow-600 dark:text-yellow-400 mt-0.5 shrink-0" />
+              <div className="flex-1">
+                <p className="text-sm font-medium text-yellow-800 dark:text-yellow-300">Payment not received</p>
+                <p className="text-xs text-yellow-700 dark:text-yellow-400 mt-0.5">Published plans stay locked for {client.name.split(' ')[0]} until a payment is recorded. They were notified on WhatsApp that they need to pay.</p>
+              </div>
+              <Button size="sm" variant="outline" className="shrink-0" onClick={() => setActiveTab('payments')}>Record payment</Button>
+            </div>
+          )}
           <div className="flex justify-end gap-2">
             <DietRecommendations
               clientId={id}
@@ -407,10 +419,15 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
                   </h4>
                   <p className="text-xs text-slate-500 mt-1">{plan.version_count} version(s) · Created {new Date(plan.created_at).toLocaleDateString('en-IN')}</p>
                   {plan.issues && <p className="text-xs text-slate-500 mt-1 flex items-start gap-1"><ClipboardList size={12} className="mt-0.5 shrink-0" /> {plan.issues}</p>}
+                  {plan.status === 'published' && (
+                    <p className={`text-xs mt-1.5 flex items-center gap-1 ${hasPaid ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400'}`}>
+                      {hasPaid ? <><Unlock size={12} /> Visible to client</> : <><Lock size={12} /> Locked for client — awaiting payment</>}
+                    </p>
+                  )}
                 </div>
                 <div className="flex gap-2 shrink-0 flex-wrap">
                   <Button size="sm" variant={plan.status === 'published' ? 'outline' : 'primary'} onClick={() => togglePublish(plan)}>
-                    {plan.status === 'published' ? <><Unlock size={13} /> Unpublish</> : <><Lock size={13} /> Publish</>}
+                    {plan.status === 'published' ? <><Unlock size={13} /> Unpublish</> : <><Send size={13} /> Publish & Notify</>}
                   </Button>
                   <Button size="sm" variant="outline" onClick={() => runAIAnalysis(plan)}><Sparkles size={13} /> AI Review</Button>
                   <Button size="sm" variant="outline" onClick={() => setShowDietDetail(plan)}>View</Button>
@@ -496,7 +513,7 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
               ))}
             </div>
 
-            <div className="w-full lg:w-80 xl:w-96 border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-slate-700 flex flex-col bg-slate-50 dark:bg-slate-800/30">
+            <div className="w-full lg:w-80 xl:w-96 max-h-[45vh] lg:max-h-none border-t lg:border-t-0 lg:border-l border-slate-200 dark:border-slate-700 flex flex-col bg-slate-50 dark:bg-slate-800/30">
               <div className="px-4 py-3 border-b border-slate-200 dark:border-slate-700">
                 <p className="text-sm font-semibold text-slate-900 dark:text-white mb-2">Recommendations</p>
                 <div className="flex gap-1 mb-2 flex-wrap">
@@ -527,9 +544,10 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
             </div>
           </div>
 
-          <div className="px-4 sm:px-6 py-4 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 flex items-center justify-between">
-            <p className="text-sm text-slate-500">{totalCalories()} kcal · {MEAL_TYPES.reduce((s, t) => s + dietBuilder[t].length, 0)} items · saves as draft</p>
-            <div className="flex gap-3"><Button variant="outline" onClick={() => setShowDietBuilder(false)}>Cancel</Button><Button onClick={saveDietPlan} loading={saving} disabled={!dietBuilder.title}>Save Draft</Button></div>
+          <div className="px-4 sm:px-6 py-4 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 flex items-center justify-between gap-3" style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}>
+            <p className="text-sm text-slate-500 hidden sm:block">{totalCalories()} kcal · {MEAL_TYPES.reduce((s, t) => s + dietBuilder[t].length, 0)} items · saves as draft</p>
+            <p className="text-xs text-slate-500 sm:hidden">{totalCalories()} kcal</p>
+            <div className="flex gap-2 sm:gap-3"><Button variant="outline" onClick={() => setShowDietBuilder(false)}>Cancel</Button><Button onClick={saveDietPlan} loading={saving} disabled={!dietBuilder.title}>Save Draft</Button></div>
           </div>
         </div>
       )}

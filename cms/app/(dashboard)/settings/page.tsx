@@ -93,7 +93,7 @@ export default function SettingsPage() {
         </h2>
         <p className="text-xs text-slate-500 mb-5">Scans WhatsApp chats to auto-detect payments and capture weights. Without a key it uses a free heuristic fallback.</p>
         <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Select label="AI Provider" value={s.ai_provider} onChange={(e) => set('ai_provider', e.target.value)}
               options={[{ value: 'claude', label: 'Claude (Anthropic)' }, { value: 'openai', label: 'OpenAI' }]} />
             <Input label="Model" value={s.ai_model} onChange={(e) => set('ai_model', e.target.value)}
@@ -120,7 +120,7 @@ export default function SettingsPage() {
       {/* Business info */}
       <Card>
         <h2 className="text-base font-semibold text-slate-900 dark:text-white mb-5 flex items-center gap-2"><User size={16} className="text-brand-500" /> Business Information</h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input label="Business Name" value={s.business_name} onChange={(e) => set('business_name', e.target.value)} />
           <Input label="Dietitian Name" value={s.dietitian_name} onChange={(e) => set('dietitian_name', e.target.value)} />
           <Input label="WhatsApp Number" value={s.whatsapp_number} onChange={(e) => set('whatsapp_number', e.target.value)} />

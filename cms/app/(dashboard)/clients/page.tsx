@@ -9,7 +9,7 @@ import { Table } from '@/components/ui/Table';
 import { StatusBadge, GoalBadge } from '@/components/clients/StatusBadge';
 import { Client } from '../../server/types';
 import type { HealthGoal, ClientStatus } from '../../server/types';
-import { UserPlus, Search } from 'lucide-react';
+import { UserPlus, Search, Phone, ChevronRight } from 'lucide-react';
 
 export default function ClientsPage() {
   const router = useRouter();
@@ -47,15 +47,15 @@ export default function ClientsPage() {
       </div>
 
       <Card padding="none">
-        <div className="flex items-center gap-3 p-4 border-b border-slate-200 dark:border-slate-700">
-          <div className="relative flex-1 max-w-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 p-4 border-b border-slate-200 dark:border-slate-700">
+          <div className="relative flex-1 sm:max-w-xs">
             <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
               placeholder="Search clients..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full pl-9 pr-3 py-2.5 text-sm rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
           </div>
           <div className="flex gap-1">
@@ -63,7 +63,7 @@ export default function ClientsPage() {
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors capitalize ${
+                className={`flex-1 sm:flex-none px-3 py-2 rounded-lg text-xs font-medium transition-colors capitalize ${
                   filter === f
                     ? 'bg-brand-600 text-white'
                     : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-600'
@@ -80,6 +80,31 @@ export default function ClientsPage() {
             <div className="animate-spin w-6 h-6 border-4 border-brand-500 border-t-transparent rounded-full" />
           </div>
         ) : (
+          <>
+          {/* Mobile: tap-through cards. Desktop: full table. */}
+          <div className="md:hidden divide-y divide-slate-100 dark:divide-slate-700/50">
+            {filtered.length === 0 && <p className="text-sm text-slate-500 text-center py-12">No clients found</p>}
+            {filtered.map((c) => (
+              <button
+                key={c.id}
+                onClick={() => router.push(`/clients/${c.id}`)}
+                className="w-full text-left flex items-center gap-3 px-4 py-3.5 active:bg-slate-50 dark:active:bg-slate-700/30 transition-colors"
+              >
+                <div className="w-10 h-10 rounded-full bg-brand-600 flex items-center justify-center text-white font-bold shrink-0">{c.name.charAt(0)}</div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <p className="font-medium text-slate-900 dark:text-white truncate">{c.name}</p>
+                    <StatusBadge status={c.status} />
+                  </div>
+                  <p className="text-xs text-slate-500 flex items-center gap-1 mt-0.5"><Phone size={11} /> {c.phone} · {c.age} yrs</p>
+                  <div className="mt-1.5"><GoalBadge goal={c.health_goal} /></div>
+                </div>
+                <ChevronRight size={18} className="text-slate-300 shrink-0" />
+              </button>
+            ))}
+          </div>
+
+          <div className="hidden md:block">
           <Table
             data={filtered as unknown as Record<string, unknown>[]}
             onRowClick={(row) => router.push(`/clients/${row.id}`)}
@@ -123,6 +148,8 @@ export default function ClientsPage() {
             ]}
             emptyMessage="No clients found"
           />
+          </div>
+          </>
         )}
       </Card>
     </div>

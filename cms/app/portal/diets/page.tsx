@@ -68,6 +68,9 @@ export default function PortalDietsPage() {
               <p className="text-sm mt-1" style={{ color: '#C2185B' }}>
                 {d.reason === 'payment_pending' ? 'Locked — payment not received yet.' : 'Not released yet — your dietitian is finalising it.'}
               </p>
+              {d.reason === 'payment_pending' && (
+                <p className="text-xs text-gray-500 mt-1">Complete your payment to unlock this plan. Message your dietitian on WhatsApp if you&apos;ve already paid.</p>
+              )}
             </div>
           </div>
         ) : (

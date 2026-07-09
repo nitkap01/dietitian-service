@@ -68,12 +68,12 @@ export default function PortalHome() {
       {/* plan */}
       {me.plan && (
         <div className="rounded-3xl border bg-white p-6 mb-6" style={{ borderColor: '#EDE7F6' }}>
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
               <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: '#5C3A9E' }}>Your plan</p>
               <h2 className="text-xl font-black text-[#1A1A2E] mt-1">{me.plan.name}</h2>
             </div>
-            <p className="text-2xl font-black" style={{ color: '#5C3A9E' }}>₹{me.plan.price.toLocaleString('en-IN')}</p>
+            <p className="text-2xl font-black shrink-0" style={{ color: '#5C3A9E' }}>₹{me.plan.price.toLocaleString('en-IN')}</p>
           </div>
           {benefits.length > 0 && (
             <ul className="mt-4 grid sm:grid-cols-2 gap-2">

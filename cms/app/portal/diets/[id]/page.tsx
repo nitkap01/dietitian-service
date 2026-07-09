@@ -42,6 +42,9 @@ export default function PortalDietDetail({ params }: { params: Promise<{ id: str
           <p className="text-sm mt-2" style={{ color: '#C2185B' }}>
             {data.reason === 'payment_pending' ? 'This plan is locked until your payment is received.' : 'This plan has not been released yet.'}
           </p>
+          {data.reason === 'payment_pending' && (
+            <p className="text-xs text-gray-500 mt-2 max-w-sm mx-auto">Complete your payment to unlock the full plan. If you&apos;ve already paid, message your dietitian on WhatsApp and it&apos;ll be unlocked.</p>
+          )}
         </div>
       </PortalShell>
     );

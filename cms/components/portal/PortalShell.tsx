@@ -40,17 +40,18 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
               <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #5C3A9E, #3D2070)' }}>
                 <Leaf size={16} className="text-white" />
               </div>
-              <span className="font-black text-[#1A1A2E] hidden sm:block">Ritika Bahl&apos;s Portal</span>
+              <span className="font-black text-[#1A1A2E]">Ritika Bahl&apos;s Portal</span>
             </Link>
 
-            <nav className="flex items-center gap-1 overflow-x-auto">
+            {/* Desktop nav (mobile uses the bottom bar below) */}
+            <nav className="hidden sm:flex items-center gap-1">
               {links.map(({ href, label, icon: Icon }) => {
                 const active = href === '/portal' ? pathname === '/portal' : pathname.startsWith(href);
                 return (
                   <Link key={href} href={href}
                     className="relative px-3 py-2 rounded-full text-sm font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap"
                     style={active ? { background: '#EDE7F6', color: '#5C3A9E' } : { color: '#6B7280' }}>
-                    <Icon size={15} /> <span className="hidden sm:inline">{label}</span>
+                    <Icon size={15} /> {label}
                     {href === '/portal/notifications' && unread > 0 && (
                       <span className="ml-0.5 w-4 h-4 rounded-full text-white text-[10px] flex items-center justify-center" style={{ background: '#C2185B' }}>{unread}</span>
                     )}
@@ -66,9 +67,29 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8 pb-24 sm:pb-8">
         {children}
       </main>
+
+      {/* Mobile bottom tab bar */}
+      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t" style={{ borderColor: '#EDE7F6', paddingBottom: 'env(safe-area-inset-bottom)' }}>
+        <div className="grid grid-cols-5">
+          {links.map(({ href, label, icon: Icon }) => {
+            const active = href === '/portal' ? pathname === '/portal' : pathname.startsWith(href);
+            return (
+              <Link key={href} href={href}
+                className="relative flex flex-col items-center justify-center gap-0.5 py-2 text-[11px] font-semibold transition-colors"
+                style={{ color: active ? '#5C3A9E' : '#9CA3AF' }}>
+                <Icon size={20} />
+                {label}
+                {href === '/portal/notifications' && unread > 0 && (
+                  <span className="absolute top-1 right-1/2 translate-x-4 w-4 h-4 rounded-full text-white text-[10px] flex items-center justify-center" style={{ background: '#C2185B' }}>{unread}</span>
+                )}
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
     </div>
   );
 }
