@@ -17,7 +17,7 @@ const packages = [
     features: [
       "Personalised diet plan",
       "Initial health assessment",
-      "4 weekly check-in calls",
+      "4 weekly check-ins",
       "WhatsApp support (Mon–Sat)",
       "Plan adjustments as needed",
       "Digital meal guides",
@@ -37,7 +37,7 @@ const packages = [
     features: [
       "Everything in Monthly",
       "Deeper health assessment",
-      "8 weekly check-in calls",
+      "8 weekly check-ins",
       "Priority WhatsApp support",
       "Lab report interpretation",
       "Grocery & meal planning guide",
@@ -58,7 +58,7 @@ const packages = [
     features: [
       "Everything in 2-Month",
       "Comprehensive metabolic assessment",
-      "12 weekly check-in calls",
+      "12 weekly check-ins",
       "Blood work analysis & advice",
       "Customised exercise + diet synergy",
       "Cooking & lifestyle workshops",
@@ -81,7 +81,7 @@ const specialisedPackages = [
     features: [
       "Dedicated Diabetes & PMOS protocol",
       "Comprehensive hormonal + metabolic assessment",
-      "12 weekly check-in calls",
+      "12 weekly check-ins",
       "Detailed lab work analysis & tracking",
       "Medication-aware, condition-specific meal plans",
       "Priority WhatsApp support",
@@ -99,7 +99,7 @@ const specialisedPackages = [
     description: "The most thorough path to reversing Diabetes and managing PMOS long-term.",
     features: [
       "Everything in the 3-Month Specialised plan",
-      "24 weekly check-in calls",
+      "24 weekly check-ins",
       "Ongoing lab work review every 6–8 weeks",
       "Long-term blood sugar & hormone stabilisation focus",
       "Lifestyle & sustainability coaching",
@@ -288,8 +288,11 @@ export default function Packages() {
                 Specialised Disease Management
               </h3>
               <p className="text-gray-600 max-w-2xl mx-auto">
-                A dedicated, longer-term track for Diabetes and PMOS — for those who want deeper,
-                condition-focused care over an extended program.
+                <span className="font-bold" style={{ color: "#5C3A9E" }}>
+                  Diabetes and PMOS
+                </span>{" "}
+                reversal are long-term commitments — they take at least 3 months to show real
+                results. That&apos;s why we&apos;ve created this specialised, catered plan.
               </p>
             </div>
 
