@@ -50,7 +50,7 @@ const packages = [
   },
   {
     name: "3-Month Plan",
-    inrPrice: "₹13,500",
+    inrPrice: "₹13,000",
     usdPrice: "$160",
     duration: "3 Months",
     tag: "Best Value",
