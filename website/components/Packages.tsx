@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, Star, Globe, MapPin } from "lucide-react";
+import { Check, Star, Globe, MapPin, Activity } from "lucide-react";
 
 type Region = "india" | "international";
 
@@ -68,6 +68,47 @@ const packages = [
     cta: "Best Value",
     highlighted: false,
     borderColor: "border-green-200",
+  },
+];
+
+const specialisedPackages = [
+  {
+    name: "3-Month Specialised Plan",
+    inrPrice: "₹18,000",
+    duration: "3 Months",
+    tag: null,
+    description: "A dedicated, condition-focused program for Diabetes and PMOS management.",
+    features: [
+      "Dedicated Diabetes & PMOS protocol",
+      "Comprehensive hormonal + metabolic assessment",
+      "12 weekly check-in calls",
+      "Detailed lab work analysis & tracking",
+      "Medication-aware, condition-specific meal plans",
+      "Priority WhatsApp support",
+      "Monthly progress reports",
+    ],
+    cta: "Start This Plan",
+    highlighted: false,
+    borderColor: "border-gray-200",
+  },
+  {
+    name: "6-Month Specialised Plan",
+    inrPrice: "₹30,000",
+    duration: "6 Months",
+    tag: "Comprehensive Care",
+    description: "The most thorough path to reversing Diabetes and managing PMOS long-term.",
+    features: [
+      "Everything in the 3-Month Specialised plan",
+      "24 weekly check-in calls",
+      "Ongoing lab work review every 6–8 weeks",
+      "Long-term blood sugar & hormone stabilisation focus",
+      "Lifestyle & sustainability coaching",
+      "Priority WhatsApp support throughout",
+      "Full 6-month transformation tracking",
+    ],
+    cta: "Start This Plan",
+    highlighted: true,
+    borderColor: "border-purple-300",
   },
 ];
 
@@ -230,6 +271,118 @@ export default function Packages() {
             );
           })}
         </div>
+
+        {region === "india" && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-20"
+          >
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-semibold mb-4" style={{ background: "#E8F5E9", color: "#2D6B4F" }}>
+                <Activity size={14} />
+                Specialised Care
+              </div>
+              <h3 className="text-3xl lg:text-4xl font-black text-gray-900 mb-3">
+                Specialised Disease Management
+              </h3>
+              <p className="text-gray-600 max-w-2xl mx-auto">
+                A dedicated, longer-term track for Diabetes and PMOS — for those who want deeper,
+                condition-focused care over an extended program.
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-8 max-w-3xl mx-auto items-stretch">
+              {specialisedPackages.map((pkg, i) => (
+                <motion.div
+                  key={pkg.name}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.15 }}
+                  className={`relative rounded-3xl border-2 ${pkg.borderColor} overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl`}
+                >
+                  {pkg.tag && (
+                    <div
+                      className="absolute top-5 right-5 flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold text-white"
+                      style={{ background: pkg.highlighted ? "rgba(255,255,255,0.25)" : "#5C3A9E" }}
+                    >
+                      <Star size={10} fill="currentColor" />
+                      {pkg.tag}
+                    </div>
+                  )}
+
+                  <div
+                    className="p-8"
+                    style={
+                      pkg.highlighted
+                        ? { background: "linear-gradient(135deg, #5C3A9E, #3D2070)" }
+                        : { background: "linear-gradient(135deg, #f9f9f9, #ffffff)" }
+                    }
+                  >
+                    <h3 className={`text-2xl font-black mb-1 ${pkg.highlighted ? "text-white" : "text-gray-900"}`}>
+                      {pkg.name}
+                    </h3>
+                    <p className={`text-sm mb-6 ${pkg.highlighted ? "text-purple-200" : "text-gray-500"}`}>
+                      {pkg.description}
+                    </p>
+                    <div className="flex items-baseline gap-2 flex-wrap">
+                      <span className={`text-5xl font-black ${pkg.highlighted ? "text-white" : "text-[#5C3A9E]"}`}>
+                        {pkg.inrPrice}
+                      </span>
+                      <span className={`text-sm font-medium ${pkg.highlighted ? "text-purple-200" : "text-gray-500"}`}>
+                        / {pkg.duration}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="p-8 bg-white flex-1 flex flex-col gap-6">
+                    <ul className="flex flex-col gap-3">
+                      {pkg.features.map((feature) => (
+                        <li key={feature} className="flex items-start gap-3 text-sm text-gray-700">
+                          <span
+                            className="w-5 h-5 rounded-full flex-shrink-0 flex items-center justify-center mt-0.5"
+                            style={{ background: "#E8F5E9" }}
+                          >
+                            <Check size={11} className="text-[#2D6B4F]" strokeWidth={3} />
+                          </span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="mt-auto pt-4">
+                      <a
+                        href="#contact"
+                        className="block w-full text-center py-3.5 rounded-full font-bold text-base transition-all duration-300 hover:-translate-y-1"
+                        style={
+                          pkg.highlighted
+                            ? {
+                                background: "linear-gradient(135deg, #5C3A9E, #3D2070)",
+                                color: "white",
+                                boxShadow: "0 6px 25px rgba(92,58,158,0.4)",
+                              }
+                            : {
+                                background: "transparent",
+                                color: "#5C3A9E",
+                                border: "2px solid #5C3A9E",
+                              }
+                        }
+                      >
+                        {pkg.cta}
+                      </a>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            <p className="text-center text-sm text-gray-400 mt-6">
+              Currently available for India-based clients. International pricing coming soon.
+            </p>
+          </motion.div>
+        )}
 
         <motion.div
           initial={{ opacity: 0 }}
