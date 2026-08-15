@@ -7,6 +7,7 @@ import NutritionTips from "@/components/NutritionTips";
 import Packages from "@/components/Packages";
 import Transformations from "@/components/Transformations";
 import Testimonials from "@/components/Testimonials";
+import PressAndRecognition from "@/components/PressAndRecognition";
 import FAQ from "@/components/FAQ";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -23,6 +24,7 @@ export default function Home() {
       <Packages />
       <Transformations />
       <Testimonials />
+      <PressAndRecognition />
       <FAQ />
       <Contact />
       <Footer />
