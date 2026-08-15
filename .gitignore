@@ -249,3 +249,6 @@ yarn-error.log*
 
 # optional large assets
 reference_files/extracted_images
+
+# raw task assets (unprocessed photos, review screenshots) — never commit these directly
+/task/

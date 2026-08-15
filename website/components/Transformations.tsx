@@ -10,13 +10,18 @@ const stats = [
   { icon: TrendingUp, value: "98%", label: "Client Satisfaction", color: "#7AB648" },
 ];
 
+const IMG_VERSION = "20260815-4";
+
 const transformationImages = [
-  { src: "/images/transformation1.png", alt: "Client transformation 1" },
-  { src: "/images/transformation2.png", alt: "Client transformation 2" },
-  { src: "/images/transformation3.png", alt: "Client transformation 3" },
-  { src: "/images/transformation4.png", alt: "Client transformation 4" },
-  { src: "/images/transformation5.png", alt: "Client transformation 5" },
-  { src: "/images/transformation6.png", alt: "Client transformation 6" },
+  { src: `/images/transformation1.png?v=${IMG_VERSION}`, alt: "Client transformation 1" },
+  { src: `/images/transformation2.png?v=${IMG_VERSION}`, alt: "Client transformation 2" },
+  { src: `/images/transformation3.png?v=${IMG_VERSION}`, alt: "Client transformation 3" },
+  { src: `/images/transformation4.png?v=${IMG_VERSION}`, alt: "Client transformation 4" },
+  { src: `/images/transformation5.png?v=${IMG_VERSION}`, alt: "Client transformation 5" },
+  { src: `/images/transformation6.png?v=${IMG_VERSION}`, alt: "Client transformation 6" },
+  { src: `/images/transformation7.jpg?v=${IMG_VERSION}`, alt: "Client transformation 7" },
+  { src: `/images/transformation8.jpg?v=${IMG_VERSION}`, alt: "Client transformation 8" },
+  { src: `/images/transformation9.jpg?v=${IMG_VERSION}`, alt: "Client transformation 9" },
 ];
 
 export default function Transformations() {
@@ -81,13 +86,14 @@ export default function Transformations() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="relative rounded-2xl overflow-hidden shadow-md aspect-[3/4] bg-gray-100 group"
+              className="relative rounded-2xl overflow-hidden shadow-md aspect-[4/3] bg-gray-100 group"
             >
               <Image
                 src={img.src}
                 alt={img.alt}
                 fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 22vw"
+                className="object-contain group-hover:scale-105 transition-transform duration-500"
               />
               <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4"
@@ -122,6 +128,9 @@ export default function Transformations() {
           >
             See More on Instagram @dt.ritikabahl
           </a>
+          <p className="text-gray-400 text-xs mt-6">
+            Faces are blurred to protect our clients&apos; privacy.
+          </p>
         </motion.div>
       </div>
     </section>

@@ -34,6 +34,10 @@ const faqs = [
     a: "Yes — all consultations are conducted online and I work with clients across India, UAE, UK, USA, Canada, Singapore, and 15+ countries. Payments can be made via bank transfer, UPI, or international payment methods.",
   },
   {
+    q: "Why are the international plans priced higher than the India plans?",
+    a: "Building an overseas plan takes noticeably more work. Your diet has to be adapted to your local climate, the seasonal produce and grocery brands actually available where you live, and regional cooking habits — so meal options and substitutions are researched from scratch rather than reused. Consultations, weekly check-ins, and WhatsApp support also have to be scheduled around your time zone. The higher price reflects that extra effort, not a different standard of care — every client receives the same attention.",
+  },
+  {
     q: "Do I need to share my medical reports?",
     a: "It's highly recommended. Blood reports (lipid profile, HbA1c, thyroid panel, hormonal reports for PMOS, etc.) give me crucial insights to design the most effective and safe plan for you. If you don't have recent reports, I can guide you on which tests to get done.",
   },

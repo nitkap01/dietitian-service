@@ -9,7 +9,7 @@ type Region = "india" | "international";
 const packages = [
   {
     name: "Monthly Plan",
-    inrPrice: "₹4,000",
+    inrPrice: "₹5,000",
     usdPrice: "$70",
     duration: "1 Month",
     tag: null,
@@ -29,7 +29,7 @@ const packages = [
   },
   {
     name: "2-Month Plan",
-    inrPrice: "₹7,500",
+    inrPrice: "₹9,000",
     usdPrice: "$120",
     duration: "2 Months",
     tag: "Most Popular",
@@ -50,7 +50,7 @@ const packages = [
   },
   {
     name: "3-Month Plan",
-    inrPrice: "₹10,500",
+    inrPrice: "₹13,500",
     usdPrice: "$160",
     duration: "3 Months",
     tag: "Best Value",
