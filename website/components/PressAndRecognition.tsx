@@ -30,7 +30,7 @@ const press = [
       "Dt. Ritika Bahl busts 12 common food myths — bananas, lemon water, brown sugar, skipping meals and more.",
   },
   {
-    src: "/images/press/dilli-news7-food-groups-2023-08-23.jpg",
+    src: "/images/press/dilli-news7-food-groups-2023-08-23.jpg?v=20260818-1",
     headline: "Include All Food Groups to Stay Healthy",
     source: "Dilli News7 · 23 August 2023",
     blurb:
