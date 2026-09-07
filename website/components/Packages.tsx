@@ -10,7 +10,7 @@ const packages = [
   {
     name: "Monthly Plan",
     inrPrice: "₹5,000",
-    usdPrice: "$70",
+    usdPrice: "USD$70",
     duration: "1 Month",
     tag: null,
     description: "Perfect for getting started and experiencing the Hale N Hearty approach.",
@@ -30,7 +30,7 @@ const packages = [
   {
     name: "2-Month Plan",
     inrPrice: "₹9,000",
-    usdPrice: "$120",
+    usdPrice: "USD$130",
     duration: "2 Months",
     tag: "Most Popular",
     description: "The sweet spot for real, measurable transformation with lasting habits.",
@@ -51,7 +51,7 @@ const packages = [
   {
     name: "3-Month Plan",
     inrPrice: "₹13,000",
-    usdPrice: "$160",
+    usdPrice: "USD$180",
     duration: "3 Months",
     tag: "Best Value",
     description: "The complete program for deep-rooted conditions like Diabetes and PMOS.",
