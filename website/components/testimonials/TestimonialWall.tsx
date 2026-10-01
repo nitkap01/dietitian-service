@@ -239,7 +239,7 @@ export default function TestimonialWall() {
       <div className={s.inner}>
         <div className={s.head}>
           <h2 id="testimonials-title">Their Words. <span>Their Wins.</span></h2>
-          <p>Real WhatsApp messages clients sent Ritika during their programmes, shared with permission. Names are hidden for privacy.</p>
+          <p>Feedback clients sent us during their programmes, shared with permission. Names are hidden for privacy.</p>
         </div>
         <div ref={wallRef} className={s.wall}>
           {[0, 1, 2].map(c => (
