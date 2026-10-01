@@ -6,7 +6,7 @@ import HowItWorks from "@/components/HowItWorks";
 import NutritionTips from "@/components/NutritionTips";
 import Packages from "@/components/Packages";
 import Transformations from "@/components/Transformations";
-import Testimonials from "@/components/Testimonials";
+import TestimonialWall from "@/components/testimonials/TestimonialWall";
 import PressAndRecognition from "@/components/PressAndRecognition";
 import FAQ from "@/components/FAQ";
 import Contact from "@/components/Contact";
@@ -23,7 +23,7 @@ export default function Home() {
       <NutritionTips />
       <Packages />
       <Transformations />
-      <Testimonials />
+      <TestimonialWall />
       <PressAndRecognition />
       <FAQ />
       <Contact />
