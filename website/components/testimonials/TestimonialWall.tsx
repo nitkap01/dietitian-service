@@ -90,49 +90,16 @@ export default function TestimonialWall() {
   const sectionRef = useRef<HTMLElement>(null);
   const wallRef = useRef<HTMLDivElement>(null);
   const skyRef = useRef<HTMLCanvasElement>(null);
-  const carRef = useRef<HTMLDivElement>(null);
-  const [slide, setSlide] = useState(0);
-  const autoRef = useRef(true);
-
-  // phones: a swipe carousel that advances on its own until the visitor touches it
-  useEffect(() => {
-    const car = carRef.current;
-    if (!car) return;
-    const cards = () => [...car.children] as HTMLElement[];
-    const current = () => {
-      const mid = car.scrollLeft + car.clientWidth / 2;
-      let best = 0, dist = Infinity;
-      cards().forEach((c, i) => {
-        const d = Math.abs(c.offsetLeft - car.offsetLeft + c.offsetWidth / 2 - mid);
-        if (d < dist) { dist = d; best = i; }
-      });
-      return best;
-    };
-    const onScroll = () => setSlide(current());
-    car.addEventListener("scroll", onScroll, { passive: true });
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) autoRef.current = false;
-    const stop = () => { autoRef.current = false; };
-    ["pointerdown", "touchstart", "wheel", "keydown"].forEach(e => car.addEventListener(e, stop, { passive: true }));
-    const timer = window.setInterval(() => {
-      if (!autoRef.current || car.offsetParent === null) return;
-      const list = cards(), next = (current() + 1) % list.length;
-      car.scrollTo({ left: list[next].offsetLeft - car.offsetLeft - (car.clientWidth - list[next].offsetWidth) / 2, behavior: "smooth" });
-    }, 6000);
-    return () => {
-      clearInterval(timer);
-      car.removeEventListener("scroll", onScroll);
-      ["pointerdown", "touchstart", "wheel", "keydown"].forEach(e => car.removeEventListener(e, stop));
-    };
-  }, []);
-
-  const go = (dir: number) => {
-    const car = carRef.current;
-    if (!car) return;
-    autoRef.current = false;
-    const list = [...car.children] as HTMLElement[];
-    const next = Math.max(0, Math.min(list.length - 1, slide + dir));
-    car.scrollTo({ left: list[next].offsetLeft - car.offsetLeft - (car.clientWidth - list[next].offsetWidth) / 2, behavior: "smooth" });
-  };
+  // phones: one card that flips over to the next testimonial on tap
+  const [flip, setFlip] = useState({ turns: 0, front: 0, back: 1, shown: 0 });
+  const next = () =>
+    setFlip(f => {
+      const n = (f.shown + 1) % WALL_ITEMS.length;
+      // put the next story on the hidden face, then turn the card half a revolution
+      return f.turns % 2 === 0
+        ? { turns: f.turns + 1, front: f.front, back: n, shown: n }
+        : { turns: f.turns + 1, front: n, back: f.back, shown: n };
+    });
 
   // the one authored moment: top messages type in, replies land, then the wall drifts; fireworks behind it
   useEffect(() => {
@@ -284,17 +251,31 @@ export default function TestimonialWall() {
               </div>
             </div>
           ))}
-          <div ref={carRef} className={s.carousel} data-lane="" tabIndex={0} aria-label="Client feedback. Swipe for more.">
-            {WALL_ITEMS.map((item, i) => <Card key={i} item={item} />)}
-          </div>
-          <div className={s.carNav}>
-            <button type="button" className={s.navBtn} onClick={() => go(-1)} disabled={slide === 0} aria-label="Previous">
-              <svg viewBox="0 0 24 24" fill="none" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+          <div className={s.flipZone}>
+            <div
+              className={s.flipStage}
+              role="button"
+              tabIndex={0}
+              aria-label="Show another client story"
+              onClick={next}
+              onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); next(); } }}
+            >
+              <div className={s.flipper} data-lane="" style={{ transform: `rotateY(${flip.turns * 180}deg)` }}>
+                <div className={`${s.face} ${flip.turns % 2 === 0 ? s.faceOn : ""}`} aria-hidden={flip.turns % 2 === 1}>
+                  <Card key={`f${flip.front}`} item={WALL_ITEMS[flip.front]} />
+                </div>
+                <div className={`${s.face} ${s.faceBack} ${flip.turns % 2 === 1 ? s.faceOn : ""}`} aria-hidden={flip.turns % 2 === 0}>
+                  <Card key={`b${flip.back}`} item={WALL_ITEMS[flip.back]} />
+                </div>
+              </div>
+            </div>
+            <button type="button" className={s.pressMe} onClick={next}>
+              <svg viewBox="0 0 24 24" fill="none" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M21 12a9 9 0 1 1-3-6.7L21 8" /><path d="M21 3v5h-5" />
+              </svg>
+              Press me
             </button>
-            <span className={s.count} aria-live="polite">{slide + 1} / {WALL_ITEMS.length}</span>
-            <button type="button" className={s.navBtn} onClick={() => go(1)} disabled={slide === WALL_ITEMS.length - 1} aria-label="Next">
-              <svg viewBox="0 0 24 24" fill="none" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
-            </button>
+            <p className={s.flipHint} aria-live="polite">Story {flip.shown + 1} of {WALL_ITEMS.length} · or tap the card</p>
           </div>
         </div>
         <div className={s.after}>
