@@ -37,7 +37,7 @@ export default function Hero() {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
@@ -121,7 +121,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="relative flex justify-center"
           >
-            <div className="relative">
+            <div className="relative w-full max-w-[360px]">
               {/* Glow ring */}
               <div
                 className="absolute inset-0 rounded-[2rem] blur-xl opacity-30"
@@ -129,13 +129,13 @@ export default function Hero() {
               />
               {/* Photo card */}
               <div
-                className="relative rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white"
-                style={{ width: 360, height: 480 }}
+                className="relative w-full aspect-[3/4] rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white"
               >
                 <Image
                   src="/images/ritika-profile.png"
                   alt="Dt. Ritika Bahl – Dietitian & Nutritionist"
                   fill
+                  sizes="(max-width: 400px) 90vw, 360px"
                   className="object-cover object-top"
                   priority
                 />
@@ -156,7 +156,7 @@ export default function Hero() {
               <motion.div
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -top-6 -left-8 bg-white rounded-2xl shadow-xl px-4 py-3 flex items-center gap-3 border border-purple-100"
+                className="absolute -top-6 -left-2 sm:-left-8 bg-white rounded-2xl shadow-xl px-4 py-3 flex items-center gap-3 border border-purple-100"
               >
                 <div
                   className="w-10 h-10 rounded-full flex items-center justify-center"
@@ -173,7 +173,7 @@ export default function Hero() {
               <motion.div
                 animate={{ y: [0, 8, 0] }}
                 transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                className="absolute -bottom-4 -right-8 bg-white rounded-2xl shadow-xl px-4 py-3 flex items-center gap-3 border border-green-100"
+                className="absolute -bottom-4 -right-2 sm:-right-8 bg-white rounded-2xl shadow-xl px-4 py-3 flex items-center gap-3 border border-green-100"
               >
                 <div
                   className="w-10 h-10 rounded-full flex items-center justify-center"

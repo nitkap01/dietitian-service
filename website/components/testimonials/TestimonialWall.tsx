@@ -90,16 +90,49 @@ export default function TestimonialWall() {
   const sectionRef = useRef<HTMLElement>(null);
   const wallRef = useRef<HTMLDivElement>(null);
   const skyRef = useRef<HTMLCanvasElement>(null);
-  const [columns, setColumns] = useState(3);
+  const carRef = useRef<HTMLDivElement>(null);
+  const [slide, setSlide] = useState(0);
+  const autoRef = useRef(true);
 
-  // phones get two sideways rows instead of three columns
+  // phones: a swipe carousel that advances on its own until the visitor touches it
   useEffect(() => {
-    const mq = matchMedia("(max-width: 760px)");
-    const update = () => setColumns(mq.matches ? 2 : 3);
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
+    const car = carRef.current;
+    if (!car) return;
+    const cards = () => [...car.children] as HTMLElement[];
+    const current = () => {
+      const mid = car.scrollLeft + car.clientWidth / 2;
+      let best = 0, dist = Infinity;
+      cards().forEach((c, i) => {
+        const d = Math.abs(c.offsetLeft - car.offsetLeft + c.offsetWidth / 2 - mid);
+        if (d < dist) { dist = d; best = i; }
+      });
+      return best;
+    };
+    const onScroll = () => setSlide(current());
+    car.addEventListener("scroll", onScroll, { passive: true });
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) autoRef.current = false;
+    const stop = () => { autoRef.current = false; };
+    ["pointerdown", "touchstart", "wheel", "keydown"].forEach(e => car.addEventListener(e, stop, { passive: true }));
+    const timer = window.setInterval(() => {
+      if (!autoRef.current || car.offsetParent === null) return;
+      const list = cards(), next = (current() + 1) % list.length;
+      car.scrollTo({ left: list[next].offsetLeft - car.offsetLeft - (car.clientWidth - list[next].offsetWidth) / 2, behavior: "smooth" });
+    }, 6000);
+    return () => {
+      clearInterval(timer);
+      car.removeEventListener("scroll", onScroll);
+      ["pointerdown", "touchstart", "wheel", "keydown"].forEach(e => car.removeEventListener(e, stop));
+    };
   }, []);
+
+  const go = (dir: number) => {
+    const car = carRef.current;
+    if (!car) return;
+    autoRef.current = false;
+    const list = [...car.children] as HTMLElement[];
+    const next = Math.max(0, Math.min(list.length - 1, slide + dir));
+    car.scrollTo({ left: list[next].offsetLeft - car.offsetLeft - (car.clientWidth - list[next].offsetWidth) / 2, behavior: "smooth" });
+  };
 
   // the one authored moment: top messages type in, replies land, then the wall drifts; fireworks behind it
   useEffect(() => {
@@ -210,7 +243,8 @@ export default function TestimonialWall() {
       [0, 260, 520, 900, 1250].forEach(d => later(launch, d));
       nextAt = performance.now() + 4000;
       start();
-      const firsts = [...wall.querySelectorAll(`.${s.track}`)]
+      const firsts = [...wall.querySelectorAll<HTMLElement>("[data-lane]")]
+        .filter(lane => lane.offsetParent !== null)
         .map(t => t.querySelector<HTMLElement>("[data-thread]"))
         .filter((c): c is HTMLElement => !!c);
       firsts.forEach((c, i) => {
@@ -230,8 +264,8 @@ export default function TestimonialWall() {
     };
   }, []);
 
-  const cols: WallItem[][] = Array.from({ length: columns }, () => []);
-  WALL_ITEMS.forEach((item, i) => cols[i % columns].push(item));
+  const cols: WallItem[][] = [[], [], []];
+  WALL_ITEMS.forEach((item, i) => cols[i % 3].push(item));
 
   return (
     <section ref={sectionRef} id="testimonials" className={s.section} aria-labelledby="testimonials-title">
@@ -244,12 +278,24 @@ export default function TestimonialWall() {
         <div ref={wallRef} className={s.wall}>
           {[0, 1, 2].map(c => (
             <div key={c} className={s.col}>
-              <div className={s.track} style={{ ["--dur" as string]: DURATIONS[c] }}>
-                {(cols[c] ?? []).map((item, i) => <Card key={i} item={item} />)}
-                {(cols[c] ?? []).map((item, i) => <Card key={`d${i}`} item={item} dup />)}
+              <div className={s.track} data-lane="" style={{ ["--dur" as string]: DURATIONS[c] }}>
+                {cols[c].map((item, i) => <Card key={i} item={item} />)}
+                {cols[c].map((item, i) => <Card key={`d${i}`} item={item} dup />)}
               </div>
             </div>
           ))}
+          <div ref={carRef} className={s.carousel} data-lane="" tabIndex={0} aria-label="Client feedback. Swipe for more.">
+            {WALL_ITEMS.map((item, i) => <Card key={i} item={item} />)}
+          </div>
+          <div className={s.carNav}>
+            <button type="button" className={s.navBtn} onClick={() => go(-1)} disabled={slide === 0} aria-label="Previous">
+              <svg viewBox="0 0 24 24" fill="none" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+            </button>
+            <span className={s.count} aria-live="polite">{slide + 1} / {WALL_ITEMS.length}</span>
+            <button type="button" className={s.navBtn} onClick={() => go(1)} disabled={slide === WALL_ITEMS.length - 1} aria-label="Next">
+              <svg viewBox="0 0 24 24" fill="none" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+            </button>
+          </div>
         </div>
         <div className={s.after}>
           <a className={s.cta} href="#contact">Book Free Consultation</a>
