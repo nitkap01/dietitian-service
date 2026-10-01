@@ -10,7 +10,7 @@ const stats = [
   { icon: TrendingUp, value: "98%", label: "Client Satisfaction", color: "#7AB648" },
 ];
 
-const IMG_VERSION = "20260815-4";
+const IMG_VERSION = "20261001-1";
 
 const transformationImages = [
   { src: `/images/transformation1.png?v=${IMG_VERSION}`, alt: "Client transformation 1" },
@@ -22,6 +22,9 @@ const transformationImages = [
   { src: `/images/transformation7.jpg?v=${IMG_VERSION}`, alt: "Client transformation 7" },
   { src: `/images/transformation8.jpg?v=${IMG_VERSION}`, alt: "Client transformation 8" },
   { src: `/images/transformation9.jpg?v=${IMG_VERSION}`, alt: "Client transformation 9" },
+  { src: `/images/transformation10.jpg?v=${IMG_VERSION}`, alt: "Client transformation 10: 91 kg to 70 kg" },
+  { src: `/images/transformation11.jpg?v=${IMG_VERSION}`, alt: "Client transformation 11" },
+  { src: `/images/transformation12.jpg?v=${IMG_VERSION}`, alt: "Client transformation 12" },
 ];
 
 export default function Transformations() {
