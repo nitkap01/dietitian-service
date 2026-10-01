@@ -24,6 +24,7 @@ export default function SwipeDeck({ cards }: { cards: ReactNode[] }) {
   const [choice, setChoice] = useState<boolean | null>(null);
   const sound = choice ?? stored;
   const [taught, setTaught] = useState(false);
+  const [dragging, setDragging] = useState(false);
   const reduce = useReducedMotion();
 
   const toggleSound = () => {
@@ -40,24 +41,43 @@ export default function SwipeDeck({ cards }: { cards: ReactNode[] }) {
 
   return (
     <div className={s.deckZone}>
-      <div className={s.deck} data-lane="" onPointerDown={() => sound && unlockAudio()}>
+      <div className={s.deck} data-lane="" data-dragging={dragging || undefined} onPointerDown={() => { setTaught(true); if (sound) unlockAudio(); }}>
         <AnimatePresence initial={false} custom={deck.dir} mode="popLayout">
-          <TopCard key={deck.i} reduce={!!reduce} nudge={!taught && deck.i === 0} onFling={fling}>
+          <TopCard key={deck.i} reduce={!!reduce} nudge={!taught && deck.i === 0} onFling={fling} onDragging={setDragging}>
             {cards[deck.i]}
           </TopCard>
         </AnimatePresence>
+        {/* arrows on the card edges: tap to throw the card that way */}
+        <button type="button" className={`${s.arrowBtn} ${s.arrowLeft}`} onClick={() => fling(-1)} aria-label="Swipe left: next story">
+          <svg viewBox="0 0 24 24" fill="none" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M19 12H5" /><path d="m11 6-6 6 6 6" />
+          </svg>
+        </button>
+        <button type="button" className={`${s.arrowBtn} ${s.arrowRight}`} onClick={() => fling(1)} aria-label="Swipe right: loved it, next story">
+          <svg viewBox="0 0 24 24" fill="none" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M5 12h14" /><path d="m13 6 6 6-6 6" />
+          </svg>
+        </button>
+        {/* floating hint until the first touch */}
+        <div className={`${s.swipeHint} ${taught ? s.swipeHintGone : ""}`} aria-hidden="true">
+          <span className={s.hintPill}>
+            <svg className={s.chev} viewBox="0 0 24 24" fill="none" strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+            <svg className={s.hand} viewBox="0 0 24 24" fill="none" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 11v-1a2 2 0 0 0-2-2a2 2 0 0 0-2 2" /><path d="M14 10V9a2 2 0 0 0-2-2a2 2 0 0 0-2 2v1" />
+              <path d="M10 9.5V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v10" />
+              <path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" />
+            </svg>
+            Swipe
+            <svg className={s.chev} viewBox="0 0 24 24" fill="none" strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+          </span>
+        </div>
         {/* the next two stories wait underneath, fanned slightly */}
         <div className={`${s.under} ${s.under1}`} aria-hidden="true">{cards[(deck.i + 1) % n]}</div>
         <div className={`${s.under} ${s.under2}`} aria-hidden="true">{cards[(deck.i + 2) % n]}</div>
       </div>
 
-      <div className={s.deckControls}>
-        <button type="button" className={s.pressMe} onClick={() => fling(-1)}>
-          <svg viewBox="0 0 24 24" fill="none" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M5 12h14" /><path d="m13 6 6 6-6 6" />
-          </svg>
-          Press me
-        </button>
+      <p className={s.deckHint}>
+        <span aria-live="polite">Swipe left or right · Story {deck.i + 1} of {n}</span>
         <button type="button" className={s.soundBtn} onClick={toggleSound} aria-pressed={sound} aria-label={sound ? "Turn sound off" : "Turn sound on"}>
           {sound ? (
             <svg viewBox="0 0 24 24" fill="none" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -69,8 +89,7 @@ export default function SwipeDeck({ cards }: { cards: ReactNode[] }) {
             </svg>
           )}
         </button>
-      </div>
-      <p className={s.deckHint} aria-live="polite">Swipe left or right · Story {deck.i + 1} of {n}</p>
+      </p>
     </div>
   );
 }
@@ -83,8 +102,8 @@ const variants = {
   fade: { opacity: 0, transition: { duration: 0.2 } },
 };
 
-function TopCard({ children, reduce, nudge, onFling, ref }: {
-  children: ReactNode; reduce: boolean; nudge: boolean; onFling: (dir: number) => void; ref?: Ref<HTMLDivElement>;
+function TopCard({ children, reduce, nudge, onFling, onDragging, ref }: {
+  children: ReactNode; reduce: boolean; nudge: boolean; onFling: (dir: number) => void; onDragging: (on: boolean) => void; ref?: Ref<HTMLDivElement>;
 }) {
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-220, 0, 220], [-16, 0, 16]);
@@ -92,6 +111,7 @@ function TopCard({ children, reduce, nudge, onFling, ref }: {
   const next = useTransform(x, [-120, -30], [1, 0]);
 
   const onDragEnd = (_: unknown, info: PanInfo) => {
+    onDragging(false);
     if (Math.abs(info.offset.x) > 110 || Math.abs(info.velocity.x) > 650) onFling(info.offset.x > 0 ? 1 : -1);
   };
 
@@ -103,6 +123,7 @@ function TopCard({ children, reduce, nudge, onFling, ref }: {
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
       dragElastic={0.9}
+      onDragStart={() => onDragging(true)}
       onDragEnd={onDragEnd}
       variants={variants}
       initial={reduce ? "fade" : "enter"}
