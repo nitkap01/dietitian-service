@@ -18,6 +18,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem; /* keep section headings clear of the fixed menu bar */
 }
 
 /* slide-in animations start 30-40px off to the side; never let them widen the page on phones */

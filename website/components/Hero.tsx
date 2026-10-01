@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowRight, Award, Users, Star, CheckCircle } from "lucide-react";
+import { ArrowRight, Award, Users, Star, CheckCircle, MessageCircleHeart } from "lucide-react";
 
 const badges = [
   { icon: Award, text: "NDEP Certified Diabetes Educator" },
@@ -98,6 +98,15 @@ export default function Hero() {
                 View Packages
               </a>
             </div>
+
+            <a
+              href="#testimonials"
+              className="group inline-flex items-center gap-2 w-fit text-[15px] font-semibold text-[#5C3A9E] underline decoration-[#5C3A9E]/30 decoration-2 underline-offset-4 hover:decoration-[#5C3A9E] transition-colors"
+            >
+              <MessageCircleHeart size={18} className="text-[#2D6B4F]" />
+              See what our clients are saying
+              <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
+            </a>
 
             {/* Stats Row */}
             <div className="flex flex-wrap gap-6 pt-4 border-t border-purple-100">

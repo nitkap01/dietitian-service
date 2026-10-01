@@ -10,6 +10,7 @@ const navLinks = [
   { label: "Nutrition", href: "#nutrition" },
   { label: "Packages", href: "#packages" },
   { label: "Transformations", href: "#transformations" },
+  { label: "Testimonials", href: "#testimonials" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -47,12 +48,12 @@ export default function Navbar() {
           </a>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-1">
+          <div className="hidden xl:flex items-center gap-0.5 2xl:gap-1">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-[#5C3A9E] rounded-full hover:bg-purple-50 transition-all duration-200"
+                className="px-3 2xl:px-4 py-2 text-sm font-medium text-gray-700 hover:text-[#5C3A9E] rounded-full hover:bg-purple-50 transition-all duration-200"
               >
                 {link.label}
               </a>
@@ -60,17 +61,19 @@ export default function Navbar() {
           </div>
 
           {/* CTA */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden xl:flex items-center gap-3">
             <a
               href="tel:+919999383722"
-              className="flex items-center gap-2 text-sm font-semibold text-[#5C3A9E] hover:text-[#3D2070] transition-colors"
+              aria-label="Call +91 99993 83722"
+              className="flex items-center gap-2 whitespace-nowrap text-sm font-semibold text-[#5C3A9E] hover:text-[#3D2070] transition-colors"
             >
               <Phone size={16} />
-              +91 99993 83722
+              {/* full number on wide screens; icon only on laptops so the menu stays on one line */}
+              <span className="hidden 2xl:inline">+91 99993 83722</span>
             </a>
             <a
               href="#contact"
-              className="px-5 py-2.5 rounded-full text-sm font-semibold text-white"
+              className="px-5 py-2.5 rounded-full whitespace-nowrap text-sm font-semibold text-white"
               style={{ background: "linear-gradient(135deg, #5C3A9E, #3D2070)" }}
             >
               Book Free Consultation
@@ -80,7 +83,7 @@ export default function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="lg:hidden p-2 rounded-lg text-gray-700 hover:bg-purple-50 transition-colors"
+            className="xl:hidden p-2 rounded-lg text-gray-700 hover:bg-purple-50 transition-colors"
             aria-label="Toggle menu"
           >
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -89,7 +92,7 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {menuOpen && (
-          <div className="lg:hidden bg-white border-t border-purple-100 pb-4">
+          <div className="xl:hidden bg-white border-t border-purple-100 pb-4">
             <div className="flex flex-col gap-1 pt-2">
               {navLinks.map((link) => (
                 <a
