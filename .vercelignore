@@ -1,0 +1,5 @@
+website/media
+website/node_modules
+website/.next
+cms
+.env*

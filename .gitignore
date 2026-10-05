@@ -252,3 +252,7 @@ reference_files/extracted_images
 
 # raw task assets (unprocessed photos, review screenshots) — never commit these directly
 /task/
+.env*
+
+# raw client screenshots (WhatsApp, lab reports) — private, never commit; backup in ~/backups/diet on INDIE
+website/media/
