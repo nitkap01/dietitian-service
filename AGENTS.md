@@ -14,3 +14,6 @@ Monorepo for Dietitian Ritika Bahl.
 - Vercel team: `nitkap01s-projects`; token at `/home/nitin/.vercel_token`.
 - Prices on the site (₹ plans, international $70/$130/$180) are business decisions: change them only when told to.
 - Kapoor Traders took this site's visual style (Geist, soft pastel cards) as its reference. That project lives in `/home/nitin/projects/kapoortraders`.
+
+## Tasking is the ground truth (strict)
+All work on this project is tracked in **Tasking** (http://192.168.0.246:8090): check the board before starting, log every step as it happens, set the status when done. Full rule: `~/.claude/CLAUDE.md`.
