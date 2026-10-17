@@ -5,13 +5,13 @@ import Image from "next/image";
 import { Menu, X, Phone } from "lucide-react";
 
 const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Specialisations", href: "#specialisations" },
-  { label: "Nutrition", href: "#nutrition" },
-  { label: "Packages", href: "#packages" },
-  { label: "Transformations", href: "#transformations" },
-  { label: "Testimonials", href: "#testimonials" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/#about" },
+  { label: "Specialisations", href: "/#specialisations" },
+  { label: "Nutrition", href: "/#nutrition" },
+  { label: "Packages", href: "/#packages" },
+  { label: "Transformations", href: "/#transformations" },
+  { label: "Testimonials", href: "/#testimonials" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Navbar() {
@@ -35,7 +35,7 @@ export default function Navbar() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#" className="flex items-center group">
+          <a href="/" className="flex items-center group">
             <div className="relative h-14 w-44">
               <Image
                 src="/images/logo.png"
@@ -72,7 +72,7 @@ export default function Navbar() {
               <span className="hidden 2xl:inline">+91 99993 83722</span>
             </a>
             <a
-              href="#contact"
+              href="/#contact"
               className="px-5 py-2.5 rounded-full whitespace-nowrap text-sm font-semibold text-white"
               style={{ background: "linear-gradient(135deg, #5C3A9E, #3D2070)" }}
             >
@@ -113,7 +113,7 @@ export default function Navbar() {
                   +91 99993 83722
                 </a>
                 <a
-                  href="#contact"
+                  href="/#contact"
                   onClick={() => setMenuOpen(false)}
                   className="px-5 py-3 rounded-full text-sm font-semibold text-white text-center"
                   style={{ background: "linear-gradient(135deg, #5C3A9E, #3D2070)" }}

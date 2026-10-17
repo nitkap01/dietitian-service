@@ -3,18 +3,18 @@ import { Phone, Mail, ExternalLink } from "lucide-react";
 
 const links = {
   Services: [
-    { label: "Diabetes Reversal", href: "#specialisations" },
-    { label: "PMOS Management", href: "#specialisations" },
-    { label: "Weight Management", href: "#specialisations" },
-    { label: "Thyroid Nutrition", href: "#specialisations" },
-    { label: "Sports Nutrition", href: "#specialisations" },
+    { label: "Diabetes Reversal", href: "/#specialisations" },
+    { label: "PMOS Management", href: "/#specialisations" },
+    { label: "Weight Management", href: "/#specialisations" },
+    { label: "Thyroid Nutrition", href: "/#specialisations" },
+    { label: "Sports Nutrition", href: "/#specialisations" },
   ],
   Company: [
-    { label: "About Dt. Ritika", href: "#about" },
-    { label: "Packages & Pricing", href: "#packages" },
-    { label: "Transformations", href: "#transformations" },
-    { label: "Nutrition Tips", href: "#nutrition" },
-    { label: "Contact Us", href: "#contact" },
+    { label: "About Dt. Ritika", href: "/#about" },
+    { label: "Packages & Pricing", href: "/#packages" },
+    { label: "Transformations", href: "/#transformations" },
+    { label: "Nutrition Tips", href: "/#nutrition" },
+    { label: "Contact Us", href: "/#contact" },
   ],
 };
 
@@ -85,8 +85,10 @@ export default function Footer() {
           <p className="text-xs text-gray-600">
             © {new Date().getFullYear()} Hale N Hearty Diet Clinic – Dt. Ritika Bahl. All rights reserved.
           </p>
-          <p className="text-xs text-gray-600">
-            dietitianritikabahl.com
+          <p className="text-xs text-gray-600 flex gap-4">
+            <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>
+            <a href="/data-deletion" className="hover:text-white transition-colors">Delete your data</a>
+            <span>dietitianritikabahl.com</span>
           </p>
         </div>
       </div>
